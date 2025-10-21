@@ -1,3 +1,5 @@
+using DataService.Entities;
+
 namespace DataService
 {
     public interface IDataService
