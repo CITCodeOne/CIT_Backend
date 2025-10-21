@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\jeppe\\Desktop\\Kandidata\\Ass4\\CIT_Backend\\BackendProject\\BackendProject.csproj": {}
+    "C:\\Users\\jeppe\\Desktop\\Kandidata\\Projekt'\\ProjBackend\\CIT_Backend\\BackendProject\\BackendProject.csproj": {}
   },
   "projects": {
-    "C:\\Users\\jeppe\\Desktop\\Kandidata\\Ass4\\CIT_Backend\\BackendProject\\BackendProject.csproj": {
+    "C:\\Users\\jeppe\\Desktop\\Kandidata\\Projekt'\\ProjBackend\\CIT_Backend\\BackendProject\\BackendProject.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\jeppe\\Desktop\\Kandidata\\Ass4\\CIT_Backend\\BackendProject\\BackendProject.csproj",
+        "projectUniqueName": "C:\\Users\\jeppe\\Desktop\\Kandidata\\Projekt'\\ProjBackend\\CIT_Backend\\BackendProject\\BackendProject.csproj",
         "projectName": "BackendProject",
-        "projectPath": "C:\\Users\\jeppe\\Desktop\\Kandidata\\Ass4\\CIT_Backend\\BackendProject\\BackendProject.csproj",
+        "projectPath": "C:\\Users\\jeppe\\Desktop\\Kandidata\\Projekt'\\ProjBackend\\CIT_Backend\\BackendProject\\BackendProject.csproj",
         "packagesPath": "C:\\Users\\jeppe\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\jeppe\\Desktop\\Kandidata\\Ass4\\CIT_Backend\\BackendProject\\obj\\",
+        "outputPath": "C:\\Users\\jeppe\\Desktop\\Kandidata\\Projekt'\\ProjBackend\\CIT_Backend\\BackendProject\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\jeppe\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -49,6 +49,10 @@
               "suppressParent": "All",
               "target": "Package",
               "version": "[9.0.10, )"
+            },
+            "Npgsql.EntityFrameworkCore.PostgreSQL": {
+              "target": "Package",
+              "version": "[9.0.4, )"
             }
           },
           "imports": [
