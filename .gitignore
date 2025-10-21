@@ -1,0 +1,97 @@
+# .gitignore for a .NET / Visual Studio repository
+
+# Build artifacts
+bin/
+obj/
+appsettings.*.json
+publish/
+
+# User-specific files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Visual Studio
+.vs/
+/.idea/
+
+# VS Code
+.vscode/
+
+# Rider
+.idea/
+*.sln.iml
+
+# NuGet
+*.nupkg
+packages/
+.nuget/
+
+# ASP.NET Core user secrets
+secrets.json
+
+# Logs
+*.log
+
+# OS generated files
+Thumbs.db
+desktop.ini
+
+# Dependency directories
+node_modules/
+
+# JetBrains Rider
+.idea/
+
+# Dotnet publish output
+publish/
+
+# IIS
+/IISExpress/
+
+# Docker
+docker-compose.override.yml
+
+# Razor tooling
+*.Razor.g.cs
+
+# Generated files
+*.g.cs
+*.generated.cs
+
+# Test results
+TestResults/
+
+# Visual Studio Code workspace
+*.code-workspace
+
+# JetBrains Rider caches
+.idea/
+*.sublime-workspace
+
+# Ignore build folders anywhere in repo
+**/bin/
+**/obj/
+
+# Ignore user secrets file in project folders
+**/secrets.json
+
+# MSBuild / NuGet / SDK generated files
+# Project-specific NuGet/MSBuild artifacts that change on each build or machine
+*.nuget.props
+*.nuget.targets
+*.nuget.g.props
+*.nuget.g.targets
+*.nuget.dgspec.json
+*.assets.json
+project.assets.json
+project.nuget.cache
+*.AssemblyInfo.cs
+*AssemblyInfoInputs.cache
+*.GeneratedMSBuildEditorConfig.editorconfig
+*.assets.cache
+
+# Common temporary MSBuild files
+*.tmp
+*.cache
