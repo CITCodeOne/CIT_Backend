@@ -54,5 +54,14 @@ public class CITContext : DbContext
             b.Property(x => x.Id).HasColumnName("genre_id");
             b.Property(x => x.Name).HasColumnName("genre_name");
         });
+
+        modelBuilder.Entity<Individual>(b =>
+        {
+            b.ToTable("individuals");
+            b.Property(i => i.Id).HasColumnName("nconst");
+            b.Property(i => i.Name).HasColumnName("primary_name");
+            b.Property(i => i.BirthYear).HasColumnName("birth_year");
+            b.Property(i => i.DeathYear).HasColumnName("death_year");
+        });
     }
 }
