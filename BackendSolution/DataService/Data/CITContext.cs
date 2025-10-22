@@ -24,7 +24,7 @@ public class CITContext : DbContext
         optionsBuilder.EnableSensitiveDataLogging();
         var json = File.ReadAllText("dbconfig.json");
         var jsonSerialised = JsonSerializer.Deserialize<DbConfig>(json)!;
-        var conn = $"Host={jsonSerialised.Host};Port={jsonSerialised.Port};Database={jsonSerialised.Database};Username={jsonSerialised.User};Password={jsonSerialised.Password}";
+        var conn = $"Host={jsonSerialised.Host};Port={jsonSerialised.Port};Database={jsonSerialised.Database};Username={jsonSerialised.User};Password={jsonSerialised.Password};SSL Mode=Require;Trust Server Certificate=true";
         optionsBuilder.UseNpgsql(conn);
     }
 
@@ -40,8 +40,8 @@ public class CITContext : DbContext
             b.Property(t => t.NumVotes).HasColumnName("numvotes");
             b.Property(t => t.ReleaseDate).HasColumnName("release_date");
             b.Property(t => t.Adult).HasColumnName("is_adult");
-            b.Property(t => t.StartYear).HasColumnName("start_year");
-            b.Property(t => t.EndYear).HasColumnName("end_year");
+            //b.Property(t => t.StartYear).HasColumnName("start_year");
+            //b.Property(t => t.EndYear).HasColumnName("end_year");
             b.Property(t => t.Runtime).HasColumnName("runtime");
             b.Property(t => t.Poster).HasColumnName("poster");
             b.Property(t => t.PlotPre).HasColumnName("plot").HasComputedColumnSql("LEFT(plot, 25)", stored: false);
@@ -54,6 +54,7 @@ public class CITContext : DbContext
             b.Property(x => x.Id).HasColumnName("genre_id");
             b.Property(x => x.Name).HasColumnName("genre_name");
         });
+        /*
 
         modelBuilder.Entity<Individual>(b =>
         {
@@ -88,6 +89,7 @@ public class CITContext : DbContext
             b.Property(x => x.time).HasColumnName("time");
             b.Property(x => x.SearchString).HasColumnName("search_string");
         });
+        */
 
     }
 }

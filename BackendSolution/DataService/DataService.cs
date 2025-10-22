@@ -23,4 +23,5 @@ public class DataService : IDataService
     // EntityServices
 
     public PageService Page => new PageService(_ctx);
+
 }
