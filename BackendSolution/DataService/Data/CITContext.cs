@@ -11,10 +11,11 @@ public class CITContext : DbContext
 
     private record DbConfig
     {
-        public string Host { get; init; }
-        public string Database { get; init; }
-        public string User { get; init; }
-        public string Password { get; init; }
+        public string Host { get; set; }
+        public string Port { get; set; }
+        public string Database { get; set; }
+        public string User { get; set; }
+        public string Password { get; set; }
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -23,7 +24,7 @@ public class CITContext : DbContext
         optionsBuilder.EnableSensitiveDataLogging();
         var json = File.ReadAllText("dbconfig.json");
         var jsonSerialised = JsonSerializer.Deserialize<DbConfig>(json)!;
-        var conn = $"Host={jsonSerialised.Host};Database={jsonSerialised.Database};Username={jsonSerialised.User};Password={jsonSerialised.Password}";
+        var conn = $"Host={jsonSerialised.Host};Port={jsonSerialised.Port};Database={jsonSerialised.Database};Username={jsonSerialised.User};Password={jsonSerialised.Password}";
         optionsBuilder.UseNpgsql(conn);
     }
 
