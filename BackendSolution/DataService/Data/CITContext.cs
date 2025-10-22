@@ -54,5 +54,15 @@ public class CITContext : DbContext
             b.Property(x => x.Id).HasColumnName("genre_id");
             b.Property(x => x.Name).HasColumnName("genre_name");
         });
+
+        modelBuilder.Entity<User>(b =>
+        {
+            b.ToTable("user_info");
+            b.Property(x => x.Id).HasColumnName("uconst");
+            b.Property(x => x.Name).HasColumnName("user_name");
+            b.Property(x => x.Email).HasColumnName("email");
+            b.Property(x => x.RegT).HasColumnName("time");
+        });
+
     }
 }
