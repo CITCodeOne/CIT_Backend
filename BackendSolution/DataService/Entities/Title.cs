@@ -18,6 +18,7 @@ public class Title : Page
     public string Poster { get; set; }
     public string PlotPre { get; set; } // Shortened to x amount of cars. full plot is then gotten via a separate call 
     public List<Genre> Genres { get; set; }
+    public List<Rating>? Ratings { get; set; }
 }
 
 public class TitleService

@@ -6,4 +6,6 @@ public class User
     public string Name { get; set; }
     public string Email { get; set; }
     public DateTime RegT { get; set; }
+    public List<Rating> UsersRatings { get; set; }
+    public List<Search> SearchHistory { get; set; }
 }
