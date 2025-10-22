@@ -8,14 +8,17 @@ namespace DataService.Data;
 public class CITContext : DbContext
 {
     public DbSet<Title> Titles { get; set; }
+    public DbSet<User> Users { get; set; }
+    public DbSet<Search> Searches { get; set; }
+    public DbSet<Visit> Visits { get; set; }
 
     private record DbConfig
     {
-        public string Host { get; set; }
-        public string Port { get; set; }
-        public string Database { get; set; }
-        public string User { get; set; }
-        public string Password { get; set; }
+        public string? Host { get; set; }
+        public string? Port { get; set; }
+        public string? Database { get; set; }
+        public string? User { get; set; }
+        public string? Password { get; set; }
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -58,28 +61,45 @@ public class CITContext : DbContext
         modelBuilder.Entity<User>(b =>
         {
             b.ToTable("user_info");
-            b.Property(x => x.Id).HasColumnName("uconst");
-            b.Property(x => x.Name).HasColumnName("user_name");
-            b.Property(x => x.Email).HasColumnName("email");
-            b.Property(x => x.RegT).HasColumnName("time");
+            b.HasKey(u => u.Id);
+            b.Property(u => u.Id).HasColumnName("uconst");
+            b.Property(u => u.Name).HasColumnName("user_name");
+            b.Property(u => u.Email).HasColumnName("email");
+            b.Property(u => u.RegT).HasColumnName("time");
         });
 
-        modelBuilder.Entity<Rating>(b =>
-        {
-            b.ToTable("rating");
-            b.HasOne(x => x.user).WithMany(u => u.UsersRatings);
-            b.Property(x => x.time).HasColumnName("time");
-            b.HasOne(x => x.Title).WithMany(t => t.Ratings);
-            b.Property(x => x.RatingValue).HasColumnName("rating");
-        });
+
+        modelBuilder.Entity<UserAction>().UseTpcMappingStrategy(); // TPC maps each concrete type to its own table instead of using a single table for the hierarchy
 
         modelBuilder.Entity<Search>(b =>
         {
             b.ToTable("search_history");
-            b.HasOne(x => x.user).WithMany(u => u.SearchHistory);
-            b.Property(x => x.time).HasColumnName("time");
-            b.Property(x => x.SearchString).HasColumnName("search_string");
+            b.Property<int>("uconst");
+            b.Property(s => s.time).HasColumnName("time");
+            b.Property(s => s.SearchString).HasColumnName("search_string");
+
+            b.HasKey("uconst", "time");
+
+            b.HasOne(s => s.user)
+                .WithMany()
+                .HasForeignKey("uconst");
         });
 
+        modelBuilder.Entity<Visit>(b =>
+        {
+            b.ToTable("visited_page");
+            b.Property<int>("uconst");
+            b.Property<int>("pconst");
+            b.Property(v => v.time).HasColumnName("time");
+
+            b.HasKey("uconst", "time");
+
+            b.HasOne(v => v.user)
+                .WithMany()
+                .HasForeignKey("uconst");
+
+            // We currently ignore the Page navigation to avoid conflicting inheritance mapping with Title/Individual
+            b.Ignore(v => v.page);
+        });
     }
 }
