@@ -43,7 +43,7 @@ public class CITContext : DbContext
             b.Property(t => t.EndYear).HasColumnName("end_year");
             b.Property(t => t.Runtime).HasColumnName("runtime");
             b.Property(t => t.Poster).HasColumnName("poster");
-            b.Property(t => t.PlotPre).HasColumnName("plot"); // FIX: should ideally be only the first 25 chars at some point and then we have a seperate call for the full plot. But we would like the truncatin to be done before sending the data.
+            b.Property(t => t.PlotPre).HasColumnName("plot").HasComputedColumnSql("LEFT(plot, 25)", stored: false);
             modelBuilder.Entity<Title>().HasMany(t => t.Genres).WithMany(g => g.Titles).UsingEntity(j => j.ToTable("title_genres")); // Junction table
         });
 
