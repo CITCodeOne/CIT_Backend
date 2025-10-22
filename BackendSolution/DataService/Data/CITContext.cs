@@ -64,13 +64,21 @@ public class CITContext : DbContext
             b.Property(x => x.RegT).HasColumnName("time");
         });
 
-         modelBuilder.Entity<Rating>(b =>
+        modelBuilder.Entity<Rating>(b =>
         {
             b.ToTable("rating");
             b.HasOne(x => x.user).WithMany(u => u.UsersRatings);
             b.Property(x => x.time).HasColumnName("time");
             b.HasOne(x => x.Title).WithMany(t => t.Ratings);
             b.Property(x => x.RatingValue).HasColumnName("rating");
+        });
+
+        modelBuilder.Entity<Search>(b =>
+        {
+            b.ToTable("search_history");
+            b.HasOne(x => x.user).WithMany(u => u.SearchHistory);
+            b.Property(x => x.time).HasColumnName("time");
+            b.Property(x => x.SearchString).HasColumnName("search_string");
         });
 
     }
