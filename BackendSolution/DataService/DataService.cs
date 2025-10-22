@@ -6,11 +6,13 @@ namespace DataService;
 
 public class DataService : IDataService
 {
-    readonly CITContext? _ctx;
+    // DataService setup
+
+    readonly CITContext _ctx;
 
     public DataService()
     {
-        _ctx = null;
+        _ctx = new CITContext();
     }
 
     public DataService(CITContext ctx)
@@ -19,4 +21,6 @@ public class DataService : IDataService
     }
 
     // EntityServices
+    public PageService Page => new PageService(_ctx);
+
 }
