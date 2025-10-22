@@ -95,3 +95,4 @@ project.nuget.cache
 # Common temporary MSBuild files
 *.tmp
 *.cache
+BackendSolution/DataService/dbconfig.json
