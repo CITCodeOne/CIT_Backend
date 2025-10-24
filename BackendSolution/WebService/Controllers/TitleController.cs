@@ -15,10 +15,10 @@ public class TitleController : ControllerBase
     _context = context;
   }
 
-  [HttpGet("{id}")]
-  public async Task<ActionResult<TitleFullDTO>> GetTitle(string id)
+  [HttpGet("{tconst}")]
+  public async Task<ActionResult<TitleFullDTO>> GetTitle(string tconst)
   {
-    var title = await _context.Titles.FindAsync(id);
+    var title = await _context.Titles.FindAsync(tconst);
 
     if (title == null)
     {

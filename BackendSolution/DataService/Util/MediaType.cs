@@ -7,7 +7,7 @@ public enum MediaType
     TvEpisode,
     TvMiniSeries,
     TvMovie,
-    TvSeries,
+    tvSeries,
     TvShort,
     TvSpecial,
     Video,
