@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using DataService.Entities;
-/*
+
 public class TitleConfig : IEntityTypeConfiguration<Title>
 {
   public void Configure(EntityTypeBuilder<Title> b)
@@ -25,4 +25,3 @@ public class TitleConfig : IEntityTypeConfiguration<Title>
     //b.HasMany(t => t.Ratings).WithOne(r => r.Title);
   }
 }
-*/
