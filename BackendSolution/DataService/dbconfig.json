@@ -1,7 +1,7 @@
 {
   "Host": "cit.ruc.dk",
   "Port": "5432",
-  "Database": "dbnavn",
+  "Database": "cit01",
   "User": "cit01",
   "Password": "ZZOJpAASGoDr"
 }

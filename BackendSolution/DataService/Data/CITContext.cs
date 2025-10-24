@@ -24,7 +24,7 @@ public class CITContext : DbContext
         optionsBuilder.EnableSensitiveDataLogging();
         var json = File.ReadAllText("dbconfig.json");
         var jsonSerialised = JsonSerializer.Deserialize<DbConfig>(json)!;
-        var conn = $"Host={jsonSerialised.Host};Port={jsonSerialised.Port};Database={jsonSerialised.Database};Username={jsonSerialised.User};Password={jsonSerialised.Password};SSL Mode=Require;Trust Server Certificate=true";
+        var conn = $"Host={jsonSerialised.Host};Port={jsonSerialised.Port};Database={jsonSerialised.Database};Username={jsonSerialised.User};Password={jsonSerialised.Password}";
         optionsBuilder.UseNpgsql(conn);
     }
 
@@ -32,7 +32,7 @@ public class CITContext : DbContext
     {
         modelBuilder.Entity<Title>(b =>
         {
-            b.ToTable("titles");
+            b.ToTable("title");
             b.Property(t => t.Id).HasColumnName("tconst");
             b.Property(t => t.Name).HasColumnName("title_name");
             b.Property(t => t.MediaType).HasColumnName("media_type").HasConversion(v => v.ToString(), v => (MediaType)Enum.Parse(typeof(MediaType), v));
