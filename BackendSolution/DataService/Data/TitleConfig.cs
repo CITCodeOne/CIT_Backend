@@ -6,7 +6,7 @@ public class TitleConfig : IEntityTypeConfiguration<Title>
 {
   public void Configure(EntityTypeBuilder<Title> b)
   {
-    b.ToTable("titles");
+    b.ToTable("title");
     b.Property(t => t.Id).HasColumnName("tconst");
     b.Property(t => t.Name).HasColumnName("title_name");
     b.Property(t => t.MediaType).HasColumnName("media_type").HasConversion<string>();
