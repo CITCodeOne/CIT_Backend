@@ -1,6 +1,6 @@
 @WebService_HostAddress = http://localhost:5001
 
-GET {{WebService_HostAddress}}/api/title
+GET {{WebService_HostAddress}}/api/title/tt0052520
 Accept: application/json
 
 ###
