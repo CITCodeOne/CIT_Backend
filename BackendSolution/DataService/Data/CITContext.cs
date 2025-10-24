@@ -2,12 +2,13 @@ using Microsoft.EntityFrameworkCore;
 using DataService.Entities;
 using DataService.Util;
 using System.Text.Json;
+using System.Reflection;
 
 namespace DataService.Data;
 
 public class CITContext : DbContext
 {
-    public DbSet<Title> Titles { get; set; }
+    public DbSet<Title> Titles => Set<Title>();
 
     private record DbConfig
     {

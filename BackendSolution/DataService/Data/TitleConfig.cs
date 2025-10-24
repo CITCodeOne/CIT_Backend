@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using DataService.Entities;
 
+namespace DataService.Data;
 public class TitleConfig : IEntityTypeConfiguration<Title>
 {
   public void Configure(EntityTypeBuilder<Title> b)
