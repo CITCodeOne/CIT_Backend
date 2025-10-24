@@ -28,7 +28,12 @@ public class CITContext : DbContext
         optionsBuilder.UseNpgsql(conn);
     }
 
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
+  protected override void OnModelCreating(ModelBuilder modelBuilder)
+  {
+    
+  }
+
+   /*  protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Title>(b =>
         {
@@ -89,5 +94,5 @@ public class CITContext : DbContext
             b.Property(x => x.SearchString).HasColumnName("search_string");
         });
 
-    }
+    }*/
 }

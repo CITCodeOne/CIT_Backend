@@ -2,9 +2,16 @@ namespace DataService.Entities;
 
 public class Contribution
 {
-    public Individual individual { get; set; }
-    public Title title { get; set; }
-    public string Type { get; set; }
+    // Foreign key properties for composite primary key
+    public required string IndividualId { get; set; } // maps to pconst
+    public required string TitleId { get; set; } //maps to tconst
+    public string? ContributionType { get; set; } // Maps to priority in BD
+
+    // Navigation properties
+    public Individual? individual { get; set; }
+    public Title? title { get; set; }
+
+    // Additional property
     public string? Detail { get; set; }
-    // the relation on the db also has a priority. We can add it later if needed. But it might only be useful when ordering contributions when they are returned as a list, which can be handled by the SQL query and thus by the DB.
+   
 }
