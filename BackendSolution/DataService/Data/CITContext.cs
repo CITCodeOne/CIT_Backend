@@ -30,6 +30,7 @@ public class CITContext : DbContext
 
   protected override void OnModelCreating(ModelBuilder modelBuilder)
   {
+        modelBuilder.HasDefaultSchema("mdb");
         modelBuilder.Entity<Title>(new TitleConfig().Configure);
   }
 
