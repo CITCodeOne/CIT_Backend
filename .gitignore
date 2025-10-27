@@ -96,3 +96,4 @@ project.nuget.cache
 *.tmp
 *.cache
 BackendSolution/DataService/dbconfig.json
+BackendSolution/WebService/dbconfig.json
