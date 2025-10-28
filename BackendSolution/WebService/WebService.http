@@ -1,6 +1,23 @@
 @WebService_HostAddress = http://localhost:5001
 
+### Get Title by ID (with genres)
 GET {{WebService_HostAddress}}/api/title/tt0052520
+Accept: application/json
+
+### Get Title - Test another ID
+GET {{WebService_HostAddress}}/api/title/tt0000001
+Accept: application/json
+
+### Get Title - Not Found (should return 404)
+GET {{WebService_HostAddress}}/api/title/tt9999999
+Accept: application/json
+
+### Get Title - Invalid format
+GET {{WebService_HostAddress}}/api/title/invalid
+Accept: application/json
+
+###test test tihi
+GET {{WebService_HostAddress}}/api/title/genre/1
 Accept: application/json
 
 ###

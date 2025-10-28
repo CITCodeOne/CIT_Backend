@@ -1,0 +1,49 @@
+using AutoMapper;
+using DataService.Entities;
+using DataService.DTOs;
+
+namespace DataService.Mappings;
+
+public class MappingProfile : Profile
+{
+  public MappingProfile()
+  {
+    // Title mappings
+    CreateMap<Title, TitleFullDTO>()
+      .ForMember(dto => dto.Id, opt => opt.MapFrom(t => t.Tconst))
+      .ForMember(dto => dto.Name, opt => opt.MapFrom(t => t.TitleName))
+      .ForMember(dto => dto.MediaType, opt => opt.MapFrom(t => t.MediaType ?? ""))
+      .ForMember(dto => dto.AvgRating, opt => opt.MapFrom(t => t.AvgRating ?? 0))
+      .ForMember(dto => dto.NumVotes, opt => opt.MapFrom(t => t.Numvotes ?? 0))
+      .ForMember(dto => dto.ReleaseDate, opt => opt.MapFrom(t => t.ReleaseDate.HasValue ? t.ReleaseDate.Value.ToDateTime(TimeOnly.MinValue) : DateTime.MinValue))
+      .ForMember(dto => dto.Adult, opt => opt.MapFrom(t => t.IsAdult ?? false))
+      .ForMember(dto => dto.StartYear, opt => opt.MapFrom(t => t.StartYear ?? 0))
+      .ForMember(dto => dto.EndYear, opt => opt.MapFrom(t => t.EndYear.HasValue ? (int?)t.EndYear.Value : null))
+      .ForMember(dto => dto.Runtime, opt => opt.MapFrom(t => t.Runtime.HasValue ? (int)t.Runtime.Value.TotalMinutes : 0))
+      .ForMember(dto => dto.Poster, opt => opt.MapFrom(t => t.Poster))
+      .ForMember(dto => dto.PlotPre, opt => opt.MapFrom(t => t.Plot != null && t.Plot.Length > 25 ? t.Plot.Substring(0, 25) : t.Plot))
+      .ForMember(dto => dto.Genres, opt => opt.MapFrom(t => t.Gconsts));
+
+    CreateMap<Title, TitlePreviewDTO>()
+      .ForMember(dto => dto.Id, opt => opt.MapFrom(t => t.Tconst))
+      .ForMember(dto => dto.Name, opt => opt.MapFrom(t => t.TitleName ?? ""))
+      .ForMember(dto => dto.MediaType, opt => opt.MapFrom(t => t.MediaType ?? ""))
+      .ForMember(dto => dto.AvgRating, opt => opt.MapFrom(t => t.AvgRating ?? 0))
+      .ForMember(dto => dto.ReleaseDate, opt => opt.MapFrom(t => t.ReleaseDate.HasValue ? t.ReleaseDate.Value.ToDateTime(TimeOnly.MinValue) : DateTime.MinValue))
+      .ForMember(dto => dto.Poster, opt => opt.MapFrom(t => t.Poster ?? ""));
+
+    CreateMap<Title, TitleReferenceDTO>()
+      .ForMember(dto => dto.Id, opt => opt.MapFrom(t => t.Tconst))
+      .ForMember(dto => dto.Name, opt => opt.MapFrom(t => t.TitleName ?? ""));
+
+    // Genre mappings
+    CreateMap<Genre, GenreDTO>()
+      .ForMember(dto => dto.Id, opt => opt.MapFrom(g => g.Gconst))
+      .ForMember(dto => dto.Name, opt => opt.MapFrom(g => g.Gname ?? ""));
+
+    CreateMap<Genre, GenreFullDTO>()
+      .ForMember(dto => dto.Id, opt => opt.MapFrom(g => g.Gconst))
+      .ForMember(dto => dto.Name, opt => opt.MapFrom(g => g.Gname ?? ""))
+      .ForMember(dto => dto.Titles, opt => opt.MapFrom(g => g.Tconsts));
+  }
+}

@@ -1,23 +1,43 @@
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using DataService.Util;
+﻿using System;
+using System.Collections.Generic;
 
 namespace DataService.Entities;
 
-public class Title : Page
+public partial class Title
 {
-    public required string Id { get; set; }
-    public string? Name { get; set; }
-    public MediaType MediaType { get; set; }
-    public double AvgRating { get; set; }
-    public int NumVotes { get; set; }
-    public DateTime ReleaseDate { get; set; }
-    public bool Adult { get; set; }
-    //public Year4? StartYear { get; set; }
-    //public Year4? EndYear { get; set; }
-    public TimeSpan Runtime { get; set; }
+    public string Tconst { get; set; } = null!;
+
+    public string? TitleName { get; set; }
+
+    public string? MediaType { get; set; }
+
+    public double? AvgRating { get; set; }
+
+    public int? Numvotes { get; set; }
+
+    public DateOnly? ReleaseDate { get; set; }
+
+    public bool? IsAdult { get; set; }
+
+    public short? StartYear { get; set; }
+
+    public short? EndYear { get; set; }
+
+    public TimeSpan? Runtime { get; set; }
+
     public string? Poster { get; set; }
-    public string? PlotPre { get; set; } // Shortened to x amount of cars. full plot is then gotten via a separate call 
-    //public List<Genre>? Genres { get; set; }
-    //public List<Rating>? Ratings { get; set; }
+
+    public string? Plot { get; set; }
+
+    public virtual ICollection<Contributor> Contributors { get; set; } = new List<Contributor>();
+
+    public virtual ICollection<Episode> Episodes { get; set; } = new List<Episode>();
+
+    public virtual Page? Page { get; set; }
+
+    public virtual ICollection<Rating> Ratings { get; set; } = new List<Rating>();
+
+    public virtual ICollection<Wi> Wis { get; set; } = new List<Wi>();
+
+    public virtual ICollection<Genre> Gconsts { get; set; } = new List<Genre>();
 }

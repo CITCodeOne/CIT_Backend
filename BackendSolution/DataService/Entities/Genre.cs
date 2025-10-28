@@ -1,8 +1,13 @@
+﻿using System;
+using System.Collections.Generic;
+
 namespace DataService.Entities;
 
-public class Genre
+public partial class Genre
 {
-    public int Id { get; set; }
-    public string Name { get; set; }
-    public List<Title> Titles { get; set; }
+    public int Gconst { get; set; }
+
+    public string? Gname { get; set; }
+
+    public virtual ICollection<Title> Tconsts { get; set; } = new List<Title>();
 }

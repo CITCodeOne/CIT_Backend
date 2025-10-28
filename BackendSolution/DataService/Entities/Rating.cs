@@ -1,7 +1,19 @@
+﻿using System;
+using System.Collections.Generic;
+
 namespace DataService.Entities;
 
-public class Rating : UserAction
+public partial class Rating
 {
-    public Title Title { get; set; }
-    public int RatingValue { get; set; }
+    public int Uconst { get; set; }
+
+    public string Tconst { get; set; } = null!;
+
+    public int? Rating1 { get; set; }
+
+    public DateTime? Time { get; set; }
+
+    public virtual Title TconstNavigation { get; set; } = null!;
+
+    public virtual UserInfo UconstNavigation { get; set; } = null!;
 }

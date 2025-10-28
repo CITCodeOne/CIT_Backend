@@ -21,6 +21,6 @@ public class DataService : IDataService
     }
 
     // EntityServices
-
-    public PageService Page => new PageService(_ctx);
+    // Add your services here as needed
+    // public TitleService Title => new TitleService(_ctx);
 }
