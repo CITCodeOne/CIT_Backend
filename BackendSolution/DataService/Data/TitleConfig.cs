@@ -8,6 +8,7 @@ public class TitleConfig : IEntityTypeConfiguration<Title>
   public void Configure(EntityTypeBuilder<Title> b)
   {
     b.ToTable("title");
+    b.HasKey(t => t.Id);
     b.Property(t => t.Id).HasColumnName("tconst");
     b.Property(t => t.Name).HasColumnName("title_name");
     b.Property(t => t.MediaType).HasColumnName("media_type").HasConversion<string>();
@@ -20,7 +21,10 @@ public class TitleConfig : IEntityTypeConfiguration<Title>
     b.Property(t => t.Runtime).HasColumnName("runtime");
     b.Property(t => t.Poster).HasColumnName("poster");
     b.Property(t => t.PlotPre).HasColumnName("plot").HasComputedColumnSql("LEFT(plot, 25)", stored: false);
-    //b.HasMany(t => t.Genres).WithMany(g => g.Titles).UsingEntity(j => j.ToTable("title_genres")); // Junction table
+    
+    b.HasMany(t => t.Genres)
+     .WithMany(g => g.Titles)
+     .UsingEntity(j => j.ToTable("title_genre")); // Junction table
 
     // One-to-Many: title -> Ratings
     //b.HasMany(t => t.Ratings).WithOne(r => r.Title);

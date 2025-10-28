@@ -9,6 +9,7 @@ namespace DataService.Data;
 public class CITContext : DbContext
 {
     public DbSet<Title> Titles => Set<Title>();
+    public DbSet<Genre> Genres => Set<Genre>();
 
     private record DbConfig
     {
@@ -32,5 +33,6 @@ public class CITContext : DbContext
     {
         modelBuilder.HasDefaultSchema("mdb");
         modelBuilder.Entity<Title>(new TitleConfig().Configure);
+        modelBuilder.Entity<Genre>(new GenreConfig().Configure);
     }
 }

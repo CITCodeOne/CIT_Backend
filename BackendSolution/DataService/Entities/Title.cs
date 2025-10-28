@@ -18,6 +18,7 @@ public class Title : Page
     public TimeSpan Runtime { get; set; }
     public string? Poster { get; set; }
     public string? PlotPre { get; set; } // Shortened to x amount of cars. full plot is then gotten via a separate call 
-    //public List<Genre>? Genres { get; set; }
+    //public virtual ICollection<Genre>? Genres { get; set; }
+    public List<Genre>? Genres { get; set; }
     //public List<Rating>? Ratings { get; set; }
 }

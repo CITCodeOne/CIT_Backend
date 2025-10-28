@@ -4,3 +4,14 @@ GET {{WebService_HostAddress}}/api/title/tt0052520
 Accept: application/json
 
 ###
+
+GET {{WebService_HostAddress}}/api/genre
+Accept: application/json
+
+###
+
+//Get titles from gconst = 1(Fantasy)
+GET {{WebService_HostAddress}}/api/genre/1
+Accept: application/json
+
+###

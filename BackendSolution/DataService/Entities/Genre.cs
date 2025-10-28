@@ -1,8 +1,10 @@
-namespace DataService.Entities;
+using System.ComponentModel.DataAnnotations.Schema;
 
+namespace DataService.Entities;
 public class Genre
 {
-    public int Id { get; set; }
-    public string Name { get; set; }
-    public List<Title> Titles { get; set; }
+    public required int Id { get; set; }
+    public required string Name { get; set; }
+    //public virtual ICollection<Title>? Titles { get; set; }
+    public List<Title>? Titles { get; set; }
 }
