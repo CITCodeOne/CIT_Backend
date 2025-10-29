@@ -95,9 +95,12 @@ Accept: application/json
 GET {{WebService_HostAddress}}/api/rating/title/tt9999999/average
 Accept: application/json
 
-###
+### ============================================
+### INDIVIDUAL ENDPOINTS
+### ============================================
+
 ### test individual
 GET {{WebService_HostAddress}}/api/individual/nm1577965
 Accept: application/json
 
-
+###
