@@ -95,9 +95,10 @@ Accept: application/json
 GET {{WebService_HostAddress}}/api/rating/title/tt9999999/average
 Accept: application/json
 
-###
-### test individual
+### Get IndividualFullDTO
 GET {{WebService_HostAddress}}/api/individual/nm1577965
 Accept: application/json
 
-
+### Get IndividualReferenceDTO
+GET {{WebService_HostAddress}}/api/individual/reference/nm1577965
+Accept: application/json
