@@ -21,7 +21,6 @@ public class RatingController : ControllerBase
   }
 
   // GET: api/rating/user/{userId}
-
   // Fetches all ratings made by a specific user, including title details
   [HttpGet("user/{userId}")]
   public async Task<ActionResult<List<RatingWithTitleDTO>>> GetUserRatings(int userId)
@@ -50,7 +49,6 @@ public class RatingController : ControllerBase
   }
 
   // GET: api/rating/{userId}/{titleId}
-
   // Fetches a specific rating made by a user for a title
   [HttpGet("{userId}/{titleId}")]
   public async Task<ActionResult<RatingDTO>> GetRating(int userId, string titleId)
@@ -67,7 +65,6 @@ public class RatingController : ControllerBase
   }
 
   // POST: api/rating
-
   // Creates or updates a rating for a title by a user
   [HttpPost]
   public async Task<ActionResult<RatingDTO>> CreateOrUpdateRating(CreateRatingDTO createDto, [FromQuery] int userId)
@@ -76,9 +73,9 @@ public class RatingController : ControllerBase
     {
       await _context.Database.ExecuteSqlRawAsync(
         "SELECT mdb.rate({0}, {1}, {2})",
-        userId,
-        createDto.TitleId,
-        createDto.Rating
+        userId, // Passes userId {0}
+        createDto.TitleId, // Passes titleId {1}
+        createDto.Rating // Passes rating {2}
       );
 
       var rating = await _context.Ratings
@@ -111,7 +108,6 @@ public class RatingController : ControllerBase
   }
 
   // DELETE: api/rating/{userId}/{titleId}
-
   // Deletes a specific rating made by a user for a title
   [HttpDelete("{userId}/{titleId}")]
   public async Task<ActionResult> DeleteRating(int userId, string titleId)
@@ -119,9 +115,9 @@ public class RatingController : ControllerBase
     try
     {
       await _context.Database.ExecuteSqlRawAsync(
-        "SELECT mdb.delete_rating({0}, {1})",
-        userId,
-        titleId
+        "SELECT mdb.delete_rating({0}, {1})", // Selects mdb.delete_rating function
+        userId, // Passes userId {0}
+        titleId // Passes titleId {1}
       );
 
       return NoContent();
@@ -146,7 +142,6 @@ public class RatingController : ControllerBase
   }
 
   // GET: api/rating/title/{titleId}/average
-
   // Fetches the average rating and total number of ratings for a specific title
   [HttpGet("title/{titleId}/average")]
   public async Task<ActionResult<object>> GetAverageRating(string titleId)
