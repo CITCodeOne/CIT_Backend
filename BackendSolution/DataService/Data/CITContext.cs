@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using DataService.Entities;
 using Microsoft.EntityFrameworkCore;
+using System.IO;
+using System.Text.Json;
 
 namespace DataService.Data;
 
@@ -43,8 +45,18 @@ public partial class CITContext : DbContext
     public virtual DbSet<Wi> Wis { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseNpgsql("Host=cit.ruc.dk;Database=cit01;Username=cit01;Password=ZZOJpAASGoDr");
+    {
+        optionsBuilder.LogTo(Console.WriteLine, Microsoft.Extensions.Logging.LogLevel.Information);
+        optionsBuilder.EnableSensitiveDataLogging();
+
+        var json = File.ReadAllText("dbconfig.json");
+        var jsonSerialised = JsonSerializer.Deserialize<DbConfig>(json)!;
+
+        var conn = $"Host={jsonSerialised.Host};Database={jsonSerialised.Database};Username={jsonSerialised.User};Password={jsonSerialised.Password}";
+        optionsBuilder.UseNpgsql(conn);
+    }
+
+    private record DbConfig(string Host, string Port, string Database, string User, string Password);
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
