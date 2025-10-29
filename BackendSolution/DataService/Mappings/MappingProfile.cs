@@ -45,5 +45,26 @@ public class MappingProfile : Profile
       .ForMember(dto => dto.Id, opt => opt.MapFrom(g => g.Gconst))
       .ForMember(dto => dto.Name, opt => opt.MapFrom(g => g.Gname ?? ""))
       .ForMember(dto => dto.Titles, opt => opt.MapFrom(g => g.Tconsts));
+
+    // Contributor mappings
+    CreateMap<Contributor, ContributorFullDTO>()
+      .ForMember(dto => dto.Tconst, opt => opt.MapFrom(c => c.Tconst))
+      .ForMember(dto => dto.Iconst, opt => opt.MapFrom(c => c.Iconst))
+      .ForMember(dto => dto.Contribution, opt => opt.MapFrom(c => c.Contribution))
+      .ForMember(dto => dto.Detail, opt => opt.MapFrom(c => c.Detail))
+      .ForMember(dto => dto.Priority, opt => opt.MapFrom(c => c.Priority))
+      .ForMember(dto => dto.Title, opt => opt.MapFrom(c => c.TconstNavigation != null ? c.TconstNavigation : null));
+
+    CreateMap<Contributor, ContributorDTO>()
+      .ForMember(dto => dto.Tconst, opt => opt.MapFrom(c => c.Tconst))
+      .ForMember(dto => dto.Iconst, opt => opt.MapFrom(c => c.Iconst))
+      .ForMember(dto => dto.Contribution, opt => opt.MapFrom(c => c.Contribution))
+      .ForMember(dto => dto.Priority, opt => opt.MapFrom(c => c.Priority));
+
+    CreateMap<Contributor, ContributorReferenceDTO>()
+      .ForMember(dto => dto.Tconst, opt => opt.MapFrom(c => c.Tconst))
+      .ForMember(dto => dto.Iconst, opt => opt.MapFrom(c => c.Iconst));
+
+
   }
 }
