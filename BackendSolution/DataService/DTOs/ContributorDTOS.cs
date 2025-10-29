@@ -15,14 +15,14 @@ public class ContributorFullDTO
 
 public class ContributorDTO
 {
-  public string Tconst { get; set; } = string.Empty!;
-  public string Iconst { get; set; } = string.Empty!;
-  public string Contribution { get; set; } = string.Empty!;
+  public string Tconst { get; set; } = null!;
+  public string Iconst { get; set; } = null!;
+  public string Contribution { get; set; } = null!;
   public int Priority { get; set; }
 }
 
 public class ContributorReferenceDTO
 {
-  public string Tconst { get; set; } = string.Empty!;
-  public string Iconst { get; set; } = string.Empty!;
+  public string Tconst { get; set; } = null!;
+  public string Iconst { get; set; } = null!;
 }
