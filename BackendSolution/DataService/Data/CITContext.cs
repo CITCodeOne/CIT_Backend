@@ -28,10 +28,6 @@ public partial class CITContext : DbContext
 
     public virtual DbSet<Individual> Individuals { get; set; }
 
-    public virtual DbSet<NameBasic> NameBasics { get; set; }
-
-    public virtual DbSet<OmdbDatum> OmdbData { get; set; }
-
     public virtual DbSet<Page> Pages { get; set; }
 
     public virtual DbSet<Rating> Ratings { get; set; }
@@ -40,25 +36,11 @@ public partial class CITContext : DbContext
 
     public virtual DbSet<Title> Titles { get; set; }
 
-    public virtual DbSet<TitleAka> TitleAkas { get; set; }
-
-    public virtual DbSet<TitleBasic> TitleBasics { get; set; }
-
-    public virtual DbSet<TitleCrew> TitleCrews { get; set; }
-
-    public virtual DbSet<TitleEpisode> TitleEpisodes { get; set; }
-
-    public virtual DbSet<TitlePrincipal> TitlePrincipals { get; set; }
-
-    public virtual DbSet<TitleRating> TitleRatings { get; set; }
-
     public virtual DbSet<UserInfo> UserInfos { get; set; }
 
     public virtual DbSet<VisitedPage> VisitedPages { get; set; }
 
     public virtual DbSet<Wi> Wis { get; set; }
-
-    public virtual DbSet<Wi1> Wis1 { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
@@ -217,123 +199,6 @@ public partial class CITContext : DbContext
             entity.Property(e => e.NameRating).HasColumnName("name_rating");
         });
 
-        modelBuilder.Entity<NameBasic>(entity =>
-        {
-            entity
-                .HasNoKey()
-                .ToTable("name_basics");
-
-            entity.Property(e => e.Birthyear)
-                .HasMaxLength(4)
-                .IsFixedLength()
-                .HasColumnName("birthyear");
-            entity.Property(e => e.Deathyear)
-                .HasMaxLength(4)
-                .IsFixedLength()
-                .HasColumnName("deathyear");
-            entity.Property(e => e.Knownfortitles)
-                .HasMaxLength(256)
-                .HasColumnName("knownfortitles");
-            entity.Property(e => e.Nconst)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("nconst");
-            entity.Property(e => e.Primaryname)
-                .HasMaxLength(256)
-                .HasColumnName("primaryname");
-            entity.Property(e => e.Primaryprofession)
-                .HasMaxLength(256)
-                .HasColumnName("primaryprofession");
-        });
-
-        modelBuilder.Entity<OmdbDatum>(entity =>
-        {
-            entity.HasKey(e => e.Tconst).HasName("omdb_data_pkey");
-
-            entity.ToTable("omdb_data");
-
-            entity.Property(e => e.Tconst)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("tconst");
-            entity.Property(e => e.Actors)
-                .HasMaxLength(256)
-                .HasColumnName("actors");
-            entity.Property(e => e.Awards)
-                .HasMaxLength(80)
-                .HasColumnName("awards");
-            entity.Property(e => e.Boxoffice)
-                .HasMaxLength(100)
-                .HasColumnName("boxoffice");
-            entity.Property(e => e.Country)
-                .HasMaxLength(256)
-                .HasColumnName("country");
-            entity.Property(e => e.Director).HasColumnName("director");
-            entity.Property(e => e.Dvd)
-                .HasMaxLength(80)
-                .HasColumnName("dvd");
-            entity.Property(e => e.Episode)
-                .HasMaxLength(80)
-                .HasColumnName("episode");
-            entity.Property(e => e.Genre)
-                .HasMaxLength(80)
-                .HasColumnName("genre");
-            entity.Property(e => e.Imdbrating)
-                .HasMaxLength(80)
-                .HasColumnName("imdbrating");
-            entity.Property(e => e.Imdbvotes)
-                .HasMaxLength(100)
-                .HasColumnName("imdbvotes");
-            entity.Property(e => e.Language).HasColumnName("language");
-            entity.Property(e => e.Metascore)
-                .HasMaxLength(100)
-                .HasColumnName("metascore");
-            entity.Property(e => e.Plot).HasColumnName("plot");
-            entity.Property(e => e.Poster)
-                .HasMaxLength(180)
-                .HasColumnName("poster");
-            entity.Property(e => e.Production)
-                .HasMaxLength(80)
-                .HasColumnName("production");
-            entity.Property(e => e.Rated)
-                .HasMaxLength(80)
-                .HasColumnName("rated");
-            entity.Property(e => e.Ratings)
-                .HasMaxLength(180)
-                .HasColumnName("ratings");
-            entity.Property(e => e.Released)
-                .HasMaxLength(80)
-                .HasColumnName("released");
-            entity.Property(e => e.Response)
-                .HasMaxLength(80)
-                .HasColumnName("response");
-            entity.Property(e => e.Runtime)
-                .HasMaxLength(80)
-                .HasColumnName("runtime");
-            entity.Property(e => e.Season)
-                .HasMaxLength(80)
-                .HasColumnName("season");
-            entity.Property(e => e.Seriesid)
-                .HasMaxLength(80)
-                .HasColumnName("seriesid");
-            entity.Property(e => e.Title)
-                .HasMaxLength(256)
-                .HasColumnName("title");
-            entity.Property(e => e.Totalseasons)
-                .HasMaxLength(100)
-                .HasColumnName("totalseasons");
-            entity.Property(e => e.Type)
-                .HasMaxLength(80)
-                .HasColumnName("type");
-            entity.Property(e => e.Website)
-                .HasMaxLength(100)
-                .HasColumnName("website");
-            entity.Property(e => e.Writer).HasColumnName("writer");
-            entity.Property(e => e.Year)
-                .HasMaxLength(100)
-                .HasColumnName("year");
-        });
-
         modelBuilder.Entity<Page>(entity =>
         {
             entity.HasKey(e => e.Pconst).HasName("page_pkey");
@@ -437,133 +302,6 @@ public partial class CITContext : DbContext
                 .HasColumnName("title_name");
         });
 
-        modelBuilder.Entity<TitleAka>(entity =>
-        {
-            entity
-                .HasNoKey()
-                .ToTable("title_akas");
-
-            entity.Property(e => e.Attributes)
-                .HasMaxLength(256)
-                .HasColumnName("attributes");
-            entity.Property(e => e.Isoriginaltitle).HasColumnName("isoriginaltitle");
-            entity.Property(e => e.Language)
-                .HasMaxLength(10)
-                .HasColumnName("language");
-            entity.Property(e => e.Ordering).HasColumnName("ordering");
-            entity.Property(e => e.Region)
-                .HasMaxLength(10)
-                .HasColumnName("region");
-            entity.Property(e => e.Title).HasColumnName("title");
-            entity.Property(e => e.Titleid)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("titleid");
-            entity.Property(e => e.Types)
-                .HasMaxLength(256)
-                .HasColumnName("types");
-        });
-
-        modelBuilder.Entity<TitleBasic>(entity =>
-        {
-            entity
-                .HasNoKey()
-                .ToTable("title_basics");
-
-            entity.Property(e => e.Endyear)
-                .HasMaxLength(4)
-                .IsFixedLength()
-                .HasColumnName("endyear");
-            entity.Property(e => e.Genres)
-                .HasMaxLength(256)
-                .HasColumnName("genres");
-            entity.Property(e => e.Isadult).HasColumnName("isadult");
-            entity.Property(e => e.Originaltitle).HasColumnName("originaltitle");
-            entity.Property(e => e.Primarytitle).HasColumnName("primarytitle");
-            entity.Property(e => e.Runtimeminutes).HasColumnName("runtimeminutes");
-            entity.Property(e => e.Startyear)
-                .HasMaxLength(4)
-                .IsFixedLength()
-                .HasColumnName("startyear");
-            entity.Property(e => e.Tconst)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("tconst");
-            entity.Property(e => e.Titletype)
-                .HasMaxLength(20)
-                .HasColumnName("titletype");
-        });
-
-        modelBuilder.Entity<TitleCrew>(entity =>
-        {
-            entity
-                .HasNoKey()
-                .ToTable("title_crew");
-
-            entity.Property(e => e.Directors).HasColumnName("directors");
-            entity.Property(e => e.Tconst)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("tconst");
-            entity.Property(e => e.Writers).HasColumnName("writers");
-        });
-
-        modelBuilder.Entity<TitleEpisode>(entity =>
-        {
-            entity
-                .HasNoKey()
-                .ToTable("title_episode");
-
-            entity.Property(e => e.Episodenumber).HasColumnName("episodenumber");
-            entity.Property(e => e.Parenttconst)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("parenttconst");
-            entity.Property(e => e.Seasonnumber).HasColumnName("seasonnumber");
-            entity.Property(e => e.Tconst)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("tconst");
-        });
-
-        modelBuilder.Entity<TitlePrincipal>(entity =>
-        {
-            entity
-                .HasNoKey()
-                .ToTable("title_principals");
-
-            entity.Property(e => e.Category)
-                .HasMaxLength(50)
-                .HasColumnName("category");
-            entity.Property(e => e.Characters).HasColumnName("characters");
-            entity.Property(e => e.Job).HasColumnName("job");
-            entity.Property(e => e.Nconst)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("nconst");
-            entity.Property(e => e.Ordering).HasColumnName("ordering");
-            entity.Property(e => e.Tconst)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("tconst");
-        });
-
-        modelBuilder.Entity<TitleRating>(entity =>
-        {
-            entity
-                .HasNoKey()
-                .ToTable("title_ratings");
-
-            entity.Property(e => e.Averagerating)
-                .HasPrecision(5, 1)
-                .HasColumnName("averagerating");
-            entity.Property(e => e.Numvotes).HasColumnName("numvotes");
-            entity.Property(e => e.Tconst)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("tconst");
-        });
-
         modelBuilder.Entity<UserInfo>(entity =>
         {
             entity.HasKey(e => e.Uconst).HasName("user_info_pkey");
@@ -630,26 +368,7 @@ public partial class CITContext : DbContext
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("fk_wi_tconst");
         });
-
-        modelBuilder.Entity<Wi1>(entity =>
-        {
-            entity.HasKey(e => new { e.Tconst, e.Word, e.Field }).HasName("wi_pkey");
-
-            entity.ToTable("wi");
-
-            entity.Property(e => e.Tconst)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("tconst");
-            entity.Property(e => e.Word).HasColumnName("word");
-            entity.Property(e => e.Field)
-                .HasMaxLength(1)
-                .HasColumnName("field");
-            entity.Property(e => e.Lexeme).HasColumnName("lexeme");
-        });
-
         OnModelCreatingPartial(modelBuilder);
     }
-
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
 }
