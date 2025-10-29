@@ -11,7 +11,7 @@ public partial class VisitedPage
 
     public DateTime Time { get; set; }
 
-    public virtual Page? PconstNavigation { get; set; }
+    public required virtual Page PconstNavigation { get; set; }
 
     public virtual UserInfo UconstNavigation { get; set; } = null!;
 }

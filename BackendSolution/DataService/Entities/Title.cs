@@ -33,7 +33,7 @@ public partial class Title
 
     public virtual ICollection<Episode> Episodes { get; set; } = new List<Episode>();
 
-    public virtual Page? Page { get; set; }
+    public required virtual Page TitlePage { get; set; } //Page set as nullable by EF core, changed to required
 
     public virtual ICollection<Rating> Ratings { get; set; } = new List<Rating>();
 

@@ -231,11 +231,11 @@ public partial class CITContext : DbContext
                 .IsFixedLength()
                 .HasColumnName("tconst");
 
-            entity.HasOne(d => d.IconstNavigation).WithOne(p => p.Page)
+            entity.HasOne(d => d.IconstNavigation).WithOne(p => p.IndividualPage)
                 .HasForeignKey<Page>(d => d.Iconst)
                 .HasConstraintName("page_iconst_fkey");
 
-            entity.HasOne(d => d.TconstNavigation).WithOne(p => p.Page)
+            entity.HasOne(d => d.TconstNavigation).WithOne(p => p.TitlePage)
                 .HasForeignKey<Page>(d => d.Tconst)
                 .HasConstraintName("page_tconst_fkey");
         });

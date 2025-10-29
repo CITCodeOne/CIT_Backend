@@ -17,5 +17,5 @@ public partial class Individual
 
     public virtual ICollection<Contributor> Contributors { get; set; } = new List<Contributor>();
 
-    public virtual Page? Page { get; set; }
+    public required virtual Page IndividualPage { get; set; } //Page set as nullable by EF core, changed to required
 }
