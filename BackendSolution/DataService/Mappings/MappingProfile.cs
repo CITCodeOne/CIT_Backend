@@ -66,6 +66,7 @@ public class MappingProfile : Profile
       .ForMember(dto => dto.TitleId, opt => opt.MapFrom(r => r.Tconst))
       .ForMember(dto => dto.Rating, opt => opt.MapFrom(r => r.Rating1 ?? 0))
       .ForMember(dto => dto.Time, opt => opt.MapFrom(r => r.Time));
+      
     // Individual mappings
     CreateMap<Individual, IndividualFullDTO>()
       .ForMember(dto => dto.Id, opt => opt.MapFrom(i => i.Iconst))
