@@ -1,11 +1,15 @@
 @WebService_HostAddress = http://localhost:5001
 
+### ============================================
+### TITLE ENDPOINT
+### ============================================
+
 ### Get Title by ID (with genres)
 GET {{WebService_HostAddress}}/api/title/tt0052520
 Accept: application/json
 
 ### Get Title - Test another ID
-GET {{WebService_HostAddress}}/api/title/tt0000001
+GET {{WebService_HostAddress}}/api/title/tt0057531
 Accept: application/json
 
 ### Get Title - Not Found (should return 404)
@@ -18,6 +22,77 @@ Accept: application/json
 
 ###test test tihi
 GET {{WebService_HostAddress}}/api/title/genre/1
+Accept: application/json
+
+### ============================================
+### RATING ENDPOINTS
+### ============================================
+
+### Get all ratings for a user (with title info)
+GET {{WebService_HostAddress}}/api/rating/user/1
+Accept: application/json
+
+### Get all ratings for a title (with usernames)
+GET {{WebService_HostAddress}}/api/rating/title/tt0052520
+Accept: application/json
+
+### Get specific rating (user 1, title tt0052520)
+GET {{WebService_HostAddress}}/api/rating/1/tt0052520
+Accept: application/json
+
+### Get specific rating
+GET {{WebService_HostAddress}}/api/rating/999/tt9999999
+Accept: application/json
+
+### Create or Update rating (POST)
+POST {{WebService_HostAddress}}/api/rating?userId=1
+Content-Type: application/json
+
+{
+  "titleId": "tt0078672",
+  "rating": 8
+}
+
+### Create rating with invalid rating value
+POST {{WebService_HostAddress}}/api/rating?userId=1
+Content-Type: application/json
+
+{
+  "titleId": "tt0052520",
+  "rating": 11
+}
+
+### Create rating for non-existent user
+POST {{WebService_HostAddress}}/api/rating?userId=99999
+Content-Type: application/json
+
+{
+  "titleId": "tt0052520",
+  "rating": 8
+}
+
+### Create rating for non-existent title
+POST {{WebService_HostAddress}}/api/rating?userId=1
+Content-Type: application/json
+
+{
+  "titleId": "tt9999999",
+  "rating": 8
+}
+
+
+### Delete rating
+DELETE {{WebService_HostAddress}}/api/rating/1/tt0052520
+
+### Delete non-existent rating 
+DELETE {{WebService_HostAddress}}/api/rating/999/tt9999999
+
+### Get average rating and vote count for a title
+GET {{WebService_HostAddress}}/api/rating/title/tt0052520/average
+Accept: application/json
+
+### Get average for non-existent title
+GET {{WebService_HostAddress}}/api/rating/title/tt9999999/average
 Accept: application/json
 
 ###

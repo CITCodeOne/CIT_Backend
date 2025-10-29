@@ -45,5 +45,26 @@ public class MappingProfile : Profile
       .ForMember(dto => dto.Id, opt => opt.MapFrom(g => g.Gconst))
       .ForMember(dto => dto.Name, opt => opt.MapFrom(g => g.Gname ?? ""))
       .ForMember(dto => dto.Titles, opt => opt.MapFrom(g => g.Tconsts));
+
+    // Rating mappings
+    CreateMap<Rating, RatingDTO>()
+      .ForMember(dto => dto.UserId, opt => opt.MapFrom(r => r.Uconst))
+      .ForMember(dto => dto.TitleId, opt => opt.MapFrom(r => r.Tconst))
+      .ForMember(dto => dto.Rating, opt => opt.MapFrom(r => r.Rating1 ?? 0))
+      .ForMember(dto => dto.Time, opt => opt.MapFrom(r => r.Time));
+
+    CreateMap<Rating, RatingWithTitleDTO>()
+      .ForMember(dto => dto.UserId, opt => opt.MapFrom(r => r.Uconst))
+      .ForMember(dto => dto.TitleId, opt => opt.MapFrom(r => r.Tconst))
+      .ForMember(dto => dto.Rating, opt => opt.MapFrom(r => r.Rating1 ?? 0))
+      .ForMember(dto => dto.Time, opt => opt.MapFrom(r => r.Time))
+      .ForMember(dto => dto.Title, opt => opt.MapFrom(r => r.TconstNavigation));
+
+    CreateMap<Rating, RatingWithUserDTO>()
+      .ForMember(dto => dto.UserId, opt => opt.MapFrom(r => r.Uconst))
+      .ForMember(dto => dto.UserName, opt => opt.MapFrom(r => r.UconstNavigation.UserName ?? ""))
+      .ForMember(dto => dto.TitleId, opt => opt.MapFrom(r => r.Tconst))
+      .ForMember(dto => dto.Rating, opt => opt.MapFrom(r => r.Rating1 ?? 0))
+      .ForMember(dto => dto.Time, opt => opt.MapFrom(r => r.Time));
   }
 }
