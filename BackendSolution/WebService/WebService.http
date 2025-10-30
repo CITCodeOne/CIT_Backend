@@ -23,6 +23,7 @@ Accept: application/json
 ###test test tihi
 GET {{WebService_HostAddress}}/api/title/genre/1
 Accept: application/json
+###
 
 ### ============================================
 ### RATING ENDPOINTS
@@ -102,3 +103,64 @@ Accept: application/json
 ### Get IndividualReferenceDTO
 GET {{WebService_HostAddress}}/api/individual/reference/nm1577965
 Accept: application/json
+
+
+### ============================================
+### BOOKMARK ENDPOINTS
+### ============================================
+
+### Get all bookmarks for a user
+GET {{WebService_HostAddress}}/api/bookmark/user/1
+Accept: application/json
+
+### Get bookmarks for non-existent user (should return empty array)
+GET {{WebService_HostAddress}}/api/bookmark/user/99999
+Accept: application/json
+
+### Check if user has bookmarked a page (should return true/false)
+GET {{WebService_HostAddress}}/api/bookmark/check?userId=1&pageId=1
+Accept: application/json
+
+### Check non-existent bookmark
+GET {{WebService_HostAddress}}/api/bookmark/check?userId=1&pageId=99999
+Accept: application/json
+
+### Add bookmark (POST)
+POST {{WebService_HostAddress}}/api/bookmark?userId=1
+Content-Type: application/json
+
+{
+  "pageId": 1
+}
+
+### Add second bookmark
+POST {{WebService_HostAddress}}/api/bookmark?userId=1
+Content-Type: application/json
+
+{
+  "pageId": 2
+}
+
+### Add duplicate bookmark (should return 409 Conflict)
+POST {{WebService_HostAddress}}/api/bookmark?userId=1
+Content-Type: application/json
+
+{
+  "pageId": 1
+}
+
+### Add bookmark for non-existent user (should return 404)
+POST {{WebService_HostAddress}}/api/bookmark?userId=99999
+Content-Type: application/json
+
+{
+  "pageId": 1
+}
+
+### Delete bookmark
+DELETE {{WebService_HostAddress}}/api/bookmark/1/1
+
+### Delete non-existent bookmark (should return 404)
+DELETE {{WebService_HostAddress}}/api/bookmark/999/999
+
+###
