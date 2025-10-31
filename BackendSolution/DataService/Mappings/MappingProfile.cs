@@ -45,7 +45,7 @@ public class MappingProfile : Profile
       .ForMember(dto => dto.Id, opt => opt.MapFrom(g => g.Gconst))
       .ForMember(dto => dto.Name, opt => opt.MapFrom(g => g.Gname ?? ""))
       .ForMember(dto => dto.Titles, opt => opt.MapFrom(g => g.Tconsts));
-
+    
     // Contributor mappings
     CreateMap<Contributor, ContributorFullDTO>()
       .ForMember(dto => dto.Tconst, opt => opt.MapFrom(c => c.Tconst))
@@ -65,6 +65,37 @@ public class MappingProfile : Profile
       .ForMember(dto => dto.Tconst, opt => opt.MapFrom(c => c.Tconst))
       .ForMember(dto => dto.Iconst, opt => opt.MapFrom(c => c.Iconst));
 
+    // Rating mappings
+    CreateMap<Rating, RatingDTO>()
+      .ForMember(dto => dto.UserId, opt => opt.MapFrom(r => r.Uconst))
+      .ForMember(dto => dto.TitleId, opt => opt.MapFrom(r => r.Tconst))
+      .ForMember(dto => dto.Rating, opt => opt.MapFrom(r => r.Rating1 ?? 0))
+      .ForMember(dto => dto.Time, opt => opt.MapFrom(r => r.Time));
 
+    CreateMap<Rating, RatingWithTitleDTO>()
+      .ForMember(dto => dto.UserId, opt => opt.MapFrom(r => r.Uconst))
+      .ForMember(dto => dto.TitleId, opt => opt.MapFrom(r => r.Tconst))
+      .ForMember(dto => dto.Rating, opt => opt.MapFrom(r => r.Rating1 ?? 0))
+      .ForMember(dto => dto.Time, opt => opt.MapFrom(r => r.Time))
+      .ForMember(dto => dto.Title, opt => opt.MapFrom(r => r.TconstNavigation));
+
+    CreateMap<Rating, RatingWithUserDTO>()
+      .ForMember(dto => dto.UserId, opt => opt.MapFrom(r => r.Uconst))
+      .ForMember(dto => dto.UserName, opt => opt.MapFrom(r => r.UconstNavigation.UserName ?? ""))
+      .ForMember(dto => dto.TitleId, opt => opt.MapFrom(r => r.Tconst))
+      .ForMember(dto => dto.Rating, opt => opt.MapFrom(r => r.Rating1 ?? 0))
+      .ForMember(dto => dto.Time, opt => opt.MapFrom(r => r.Time));
+      
+    // Individual mappings
+    CreateMap<Individual, IndividualFullDTO>()
+      .ForMember(dto => dto.Id, opt => opt.MapFrom(i => i.Iconst))
+      .ForMember(dto => dto.Name, opt => opt.MapFrom(i => i.Name))
+      .ForMember(dto => dto.BirthYear, opt => opt.MapFrom(i => i.BirthYear))
+      .ForMember(dto => dto.DeathYear, opt => opt.MapFrom(i => i.DeathYear))
+      .ForMember(dto => dto.NameRating, opt => opt.MapFrom(i => i.NameRating));
+
+    CreateMap<Individual, IndividualReferenceDTO>()
+      .ForMember(dto => dto.Id, opt => opt.MapFrom(i => i.Iconst))
+      .ForMember(dto => dto.Name, opt => opt.MapFrom(i => i.Name ?? ""));
   }
 }
