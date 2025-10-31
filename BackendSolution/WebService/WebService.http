@@ -115,14 +115,26 @@ Accept: application/json
 GET {{WebService_HostAddress}}/api/individual/reference/nm9999999
 Accept: application/json
 
-### Get Top Individuals (sorted by name & a list of 10 by default)
-GET {{WebService_HostAddress}}/api/individual/top
+###  Get individuals dependent on a title
+GET {{WebService_HostAddress}}/api/individual/bytitle/tt0052520
 Accept: application/json
 
-###  Get Top 50 Individuals - should only return 20 if limit is set to 20
-GET {{WebService_HostAddress}}/api/individual/top?limit=50
+###  Get individuals dependent on a non-existing title - should return 404
+GET {{WebService_HostAddress}}/api/individual/bytitle/tt9999999
 Accept: application/json
 
-###  Get Top 0 Individuals - should return an empty list - perhaps we set a minimum of 1 instead?
-GET {{WebService_HostAddress}}/api/individual/top?limit=0
+### Search individuals by name (for search bar)
+GET {{WebService_HostAddress}}/api/individual/search?name=Tom
+Accept: application/json
+
+### Search with exact match (for search bar)
+GET {{WebService_HostAddress}}/api/individual/search?name=Tom%20Hanks
+Accept: application/json
+
+### Search with non-existing match (for search bar) - should return empty list
+GET {{WebService_HostAddress}}/api/individual/search?name=Hank%20Toms
+Accept: application/json
+
+### Search with empty name parameter (for search bar) - should return empty list
+GET {{WebService_HostAddress}}/api/individual/search?name=%20%20%20
 Accept: application/json

@@ -50,27 +50,74 @@ public class IndividualController : ControllerBase
 
         if (individual == null)
         {
-            return NotFound("No references for individual " + tconst + " found.");
+            return NotFound(new { message = "Individual reference not found." });
         }
 
         return Ok(_mapper.Map<IndividualReferenceDTO>(individual));
     }
 
-    // Endpoint to get top individuals - sorted by name (max 20)
-    [HttpGet("top")]
-    public async Task<ActionResult<List<IndividualReferenceDTO>>> GetTop([FromQuery] int limit = 10) // 10 by default
-    {
-        if (limit > 20) // show max 20 individuals
-            limit = 20;
 
+
+    // Endpoint to get list of individuals who contributed to a specific title
+    [HttpGet("bytitle/{tconst}")]
+    public async Task<ActionResult<IndividualsByTitleDTO>> GetByTitle(string tconst)
+    {
+        var title = await _context.Titles
+            .Where(t => t.Tconst == tconst)
+            .Select(t => new IndividualsByTitleDTO
+            {
+                Title = new TitleReferenceDTO
+                {
+                    Id = t.Tconst,
+                    Name = t.TitleName ?? "Unknown"
+                },
+                Individuals = t.Contributors
+                    .Select(c => new IndividualReferenceDTO
+                    {
+                        Id = c.Iconst,
+                        Name = c.IconstNavigation.Name ?? "Unknown"
+                    })
+                    .ToList()
+            })
+            .FirstOrDefaultAsync();
+
+        if (title == null)
+        {
+            return NotFound(new { message = $"Title with ID '{tconst}' not found." });
+        }
+
+        return Ok(title);
+    }
+
+    // Endpoint to search individuals by name with paging
+    [HttpGet("search")]
+    public async Task<ActionResult<List<IndividualReferenceDTO>>> Search([FromQuery] string? name, [FromQuery] int page = 1, [FromQuery] int pageSize = 20)
+    {
+        if (string.IsNullOrWhiteSpace(name)) // if search term is null, empty, or whitespace
+        {
+            return Ok(new List<IndividualReferenceDTO>());  // return empty list
+        }
+
+        if (page < 1)
+            page = 1;
+
+        if (pageSize < 1 || pageSize > 20)
+            pageSize = 20;
+
+        // Perform filtering, sorting, and paging directly in the database
         var individuals = await _context.Individuals
-            .OrderBy(i => i.Name)
-            .Take(limit)
-            .ProjectTo<IndividualReferenceDTO>(_mapper.ConfigurationProvider)
+            .Where(i => i.Name != null && EF.Functions.Like(i.Name, $"{name}%")) // Use EF.Functions.Like for StartsWith (E.G starts with "name")
+            .OrderBy(i => i.Name) // Sort in DB
+            .Skip((page - 1) * pageSize) // Skip previous pages
+            .Take(pageSize) // Take only current page
+            .Select(i => new IndividualReferenceDTO
+            {
+                Id = i.Iconst,
+                Name = i.Name ?? "Unknown"
+            })
             .ToListAsync();
 
         return Ok(individuals);
     }
-
 
 }
