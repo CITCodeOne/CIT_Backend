@@ -115,7 +115,14 @@ Accept: application/json
 GET {{WebService_HostAddress}}/api/individual/reference/nm9999999
 Accept: application/json
 
-### Get Top 10 Individuals (sorted by name - default)
-GET {{WebService_HostAddress}}/api/individual/top10
+### Get Top Individuals (sorted by name & a list of 10 by default)
+GET {{WebService_HostAddress}}/api/individual/top
 Accept: application/json
 
+###  Get Top 50 Individuals - should only return 20 if limit is set to 20
+GET {{WebService_HostAddress}}/api/individual/top?limit=50
+Accept: application/json
+
+###  Get Top 0 Individuals - should return an empty list - perhaps we set a minimum of 1 instead?
+GET {{WebService_HostAddress}}/api/individual/top?limit=0
+Accept: application/json

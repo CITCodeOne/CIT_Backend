@@ -56,36 +56,18 @@ public class IndividualController : ControllerBase
         return Ok(_mapper.Map<IndividualReferenceDTO>(individual));
     }
 
-    // Endpoint to get top 10 individuals - sorted by name but we might include rating?
-    [HttpGet("top10")]
-    public async Task<ActionResult<List<IndividualReferenceDTO>>> GetTop10([FromQuery] string? orderBy = "name")
+    // Endpoint to get top individuals - sorted by name (max 20)
+    [HttpGet("top")]
+    public async Task<ActionResult<List<IndividualReferenceDTO>>> GetTop([FromQuery] int limit = 10) // 10 by default
     {
-        var query = _context.Individuals.AsQueryable();
+        if (limit > 20) // show max 20 individuals
+            limit = 20;
 
-        query = orderBy?.ToLower() switch
-        {
-        "name" => query.OrderBy(i => i.Name),
-            /*
-            "rating" => query
-                .Include(i => i.Ratings)
-                .OrderByDescending(i => i.Ratings.Any() ? i.Ratings.Average(r => r.AverageRating) : 0),
-            "rating_desc" => query
-                .Include(i => i.Ratings)
-                .OrderByDescending(i => i.Ratings.Any() ? i.Ratings.Average(r => r.AverageRating) : 0),
-            */
-            _ => query.OrderBy(i => i.Name) // default
-           
-        };
-
-        var individuals = await query
-            .Take(10)
+        var individuals = await _context.Individuals
+            .OrderBy(i => i.Name)
+            .Take(limit)
             .ProjectTo<IndividualReferenceDTO>(_mapper.ConfigurationProvider)
             .ToListAsync();
-
-        if (!individuals.Any())
-        {
-            return NotFound(new { message = "No individuals found." });
-        }
 
         return Ok(individuals);
     }
