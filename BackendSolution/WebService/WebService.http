@@ -24,7 +24,9 @@ GET {{WebService_HostAddress}}/api/title/invalid
 Accept: application/json
 
 
-// Contributor Endpoints
+### ============================================
+### CONTRIBUTOR ENDPOINTS
+### ============================================
 
 ### Contributors — by Title (full)
 GET {{WebService_HostAddress}}/api/contributor/{{tconst}}
@@ -78,8 +80,6 @@ Accept: application/json
 GET {{WebService_HostAddress}}/api/contributor/count
 Accept: application/json
 
-
-### 
 ### ============================================
 ### RATING ENDPOINTS
 ### ============================================
