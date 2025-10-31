@@ -95,10 +95,22 @@ Accept: application/json
 GET {{WebService_HostAddress}}/api/rating/title/tt9999999/average
 Accept: application/json
 
-### Get IndividualFullDTO
+### ============================================
+### INDIVIDUAL ENDPOINTS
+### ============================================
+
+### Get IndividualFullDTO - full details of an individual
 GET {{WebService_HostAddress}}/api/individual/nm1577965
 Accept: application/json
 
-### Get IndividualReferenceDTO
+### Get IndividualReferenceDTO - id & name only
 GET {{WebService_HostAddress}}/api/individual/reference/nm1577965
+Accept: application/json
+
+### Get non-existent Individual - should return 404
+GET {{WebService_HostAddress}}/api/individual/nm9999999
+Accept: application/json
+
+### Get non-existent Individual Reference - should return 404
+GET {{WebService_HostAddress}}/api/individual/reference/nm9999999
 Accept: application/json

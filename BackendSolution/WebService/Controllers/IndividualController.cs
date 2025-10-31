@@ -27,7 +27,7 @@ public class IndividualController : ControllerBase
 
         if (individual == null)
         {
-            return NotFound();
+            return NotFound("Individual not found.");
         }
 
         return Ok(_mapper.Map<IndividualFullDTO>(individual));
@@ -41,7 +41,7 @@ public class IndividualController : ControllerBase
 
         if (individual == null)
         {
-            return NotFound();
+            return NotFound("No references for individual " + tconst + " found.");
         }
 
         return Ok(_mapper.Map<IndividualReferenceDTO>(individual));
