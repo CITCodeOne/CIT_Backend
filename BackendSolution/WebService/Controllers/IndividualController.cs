@@ -88,6 +88,7 @@ public class IndividualController : ControllerBase
         return Ok(title);
     }
 
+    // Endpoint to search for individuals by name showing a list of references
     [HttpGet("search")]
     public async Task<ActionResult<List<IndividualReferenceDTO>>> Search([FromQuery] string? name)
     {

@@ -116,7 +116,7 @@ GET {{WebService_HostAddress}}/api/individual/reference/nm9999999
 Accept: application/json
 
 ###  Get individuals dependent on a title
-GET {{WebService_HostAddress}}/api/individual/bytitle/tt0052520
+GET {{WebService_HostAddress}}/api/individual/bytitle/tt0264464
 Accept: application/json
 
 ###  Get individuals dependent on a non-existing title - should return 404
