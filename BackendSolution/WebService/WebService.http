@@ -115,12 +115,20 @@ Accept: application/json
 GET {{WebService_HostAddress}}/api/individual/reference/nm9999999
 Accept: application/json
 
-###  Get individuals dependent on a title
+### Get individuals who worked on a given title
 GET {{WebService_HostAddress}}/api/individual/bytitle/tt0264464
 Accept: application/json
 
-###  Get individuals dependent on a non-existing title - should return 404
+### Get individuals dependent on a non-existing title - should return 404
 GET {{WebService_HostAddress}}/api/individual/bytitle/tt9999999
+Accept: application/json
+
+### Get co-actors for a given actor name ordered by number of shared titles
+GET {{WebService_HostAddress}}/api/individual/coactors?actorName=Tom%20Hanks
+Accept: application/json
+
+### Get co-actors for a non-existing actor name - should return empty list
+GET {{WebService_HostAddress}}/api/individual/coactors?actorName=NonExistingActor
 Accept: application/json
 
 ### Search individuals by name (for search bar)

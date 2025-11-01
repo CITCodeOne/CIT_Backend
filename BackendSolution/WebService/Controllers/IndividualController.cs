@@ -40,7 +40,7 @@ public class IndividualController : ControllerBase
         return Ok(_mapper.Map<IndividualFullDTO>(individual));
     }
 
-    // Endpoint to get reference details of an individual (by tconst)
+    // Endpoint to get reference details of an individual (by tconst/title id)
     [HttpGet("reference/{tconst}")]
     public async Task<ActionResult<IndividualReferenceDTO>> GetReference(string tconst)
     {
@@ -57,7 +57,7 @@ public class IndividualController : ControllerBase
 
 
 
-    // Endpoint to get list of individuals who contributed to a specific title
+    // Endpoint to get a list of individuals who contributed to a specific title
     [HttpGet("bytitle/{tconst}")]
     public async Task<ActionResult<IndividualsByTitleDTO>> GetByTitle(string tconst)
     {
@@ -86,6 +86,30 @@ public class IndividualController : ControllerBase
         }
 
         return Ok(title);
+    }
+
+    // Endpoint to get co-actors for a given actor name (using db function)
+    [HttpGet("coactors")]
+    public async Task<ActionResult<List<CoActorsDTO>>> GetCoActors([FromQuery] string? actorName)
+    {
+        if (string.IsNullOrWhiteSpace(actorName))
+        {
+            return Ok(new List<CoActorsDTO>());
+        }
+
+        try
+        {
+            var coActors = await _context.Database
+                .SqlQueryRaw<CoActorsDTO>("SELECT * FROM mdb.find_co_actors({0})", actorName) // Use the database function
+                .ToListAsync();
+
+            return Ok(coActors ?? new List<CoActorsDTO>()); // Return empty list if no co-actors found
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error: {ex.Message}");
+            return StatusCode(500, new { message = "An error occurred while fetching co-actors.", error = ex.Message });
+        }
     }
 
     // Endpoint to search for individuals by name showing a list of references

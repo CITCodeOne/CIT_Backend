@@ -21,3 +21,9 @@ public class IndividualsByTitleDTO
     public List<IndividualReferenceDTO> Individuals { get; set; } = new();
 }
 
+public class CoActorsDTO
+{
+    public string Iconst { get; set; } = string.Empty;
+    public string Primaryname { get; set; } = string.Empty;
+    public long Co_Count { get; set; }
+}
