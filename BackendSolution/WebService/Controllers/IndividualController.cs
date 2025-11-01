@@ -4,7 +4,6 @@ using AutoMapper;
 using DataService.Entities;
 using DataService.DTOs;
 using DataService.Data;
-using AutoMapper.QueryableExtensions; // For ProjectTo in GetTop10
 
 namespace WebService.Controllers;
 
@@ -89,35 +88,27 @@ public class IndividualController : ControllerBase
         return Ok(title);
     }
 
-    // Endpoint to search individuals by name with paging
     [HttpGet("search")]
-    public async Task<ActionResult<List<IndividualReferenceDTO>>> Search([FromQuery] string? name, [FromQuery] int page = 1, [FromQuery] int pageSize = 20)
+    public async Task<ActionResult<List<IndividualReferenceDTO>>> Search([FromQuery] string? name)
     {
-        if (string.IsNullOrWhiteSpace(name)) // if search term is null, empty, or whitespace
+        if (string.IsNullOrWhiteSpace(name))
         {
-            return Ok(new List<IndividualReferenceDTO>());  // return empty list
+            return Ok(new List<IndividualReferenceDTO>());
         }
 
-        if (page < 1)
-            page = 1;
+        {
+            var individuals = await _context.Individuals
+                .Where(i => i.Name != null && EF.Functions.Like(i.Name, $"{name}%"))
+                .OrderBy(i => i.Name)
+                .Select(i => new IndividualReferenceDTO
+                {
+                    Id = i.Iconst,
+                    Name = i.Name ?? "Unknown"
+                })
+                .ToListAsync();
 
-        if (pageSize < 1 || pageSize > 20)
-            pageSize = 20;
+            return Ok(individuals);
+        }
 
-        // Perform filtering, sorting, and paging directly in the database
-        var individuals = await _context.Individuals
-            .Where(i => i.Name != null && EF.Functions.Like(i.Name, $"{name}%")) // Use EF.Functions.Like for StartsWith (E.G starts with "name")
-            .OrderBy(i => i.Name) // Sort in DB
-            .Skip((page - 1) * pageSize) // Skip previous pages
-            .Take(pageSize) // Take only current page
-            .Select(i => new IndividualReferenceDTO
-            {
-                Id = i.Iconst,
-                Name = i.Name ?? "Unknown"
-            })
-            .ToListAsync();
-
-        return Ok(individuals);
     }
-
 }
