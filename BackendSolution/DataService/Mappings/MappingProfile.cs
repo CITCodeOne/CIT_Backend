@@ -41,11 +41,6 @@ public class MappingProfile : Profile
       .ForMember(dto => dto.Id, opt => opt.MapFrom(g => g.Gconst))
       .ForMember(dto => dto.Name, opt => opt.MapFrom(g => g.Gname ?? ""));
 
-    CreateMap<Genre, GenreFullDTO>()
-      .ForMember(dto => dto.Id, opt => opt.MapFrom(g => g.Gconst))
-      .ForMember(dto => dto.Name, opt => opt.MapFrom(g => g.Gname ?? ""))
-      .ForMember(dto => dto.Titles, opt => opt.MapFrom(g => g.Tconsts));
-
     // Rating mappings
     CreateMap<Rating, RatingDTO>()
       .ForMember(dto => dto.UserId, opt => opt.MapFrom(r => r.Uconst))
@@ -78,5 +73,14 @@ public class MappingProfile : Profile
     CreateMap<Individual, IndividualReferenceDTO>()
       .ForMember(dto => dto.Id, opt => opt.MapFrom(i => i.Iconst))
       .ForMember(dto => dto.Name, opt => opt.MapFrom(i => i.Name ?? ""));
+
+    //Page mappings
+    CreateMap<Page, PageFullDTO>()
+      .ForMember(dto => dto.PageId, opt => opt.MapFrom(p => p.Pconst))
+      .ForMember(dto => dto.Individual, opt => opt.MapFrom(p => p.IconstNavigation))
+      .ForMember(dto => dto.Title, opt => opt.MapFrom(p => p.TconstNavigation));
+
+    CreateMap<Page, PageReferenceDTO>()
+      .ForMember(dto => dto.PageId, opt => opt.MapFrom(p => p.Pconst));
   }
 }
