@@ -78,5 +78,13 @@ public class MappingProfile : Profile
     CreateMap<Individual, IndividualReferenceDTO>()
       .ForMember(dto => dto.Id, opt => opt.MapFrom(i => i.Iconst))
       .ForMember(dto => dto.Name, opt => opt.MapFrom(i => i.Name ?? ""));
+
+    // ActorTitleView mappings
+    CreateMap<ActorTitleView, ActorTitleViewDTO>()
+      .ForMember(dto => dto.TitleId, opt => opt.MapFrom(a => a.Tconst ?? string.Empty))
+      .ForMember(dto => dto.TitleName, opt => opt.MapFrom(a => a.TitleName ?? string.Empty))
+      .ForMember(dto => dto.IndividualId, opt => opt.MapFrom(a => a.Iconst ?? string.Empty))
+      .ForMember(dto => dto.IndividualName, opt => opt.MapFrom(a => a.Name ?? string.Empty))
+      .ForMember(dto => dto.Contribution, opt => opt.MapFrom(a => a.Contribution ?? string.Empty));
   }
 }

@@ -102,3 +102,15 @@ Accept: application/json
 ### Get IndividualReferenceDTO
 GET {{WebService_HostAddress}}/api/individual/reference/nm1577965
 Accept: application/json
+
+### ============================================
+### ACTORTITLEVIEW ENDPOINTS
+### ============================================
+
+### Get actors for a title
+GET {{WebService_HostAddress}}/api/actortitleview/title/tt0052520
+Accept: application/json
+
+### Get titles for an individual
+GET {{WebService_HostAddress}}/api/actortitleview/individual/nm1577965
+Accept: application/json
