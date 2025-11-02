@@ -78,5 +78,11 @@ public class MappingProfile : Profile
     CreateMap<Individual, IndividualReferenceDTO>()
       .ForMember(dto => dto.Id, opt => opt.MapFrom(i => i.Iconst))
       .ForMember(dto => dto.Name, opt => opt.MapFrom(i => i.Name ?? ""));
+
+    // SearchHistory mappings
+    CreateMap<SearchHistory, SearchHistoryDTO>()
+      .ForMember(dto => dto.UserId, opt => opt.MapFrom(sh => sh.Uconst))
+      .ForMember(dto => dto.SearchTerms, opt => opt.MapFrom(sh => sh.SearchString ?? ""))
+      .ForMember(dto => dto.Time, opt => opt.MapFrom(sh => sh.Time));
   }
 }
