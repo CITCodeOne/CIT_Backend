@@ -86,5 +86,12 @@ public class MappingProfile : Profile
       .ForMember(dto => dto.IndividualId, opt => opt.MapFrom(a => a.Iconst ?? string.Empty))
       .ForMember(dto => dto.IndividualName, opt => opt.MapFrom(a => a.Name ?? string.Empty))
       .ForMember(dto => dto.Contribution, opt => opt.MapFrom(a => a.Contribution ?? string.Empty));
+
+    // Episode mappings
+    CreateMap<Episode, EpisodeDTO>()
+      .ForMember(dto => dto.Id, opt => opt.MapFrom(e => e.Tconst))
+      .ForMember(dto => dto.ParentId, opt => opt.MapFrom(e => e.Parenttconst))
+      .ForMember(dto => dto.Season, opt => opt.MapFrom(e => e.Snum))
+      .ForMember(dto => dto.EpisodeNumber, opt => opt.MapFrom(e => e.Epnum));
   }
 }

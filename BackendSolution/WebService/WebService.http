@@ -108,9 +108,21 @@ Accept: application/json
 ### ============================================
 
 ### Get actors for a title
-GET {{WebService_HostAddress}}/api/actortitleview/title/tt0052520
+GET {{WebService_HostAddress}}/api/actortitleview/title/tt0108778
 Accept: application/json
 
 ### Get titles for an individual
 GET {{WebService_HostAddress}}/api/actortitleview/individual/nm1577965
+Accept: application/json
+
+### =============================================
+### EPISODE ENDPOINTS
+### ============================================
+
+### Get one single episode by id
+GET {{WebService_HostAddress}}/api/episode/tt0583431
+Accept: application/json
+
+### Get list for a series, ordered by season then episode
+GET {{WebService_HostAddress}}/api/episode/parent/tt0108778
 Accept: application/json
