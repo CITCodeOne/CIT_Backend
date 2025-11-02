@@ -166,3 +166,37 @@ Accept: application/json
 ### Get full page from individual
 GET {{WebService_HostAddress}}/api/page/individual/nm1577965
 Accept: application/json
+
+### ============================================
+### USER ENDPOINTS
+### ============================================
+
+### Get all user references
+GET {{WebService_HostAddress}}/api/user/ref
+Accept: application/json
+
+### Get all users
+GET {{WebService_HostAddress}}/api/user
+Accept: application/json
+
+### Get user ref from uconst
+GET {{WebService_HostAddress}}/api/user/1/ref
+Accept: application/json
+
+### Get user from uconst
+GET {{WebService_HostAddress}}/api/user/3
+Accept: application/json
+
+### Get user from wrong uconst
+GET {{WebService_HostAddress}}/api/user/3h
+Accept: application/json
+
+### Create user 
+POST {{WebService_HostAddress}}/api/user
+Content-Type: application/json
+
+{
+  "Name" : "Richard Nixon",
+  "Password" : "WaterGate69",
+  "Email" : "Dickstricks@us.gov"
+}
