@@ -24,4 +24,4 @@ app.MapControllers();
 
 app.Run();
 
-
+public partial class Program { } // Make the Program class public for integration testing
