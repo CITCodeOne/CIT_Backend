@@ -182,12 +182,27 @@ Accept: application/json
 
 ### Add bookmark (POST)
 POST {{WebService_HostAddress}}/api/bookmark?userId=1
+Content-Type: application/json
+
+{
+  "pageId": 1
+}
 
 ### Add second bookmark
 POST {{WebService_HostAddress}}/api/bookmark?userId=1
+Content-Type: application/json
+
+{
+  "pageId": 1
+}
 
 ### Add duplicate bookmark (should return 409 Conflict)
 POST {{WebService_HostAddress}}/api/bookmark?userId=1
+Content-Type: application/json
+
+{
+  "pageId": 1
+}
 
 ### Add bookmark for non-existent user (should return 404)
 POST {{WebService_HostAddress}}/api/bookmark?userId=99999
