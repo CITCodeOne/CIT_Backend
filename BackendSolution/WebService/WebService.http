@@ -168,14 +168,57 @@ Accept: application/json
 GET {{WebService_HostAddress}}/api/rating/title/tt9999999/average
 Accept: application/json
 
-### Get IndividualFullDTO
+### ============================================
+### INDIVIDUAL ENDPOINTS
+### ============================================
+
+### Get IndividualFullDTO - full details of an individual
 GET {{WebService_HostAddress}}/api/individual/nm1577965
 Accept: application/json
 
-### Get IndividualReferenceDTO
+### Get IndividualReferenceDTO - id & name only
 GET {{WebService_HostAddress}}/api/individual/reference/nm1577965
 Accept: application/json
 
+### Get non-existent Individual - should return 404
+GET {{WebService_HostAddress}}/api/individual/nm9999999
+Accept: application/json
+
+### Get non-existent Individual Reference - should return 404
+GET {{WebService_HostAddress}}/api/individual/reference/nm9999999
+Accept: application/json
+
+### Get individuals who worked on a given title
+GET {{WebService_HostAddress}}/api/individual/bytitle/tt0264464
+Accept: application/json
+
+### Get individuals dependent on a non-existing title - should return 404
+GET {{WebService_HostAddress}}/api/individual/bytitle/tt9999999
+Accept: application/json
+
+### Get co-actors for a given actor name ordered by number of shared titles
+GET {{WebService_HostAddress}}/api/individual/coactors?actorName=Tom%20Hanks
+Accept: application/json
+
+### Get co-actors for a non-existing actor name - should return empty list
+GET {{WebService_HostAddress}}/api/individual/coactors?actorName=NonExistingActor
+Accept: application/json
+
+### Search individuals by name (for search bar)
+GET {{WebService_HostAddress}}/api/individual/search?name=Tom
+Accept: application/json
+
+### Search with exact match (for search bar)
+GET {{WebService_HostAddress}}/api/individual/search?name=Tom%20Hanks
+Accept: application/json
+
+### Search with non-existing match (for search bar) - should return empty list
+GET {{WebService_HostAddress}}/api/individual/search?name=Hank%20Toms
+Accept: application/json
+
+### Search with empty name parameter (for search bar) - should return empty list
+GET {{WebService_HostAddress}}/api/individual/search?name=%20%20%20
+Accept: application/json
 ### ============================================
 ### PAGE ENDPOINTS
 ### ============================================

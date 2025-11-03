@@ -6,6 +6,7 @@ using DataService.DTOs;
 using DataService.Data;
 
 namespace WebService.Controllers;
+
 [ApiController]
 [Route("api/individual")]
 public class IndividualController : ControllerBase
@@ -19,20 +20,27 @@ public class IndividualController : ControllerBase
         _context = context;
         _mapper = mapper;
     }
+
+
+
+
+
+    // Endpoint to get full details of an individual (by tconst)
     [HttpGet("{tconst}")]
-    public async Task<ActionResult<IndividualFullDTO>> Get(string tconst)
+    public async Task<ActionResult<IndividualFullDTO>> GetIndividual(string tconst)
     {
         var individual = await _context.Individuals
             .FirstOrDefaultAsync(i => i.Iconst == tconst);
 
         if (individual == null)
         {
-            return NotFound();
+            return NotFound("Individual not found.");
         }
 
         return Ok(_mapper.Map<IndividualFullDTO>(individual));
     }
 
+    // Endpoint to get reference details of an individual (by tconst/title id)
     [HttpGet("reference/{tconst}")]
     public async Task<ActionResult<IndividualReferenceDTO>> GetReference(string tconst)
     {
@@ -41,9 +49,91 @@ public class IndividualController : ControllerBase
 
         if (individual == null)
         {
-            return NotFound();
+            return NotFound(new { message = "Individual reference not found." });
         }
 
         return Ok(_mapper.Map<IndividualReferenceDTO>(individual));
+    }
+
+
+
+    // Endpoint to get a list of individuals who contributed to a specific title
+    [HttpGet("bytitle/{tconst}")]
+    public async Task<ActionResult<IndividualsByTitleDTO>> GetByTitle(string tconst)
+    {
+        var title = await _context.Titles
+            .Where(t => t.Tconst == tconst)
+            .Select(t => new IndividualsByTitleDTO
+            {
+                Title = new TitleReferenceDTO
+                {
+                    Id = t.Tconst,
+                    Name = t.TitleName ?? "Unknown"
+                },
+                Individuals = t.Contributors
+                    .Select(c => new IndividualReferenceDTO
+                    {
+                        Id = c.Iconst,
+                        Name = c.IconstNavigation.Name ?? "Unknown"
+                    })
+                    .ToList()
+            })
+            .FirstOrDefaultAsync();
+
+        if (title == null)
+        {
+            return NotFound(new { message = $"Title with ID '{tconst}' not found." });
+        }
+
+        return Ok(title);
+    }
+
+    // Endpoint to get co-actors for a given actor name (using db function)
+    [HttpGet("coactors")]
+    public async Task<ActionResult<List<CoActorsDTO>>> GetCoActors([FromQuery] string? actorName)
+    {
+        if (string.IsNullOrWhiteSpace(actorName))
+        {
+            return Ok(new List<CoActorsDTO>());
+        }
+
+        try
+        {
+            var coActors = await _context.Database
+                .SqlQueryRaw<CoActorsDTO>("SELECT * FROM mdb.find_co_actors({0})", actorName) // Use the database function
+                .ToListAsync();
+
+            return Ok(coActors ?? new List<CoActorsDTO>()); // Return empty list if no co-actors found
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error: {ex.Message}");
+            return StatusCode(500, new { message = "An error occurred while fetching co-actors.", error = ex.Message });
+        }
+    }
+
+    // Endpoint to search for individuals by name showing a list of references
+    [HttpGet("search")]
+    public async Task<ActionResult<List<IndividualReferenceDTO>>> Search([FromQuery] string? name)
+    {
+        if (string.IsNullOrWhiteSpace(name))
+        {
+            return Ok(new List<IndividualReferenceDTO>());
+        }
+
+        {
+            var individuals = await _context.Individuals
+                .Where(i => i.Name != null && EF.Functions.Like(i.Name, $"{name}%"))
+                .OrderBy(i => i.Name)
+                .Select(i => new IndividualReferenceDTO
+                {
+                    Id = i.Iconst,
+                    Name = i.Name ?? "Unknown"
+                })
+                .ToListAsync();
+
+            return Ok(individuals);
+        }
+
     }
 }
