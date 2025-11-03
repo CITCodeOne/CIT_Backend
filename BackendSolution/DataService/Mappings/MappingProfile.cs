@@ -98,6 +98,19 @@ public class MappingProfile : Profile
       .ForMember(dto => dto.Id, opt => opt.MapFrom(i => i.Iconst))
       .ForMember(dto => dto.Name, opt => opt.MapFrom(i => i.Name ?? ""));
 
+      // Bookmark mappings
+    CreateMap<Bookmark, BookmarkDTO>()
+      .ForMember(dto => dto.UserId, opt => opt.MapFrom(b => b.Uconst))
+      .ForMember(dto => dto.PageId, opt => opt.MapFrom(b => b.Pconst))
+      .ForMember(dto => dto.Time, opt => opt.MapFrom(b => b.Time));
+
+    CreateMap<Bookmark, BookmarkWithDetailsDTO>()
+      .ForMember(dto => dto.UserId, opt => opt.MapFrom(b => b.Uconst))
+      .ForMember(dto => dto.PageId, opt => opt.MapFrom(b => b.Pconst))
+      .ForMember(dto => dto.Time, opt => opt.MapFrom(b => b.Time))
+      .ForMember(dto => dto.TitleId, opt => opt.MapFrom(b => b.PconstNavigation.Tconst))
+      .ForMember(dto => dto.IndividualId, opt => opt.MapFrom(b => b.PconstNavigation.Iconst));
+
     // VisitedPage mappings
     CreateMap<VisitedPage, VisitedPageDTO>()
       .ForMember(dto => dto.UserId, opt => opt.MapFrom(vp => vp.Uconst))
