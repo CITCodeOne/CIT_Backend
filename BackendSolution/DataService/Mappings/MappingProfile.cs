@@ -36,6 +36,12 @@ public class MappingProfile : Profile
         CreateMap<Title, TitleReferenceDTO>()
           .ForMember(dto => dto.Id, opt => opt.MapFrom(t => t.Tconst))
           .ForMember(dto => dto.Name, opt => opt.MapFrom(t => t.TitleName ?? ""));
+          
+            // SearchHistory mappings
+        CreateMap<SearchHistory, SearchHistoryDTO>()
+          .ForMember(dto => dto.UserId, opt => opt.MapFrom(sh => sh.Uconst))
+          .ForMember(dto => dto.SearchTerms, opt => opt.MapFrom(sh => sh.SearchString ?? ""))
+          .ForMember(dto => dto.Time, opt => opt.MapFrom(sh => sh.Time));
 
         // Genre mappings
         CreateMap<Genre, GenreDTO>()

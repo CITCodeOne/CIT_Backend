@@ -219,6 +219,37 @@ Accept: application/json
 ### Search with empty name parameter (for search bar) - should return empty list
 GET {{WebService_HostAddress}}/api/individual/search?name=%20%20%20
 Accept: application/json
+
+### ============================================
+### SEARCH HISTORY ENDPOINTS
+### ============================================
+
+## NOTE: Make sure there's data in the SearchHistories table for testing these endpoints (run the insert queries in ForTesting_CreateUserSearchHistory)
+### Get all search history for user ID 1
+GET {{WebService_HostAddress}}/api/user/1/searchhistory
+Accept: application/json
+
+### Get search history for user ID 2
+GET {{WebService_HostAddress}}/api/user/2/searchhistory
+Accept: application/json
+
+### Get search history for non-existing user - should return 404
+GET {{WebService_HostAddress}}/api/user/9999/searchhistory
+Accept: application/json
+
+### Delete specific search history entry for user ID 1
+### NOTE: Replace the time with an actual timestamp from GET response (user 1) above
+DELETE {{WebService_HostAddress}}/api/user/1/searchhistory?time=2025-11-02T10:05:16.562784Z
+Accept: application/json
+
+### Clear all search history for user ID 1
+DELETE {{WebService_HostAddress}}/api/user/1/searchhistory/clear
+Accept: application/json
+
+### Try to clear search history for user with no history - should return 404
+DELETE {{WebService_HostAddress}}/api/user/9999/searchhistory/clear
+Accept: application/json
+
 ### ============================================
 ### PAGE ENDPOINTS
 ### ============================================
