@@ -1,4 +1,7 @@
 @WebService_HostAddress = http://localhost:5001
+# Example IDs below; set to values that exist in your DB. IMPORTANT: no inline comments on variable lines.
+@tconst = tt0052520
+@iconst = nm0000001
 
 ### ============================================
 ### TITLE ENDPOINT
@@ -20,8 +23,78 @@ Accept: application/json
 GET {{WebService_HostAddress}}/api/title/invalid
 Accept: application/json
 
-###test test tihi
-GET {{WebService_HostAddress}}/api/title/genre/1
+
+### ============================================
+### CONTRIBUTOR ENDPOINTS
+### ============================================
+
+### Contributors — by Title (full)
+GET {{WebService_HostAddress}}/api/contributor/{{tconst}}
+Accept: application/json
+
+### Contributors — by Title (basic)
+GET {{WebService_HostAddress}}/api/contributor/{{tconst}}/basic
+Accept: application/json
+
+### Contributors — by Title (reference)
+GET {{WebService_HostAddress}}/api/contributor/{{tconst}}/ref
+Accept: application/json
+
+### Contributor — by Individual (full)
+GET {{WebService_HostAddress}}/api/contributor/individual/{{iconst}}
+Accept: application/json
+
+### Contributor — by Individual (basic)
+GET {{WebService_HostAddress}}/api/contributor/individual/{{iconst}}/basic
+Accept: application/json
+
+### Contributor — by Individual (reference)
+GET {{WebService_HostAddress}}/api/contributor/individual/{{iconst}}/ref
+Accept: application/json
+
+### Contributor — by Title + Individual (full)
+GET {{WebService_HostAddress}}/api/contributor/title/{{tconst}}/individual/{{iconst}}
+Accept: application/json
+
+### Contributor — by Title + Individual (basic)
+GET {{WebService_HostAddress}}/api/contributor/title/{{tconst}}/individual/{{iconst}}/basic
+Accept: application/json
+
+### Contributor — by Title + Individual (reference)
+GET {{WebService_HostAddress}}/api/contributor/title/{{tconst}}/individual/{{iconst}}/ref
+Accept: application/json
+
+### Contributors — all (full) — paged
+GET {{WebService_HostAddress}}/api/contributor/all?page=1&pageSize=25
+Accept: application/json
+
+### Contributors — all (basic) — paged
+GET {{WebService_HostAddress}}/api/contributor/all/basic?page=1&pageSize=25
+Accept: application/json
+
+### Contributors — all (reference) — paged
+GET {{WebService_HostAddress}}/api/contributor/all/ref?page=1&pageSize=25
+Accept: application/json
+
+### Contributors — count
+GET {{WebService_HostAddress}}/api/contributor/count
+Accept: application/json
+###
+
+### ============================================
+### GENRE ENDPOINTS
+### ============================================
+
+### Get all genres
+GET {{WebService_HostAddress}}/api/genre
+Accept: application/json
+
+### Get genre from gconst
+GET {{WebService_HostAddress}}/api/genre/5
+Accept: application/json
+
+### Get genre from wrong gconst, return NOT FOUND
+GET {{WebService_HostAddress}}/api/genre/199
 Accept: application/json
 
 ### ============================================
@@ -146,3 +219,210 @@ Accept: application/json
 ### Search with empty name parameter (for search bar) - should return empty list
 GET {{WebService_HostAddress}}/api/individual/search?name=%20%20%20
 Accept: application/json
+### ============================================
+### PAGE ENDPOINTS
+### ============================================
+
+### Get all page references (hard coded cap of 100)
+GET {{WebService_HostAddress}}/api/page/ref
+Accept: application/json
+
+### Get all pages
+GET {{WebService_HostAddress}}/api/page
+Accept: application/json
+
+### Get page ref from pconst
+GET {{WebService_HostAddress}}/api/page/5/ref
+Accept: application/json
+
+### Get page ref from wrong pconst, return BAD REQUEST
+GET {{WebService_HostAddress}}/api/page/r45/ref
+Accept: application/json
+
+### Get page ref from wrong pconst, return NOT FOUND (For some reason zeros before a number does not mess up the request)
+GET {{WebService_HostAddress}}/api/page/19999999999992/ref
+Accept: application/json
+
+### Get full page from pconst
+GET {{WebService_HostAddress}}/api/page/5
+Accept: application/json
+
+### Get page ref from title
+GET {{WebService_HostAddress}}/api/page/title/tt0052520/ref
+Accept: application/json
+
+### Get full page from title
+GET {{WebService_HostAddress}}/api/page/title/tt0052520
+Accept: application/json
+
+### Get full page from wrong title, return NOT FOUND
+GET {{WebService_HostAddress}}/api/page/title/tt000999999
+Accept: application/json
+
+### Get page ref from individual
+GET {{WebService_HostAddress}}/api/page/individual/nm1577965/ref
+Accept: application/json
+
+### Get full page from individual
+GET {{WebService_HostAddress}}/api/page/individual/nm1577965
+Accept: application/json
+
+### ============================================
+### USER ENDPOINTS
+### ============================================
+
+### Get all user references
+GET {{WebService_HostAddress}}/api/user/ref
+Accept: application/json
+
+### Get all users
+GET {{WebService_HostAddress}}/api/user
+Accept: application/json
+
+### Get user ref from uconst
+GET {{WebService_HostAddress}}/api/user/1/ref
+Accept: application/json
+
+### Get user from uconst
+GET {{WebService_HostAddress}}/api/user/3
+Accept: application/json
+
+### Get user from wrong uconst
+GET {{WebService_HostAddress}}/api/user/3h
+Accept: application/json
+
+### Create user 
+POST {{WebService_HostAddress}}/api/user
+Content-Type: application/json
+
+{
+  "Name" : "Richard Nixon",
+  "Password" : "WaterGate69",
+  "Email" : "Dickstricks@us.gov"
+}
+
+### ============================================
+### BOOKMARK ENDPOINTS
+### ============================================
+
+### Get all bookmarks for a user
+GET {{WebService_HostAddress}}/api/bookmark/user/1
+Accept: application/json
+
+### Get bookmarks for non-existent user (should return empty array)
+GET {{WebService_HostAddress}}/api/bookmark/user/99999
+Accept: application/json
+
+### Check if user has bookmarked a page (should return true/false)
+GET {{WebService_HostAddress}}/api/bookmark/check?userId=1&pageId=1
+Accept: application/json
+
+### Check non-existent bookmark
+GET {{WebService_HostAddress}}/api/bookmark/check?userId=1&pageId=99999
+Accept: application/json
+
+### Add bookmark (POST)
+POST {{WebService_HostAddress}}/api/bookmark?userId=1
+Content-Type: application/json
+
+{
+  "pageId": 1
+}
+
+### Add second bookmark
+POST {{WebService_HostAddress}}/api/bookmark?userId=1
+Content-Type: application/json
+
+{
+  "pageId": 1
+}
+
+### Add duplicate bookmark (should return 409 Conflict)
+POST {{WebService_HostAddress}}/api/bookmark?userId=1
+Content-Type: application/json
+
+{
+  "pageId": 1
+}
+
+### Add bookmark for non-existent user (should return 404)
+POST {{WebService_HostAddress}}/api/bookmark?userId=99999
+Content-Type: application/json
+
+{
+  "pageId": 1
+}
+
+### Delete bookmark
+DELETE {{WebService_HostAddress}}/api/bookmark/1/1
+
+### Delete non-existent bookmark (should return 404)
+DELETE {{WebService_HostAddress}}/api/bookmark/999/999
+
+### ============================================
+### ACTORTITLEVIEW ENDPOINTS
+### ============================================
+
+### Get actors for a title
+GET {{WebService_HostAddress}}/api/actortitleview/title/tt0108778
+Accept: application/json
+
+### Get titles for an individual
+GET {{WebService_HostAddress}}/api/actortitleview/individual/nm1577965
+Accept: application/json
+
+### =============================================
+### EPISODE ENDPOINTS
+### ============================================
+
+### Get one single episode by id
+GET {{WebService_HostAddress}}/api/episode/tt0583431
+Accept: application/json
+
+### Get list for a series, ordered by season then episode
+GET {{WebService_HostAddress}}/api/episode/parent/tt0108778
+Accept: application/json
+
+### ============================================
+### VISITED PAGE ENDPOINTS
+### ============================================
+
+### Get all visited pages for a user
+GET {{WebService_HostAddress}}/api/visited/user/1
+Accept: application/json
+
+### Get visited pages for non-existent user
+GET {{WebService_HostAddress}}/api/visited/user/99999
+Accept: application/json
+
+### Add visited page (POST)
+POST {{WebService_HostAddress}}/api/visited?userId=1
+Content-Type: application/json
+
+{
+  "pageId": 1
+}
+
+### Add second visited page (POST)
+POST {{WebService_HostAddress}}/api/visited?userId=1
+Content-Type: application/json
+
+{
+  "pageId": 2
+}
+
+### Add visited page for non-existent user
+POST {{WebService_HostAddress}}/api/visited?userId=99999
+Content-Type: application/json
+
+{
+  "pageId": 1
+}
+
+### Add visited page with non-existent page
+POST {{WebService_HostAddress}}/api/visited?userId=1
+Content-Type: application/json
+
+{
+  "pageId": 99999
+}
