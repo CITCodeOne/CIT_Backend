@@ -1,0 +1,2 @@
+### Get Title by tconst
+GET http://localhost:5001/api/title/tt0052520

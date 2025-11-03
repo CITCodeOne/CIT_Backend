@@ -1,11 +1,21 @@
-using DataService.Util;
+﻿using System;
+using System.Collections.Generic;
 
 namespace DataService.Entities;
 
-public class Individual : Page
+public partial class Individual
 {
-    public string Id { get; set; }
-    public string Name { get; set; }
-    public Year4 BirthYear { get; set; }
-    public Year4 DeathYear { get; set; }
+    public string Iconst { get; set; } = null!;
+
+    public string? Name { get; set; }
+
+    public short? BirthYear { get; set; }
+
+    public short? DeathYear { get; set; }
+
+    public double? NameRating { get; set; }
+
+    public virtual ICollection<Contributor> Contributors { get; set; } = new List<Contributor>();
+
+    public required virtual Page IndividualPage { get; set; } //Page set as nullable by EF core, changed to required
 }

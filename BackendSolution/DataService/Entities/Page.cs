@@ -1,15 +1,21 @@
-using DataService.Data;
+﻿using System;
+using System.Collections.Generic;
 
 namespace DataService.Entities;
 
-public abstract class Page
+public partial class Page
 {
-    public int id { get; set; }
-}
+    public int Pconst { get; set; }
 
-public class PageService
-{
-    public PageService(CITContext ctx)
-    {
-    }
+    public string? Iconst { get; set; }
+
+    public string? Tconst { get; set; }
+
+    public virtual ICollection<Bookmark> Bookmarks { get; set; } = new List<Bookmark>();
+
+    public virtual Individual? IconstNavigation { get; set; }
+
+    public virtual Title? TconstNavigation { get; set; }
+
+    public virtual ICollection<VisitedPage> VisitedPages { get; set; } = new List<VisitedPage>();
 }
