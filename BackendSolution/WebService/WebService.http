@@ -1,4 +1,7 @@
 @WebService_HostAddress = http://localhost:5001
+# Example IDs below; set to values that exist in your DB. IMPORTANT: no inline comments on variable lines.
+@tconst = tt0052520
+@iconst = nm0000001
 
 ### ============================================
 ### TITLE ENDPOINT
@@ -20,8 +23,61 @@ Accept: application/json
 GET {{WebService_HostAddress}}/api/title/invalid
 Accept: application/json
 
-###test test tihi
-GET {{WebService_HostAddress}}/api/title/genre/1
+
+### ============================================
+### CONTRIBUTOR ENDPOINTS
+### ============================================
+
+### Contributors — by Title (full)
+GET {{WebService_HostAddress}}/api/contributor/{{tconst}}
+Accept: application/json
+
+### Contributors — by Title (basic)
+GET {{WebService_HostAddress}}/api/contributor/{{tconst}}/basic
+Accept: application/json
+
+### Contributors — by Title (reference)
+GET {{WebService_HostAddress}}/api/contributor/{{tconst}}/ref
+Accept: application/json
+
+### Contributor — by Individual (full)
+GET {{WebService_HostAddress}}/api/contributor/individual/{{iconst}}
+Accept: application/json
+
+### Contributor — by Individual (basic)
+GET {{WebService_HostAddress}}/api/contributor/individual/{{iconst}}/basic
+Accept: application/json
+
+### Contributor — by Individual (reference)
+GET {{WebService_HostAddress}}/api/contributor/individual/{{iconst}}/ref
+Accept: application/json
+
+### Contributor — by Title + Individual (full)
+GET {{WebService_HostAddress}}/api/contributor/title/{{tconst}}/individual/{{iconst}}
+Accept: application/json
+
+### Contributor — by Title + Individual (basic)
+GET {{WebService_HostAddress}}/api/contributor/title/{{tconst}}/individual/{{iconst}}/basic
+Accept: application/json
+
+### Contributor — by Title + Individual (reference)
+GET {{WebService_HostAddress}}/api/contributor/title/{{tconst}}/individual/{{iconst}}/ref
+Accept: application/json
+
+### Contributors — all (full) — paged
+GET {{WebService_HostAddress}}/api/contributor/all?page=1&pageSize=25
+Accept: application/json
+
+### Contributors — all (basic) — paged
+GET {{WebService_HostAddress}}/api/contributor/all/basic?page=1&pageSize=25
+Accept: application/json
+
+### Contributors — all (reference) — paged
+GET {{WebService_HostAddress}}/api/contributor/all/ref?page=1&pageSize=25
+Accept: application/json
+
+### Contributors — count
+GET {{WebService_HostAddress}}/api/contributor/count
 Accept: application/json
 
 ### ============================================
@@ -101,4 +157,16 @@ Accept: application/json
 
 ### Get IndividualReferenceDTO
 GET {{WebService_HostAddress}}/api/individual/reference/nm1577965
+Accept: application/json
+
+### ============================================
+### ACTORTITLEVIEW ENDPOINTS
+### ============================================
+
+### Get actors for a title
+GET {{WebService_HostAddress}}/api/actortitleview/title/tt0052520
+Accept: application/json
+
+### Get titles for an individual
+GET {{WebService_HostAddress}}/api/actortitleview/individual/nm1577965
 Accept: application/json
