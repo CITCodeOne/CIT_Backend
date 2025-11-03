@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using DataAccessLayer.Data;
+using DataAccessLayer.Data; // used for dependency injection
 using BusinessLayer;
 using BusinessLayer.Mappings;
 using System.Text.Json;
