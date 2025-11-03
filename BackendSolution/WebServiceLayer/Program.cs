@@ -1,24 +1,38 @@
-using BusinessLayer.Services;
+using Microsoft.EntityFrameworkCore;
+using DataAccessLayer.Data;
+using DataService;
+using BusinessLayer.Mappings;
+using System.Text.Json;
 
 var builder = WebApplication.CreateBuilder(args);
+
 builder.Services.AddOpenApi();
 builder.Services.AddControllers();
 
-// FIX: We now need something like all the services in BusinessLayer instead
-// builder.Services.AddDbContext<CITContext>(); 
-// builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+// Load database configuration from dbconfig.json
+var dbConfigPath = Path.Combine(builder.Environment.ContentRootPath, "dbconfig.json");
+var dbConfigJson = File.ReadAllText(dbConfigPath);
+var dbConfig = JsonSerializer.Deserialize<Dictionary<string, string>>(dbConfigJson)
+    ?? throw new InvalidOperationException("Failed to load database configuration from dbconfig.json");
+
+var connectionString = $"Host={dbConfig["Host"]};Port={dbConfig["Port"]};Database={dbConfig["User"]};Username={dbConfig["User"]};Password={dbConfig["Password"]}";
+
+builder.Services.AddDbContext<CITContext>(options =>
+    options.UseNpgsql(connectionString));
+
+builder.Services.AddAutoMapper(typeof(MappingProfile).Assembly);
+
+builder.Services.AddScoped<MdbService>();
+
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
 }
 
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
-
 app.MapControllers();
 
 app.Run();

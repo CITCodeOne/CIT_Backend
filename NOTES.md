@@ -46,7 +46,8 @@ dotnet sln add DataAccessLayer/DataAccessLayer.csproj
 
 ### moving code to the new projects
 
-This is mostly a matter of moving files around. However, a main part of this is keeping track of dependencies and namespaces.
+This is mostly a matter of moving files around. However, a main part of this is
+keeping track of dependencies and namespaces.
 
 ## Operational notes
 

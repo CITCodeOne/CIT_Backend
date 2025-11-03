@@ -1,6 +1,13 @@
-@WebServiceLayer_HostAddress = http://localhost:5193
+@WebService_HostAddress = http://localhost:5001
 
-GET {{WebServiceLayer_HostAddress}}/weatherforecast/
+### Titles
+
+### Get Title by ID
+GET {{WebService_HostAddress}}/api/titles/tt0052520
+Accept: application/json
+
+### Get Title by ID (not found)
+GET {{WebService_HostAddress}}/api/titles/tt0000000
 Accept: application/json
 
 ###
