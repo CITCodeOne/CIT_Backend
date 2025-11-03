@@ -1,6 +1,7 @@
 using AutoMapper;
 using DataService.Entities;
 using DataService.DTOs;
+using System.Runtime.InteropServices;
 
 namespace DataService.Mappings;
 
@@ -97,6 +98,27 @@ public class MappingProfile : Profile
     CreateMap<Individual, IndividualReferenceDTO>()
       .ForMember(dto => dto.Id, opt => opt.MapFrom(i => i.Iconst))
       .ForMember(dto => dto.Name, opt => opt.MapFrom(i => i.Name ?? ""));
+
+    //Page mappings
+    CreateMap<Page, PageFullDTO>()
+      .ForMember(dto => dto.PageId, opt => opt.MapFrom(p => p.Pconst))
+      .ForMember(dto => dto.Individual, opt => opt.MapFrom(p => p.IconstNavigation))
+      .ForMember(dto => dto.Title, opt => opt.MapFrom(p => p.TconstNavigation));
+
+    CreateMap<Page, PageReferenceDTO>()
+      .ForMember(dto => dto.PageId, opt => opt.MapFrom(p => p.Pconst));
+
+    //UserInfo mappings
+    CreateMap<UserInfo, UserInfoFullDTO>()
+      .ForMember(dto => dto.Id, opt => opt.MapFrom(u => u.Uconst))
+      .ForMember(dto => dto.Name, opt => opt.MapFrom(u => u.UserName))
+      .ForMember(dto => dto.Password, opt => opt.MapFrom(u => u.UPassword))
+      .ForMember(dto => dto.Email, opt => opt.MapFrom(u => u.Email))
+      .ForMember(dto => dto.Time, opt => opt.MapFrom(u => u.Time));
+
+    CreateMap<UserInfo, UserInfoReferenceDTO>()
+      .ForMember(dto => dto.Id, opt => opt.MapFrom(u => u.Uconst))
+      .ForMember(dto => dto.Name, opt => opt.MapFrom(u => u.UserName));
 
       // Bookmark mappings
     CreateMap<Bookmark, BookmarkDTO>()

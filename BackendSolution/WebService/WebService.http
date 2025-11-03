@@ -82,6 +82,22 @@ Accept: application/json
 ###
 
 ### ============================================
+### GENRE ENDPOINTS
+### ============================================
+
+### Get all genres
+GET {{WebService_HostAddress}}/api/genre
+Accept: application/json
+
+### Get genre from gconst
+GET {{WebService_HostAddress}}/api/genre/5
+Accept: application/json
+
+### Get genre from wrong gconst, return NOT FOUND
+GET {{WebService_HostAddress}}/api/genre/199
+Accept: application/json
+
+### ============================================
 ### RATING ENDPOINTS
 ### ============================================
 
@@ -159,6 +175,88 @@ Accept: application/json
 ### Get IndividualReferenceDTO
 GET {{WebService_HostAddress}}/api/individual/reference/nm1577965
 Accept: application/json
+
+### ============================================
+### PAGE ENDPOINTS
+### ============================================
+
+### Get all page references (hard coded cap of 100)
+GET {{WebService_HostAddress}}/api/page/ref
+Accept: application/json
+
+### Get all pages
+GET {{WebService_HostAddress}}/api/page
+Accept: application/json
+
+### Get page ref from pconst
+GET {{WebService_HostAddress}}/api/page/5/ref
+Accept: application/json
+
+### Get page ref from wrong pconst, return BAD REQUEST
+GET {{WebService_HostAddress}}/api/page/r45/ref
+Accept: application/json
+
+### Get page ref from wrong pconst, return NOT FOUND (For some reason zeros before a number does not mess up the request)
+GET {{WebService_HostAddress}}/api/page/19999999999992/ref
+Accept: application/json
+
+### Get full page from pconst
+GET {{WebService_HostAddress}}/api/page/5
+Accept: application/json
+
+### Get page ref from title
+GET {{WebService_HostAddress}}/api/page/title/tt0052520/ref
+Accept: application/json
+
+### Get full page from title
+GET {{WebService_HostAddress}}/api/page/title/tt0052520
+Accept: application/json
+
+### Get full page from wrong title, return NOT FOUND
+GET {{WebService_HostAddress}}/api/page/title/tt000999999
+Accept: application/json
+
+### Get page ref from individual
+GET {{WebService_HostAddress}}/api/page/individual/nm1577965/ref
+Accept: application/json
+
+### Get full page from individual
+GET {{WebService_HostAddress}}/api/page/individual/nm1577965
+Accept: application/json
+
+### ============================================
+### USER ENDPOINTS
+### ============================================
+
+### Get all user references
+GET {{WebService_HostAddress}}/api/user/ref
+Accept: application/json
+
+### Get all users
+GET {{WebService_HostAddress}}/api/user
+Accept: application/json
+
+### Get user ref from uconst
+GET {{WebService_HostAddress}}/api/user/1/ref
+Accept: application/json
+
+### Get user from uconst
+GET {{WebService_HostAddress}}/api/user/3
+Accept: application/json
+
+### Get user from wrong uconst
+GET {{WebService_HostAddress}}/api/user/3h
+Accept: application/json
+
+### Create user 
+POST {{WebService_HostAddress}}/api/user
+Content-Type: application/json
+
+{
+  "Name" : "Richard Nixon",
+  "Password" : "WaterGate69",
+  "Email" : "Dickstricks@us.gov"
+}
 
 ### ============================================
 ### BOOKMARK ENDPOINTS
