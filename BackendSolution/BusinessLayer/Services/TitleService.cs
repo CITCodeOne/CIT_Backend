@@ -43,7 +43,7 @@ public class TitleService
             .Skip((page - 1) * pageSize)
             .Take(pageSize)
             .ToList();
-        
+
         return _mapper.Map<List<TitlePreviewDTO>>(titles);
     }
 }
