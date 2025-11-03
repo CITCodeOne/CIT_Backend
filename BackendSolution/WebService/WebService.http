@@ -182,3 +182,46 @@ Accept: application/json
 ### Get list for a series, ordered by season then episode
 GET {{WebService_HostAddress}}/api/episode/parent/tt0108778
 Accept: application/json
+
+### ============================================
+### VISITED PAGE ENDPOINTS
+### ============================================
+
+### Get all visited pages for a user
+GET {{WebService_HostAddress}}/api/visited/user/1
+Accept: application/json
+
+### Get visited pages for non-existent user
+GET {{WebService_HostAddress}}/api/visited/user/99999
+Accept: application/json
+
+### Add visited page (POST)
+POST {{WebService_HostAddress}}/api/visited?userId=1
+Content-Type: application/json
+
+{
+  "pageId": 1
+}
+
+### Add second visited page (POST)
+POST {{WebService_HostAddress}}/api/visited?userId=1
+Content-Type: application/json
+
+{
+  "pageId": 2
+}
+### Add visited page for non-existent user
+POST {{WebService_HostAddress}}/api/visited?userId=99999
+Content-Type: application/json
+
+{
+  "pageId": 1
+}
+
+### Add visited page with non-existent page
+POST {{WebService_HostAddress}}/api/visited?userId=1
+Content-Type: application/json
+
+{
+  "pageId": 99999
+}

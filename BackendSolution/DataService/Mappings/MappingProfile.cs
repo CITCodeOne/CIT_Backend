@@ -85,7 +85,7 @@ public class MappingProfile : Profile
       .ForMember(dto => dto.TitleId, opt => opt.MapFrom(r => r.Tconst))
       .ForMember(dto => dto.Rating, opt => opt.MapFrom(r => r.Rating1 ?? 0))
       .ForMember(dto => dto.Time, opt => opt.MapFrom(r => r.Time));
-      
+
     // Individual mappings
     CreateMap<Individual, IndividualFullDTO>()
       .ForMember(dto => dto.Id, opt => opt.MapFrom(i => i.Iconst))
@@ -97,6 +97,19 @@ public class MappingProfile : Profile
     CreateMap<Individual, IndividualReferenceDTO>()
       .ForMember(dto => dto.Id, opt => opt.MapFrom(i => i.Iconst))
       .ForMember(dto => dto.Name, opt => opt.MapFrom(i => i.Name ?? ""));
+
+    // VisitedPage mappings
+    CreateMap<VisitedPage, VisitedPageDTO>()
+      .ForMember(dto => dto.UserId, opt => opt.MapFrom(vp => vp.Uconst))
+      .ForMember(dto => dto.PageId, opt => opt.MapFrom(vp => vp.Pconst))
+      .ForMember(dto => dto.Time, opt => opt.MapFrom(vp => vp.Time));
+
+    CreateMap<VisitedPage, VisitedPageWithDetailsDTO>()
+      .ForMember(dto => dto.UserId, opt => opt.MapFrom(vp => vp.Uconst))
+      .ForMember(dto => dto.PageId, opt => opt.MapFrom(vp => vp.Pconst))
+      .ForMember(dto => dto.Time, opt => opt.MapFrom(vp => vp.Time))
+      .ForMember(dto => dto.TitleId, opt => opt.MapFrom(vp => vp.PconstNavigation.Tconst))
+      .ForMember(dto => dto.IndividualId, opt => opt.MapFrom(vp => vp.PconstNavigation.Iconst));
       
     // Wi mappings
     CreateMap<Wi, WiDTO>()
