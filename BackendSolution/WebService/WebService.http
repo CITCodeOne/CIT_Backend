@@ -23,7 +23,6 @@ Accept: application/json
 GET {{WebService_HostAddress}}/api/title/invalid
 Accept: application/json
 
-
 ### ============================================
 ### CONTRIBUTOR ENDPOINTS
 ### ============================================
@@ -152,7 +151,6 @@ Content-Type: application/json
   "titleId": "tt9999999",
   "rating": 8
 }
-
 
 ### Delete rating
 DELETE {{WebService_HostAddress}}/api/rating/1/tt0052520
