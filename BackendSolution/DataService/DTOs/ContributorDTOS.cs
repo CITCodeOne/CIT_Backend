@@ -13,7 +13,7 @@ public class ContributorFullDTO
 
 }
 
-public class ContributorDTO
+public class ContributorPreviewDTO
 {
   public string Tconst { get; set; } = null!;
   public string Iconst { get; set; } = null!;

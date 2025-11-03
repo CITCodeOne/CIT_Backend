@@ -55,7 +55,7 @@ public class MappingProfile : Profile
       .ForMember(dto => dto.Priority, opt => opt.MapFrom(c => c.Priority))
       .ForMember(dto => dto.Title, opt => opt.MapFrom(c => c.TconstNavigation != null ? c.TconstNavigation : null));
 
-    CreateMap<Contributor, ContributorDTO>()
+    CreateMap<Contributor, ContributorPreviewDTO>()
       .ForMember(dto => dto.Tconst, opt => opt.MapFrom(c => c.Tconst))
       .ForMember(dto => dto.Iconst, opt => opt.MapFrom(c => c.Iconst))
       .ForMember(dto => dto.Contribution, opt => opt.MapFrom(c => c.Contribution))
