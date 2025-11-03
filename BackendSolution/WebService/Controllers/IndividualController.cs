@@ -32,4 +32,18 @@ public class IndividualController : ControllerBase
 
         return Ok(_mapper.Map<IndividualFullDTO>(individual));
     }
+
+    [HttpGet("reference/{tconst}")]
+    public async Task<ActionResult<IndividualReferenceDTO>> GetReference(string tconst)
+    {
+        var individual = await _context.Individuals
+            .FirstOrDefaultAsync(i => i.Iconst == tconst);
+
+        if (individual == null)
+        {
+            return NotFound();
+        }
+
+        return Ok(_mapper.Map<IndividualReferenceDTO>(individual));
+    }
 }
