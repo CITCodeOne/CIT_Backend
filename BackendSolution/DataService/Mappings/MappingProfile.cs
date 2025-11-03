@@ -97,6 +97,13 @@ public class MappingProfile : Profile
     CreateMap<Individual, IndividualReferenceDTO>()
       .ForMember(dto => dto.Id, opt => opt.MapFrom(i => i.Iconst))
       .ForMember(dto => dto.Name, opt => opt.MapFrom(i => i.Name ?? ""));
+      
+    // Wi mappings
+    CreateMap<Wi, WiDTO>()
+      .ForMember(dto => dto.TitleId, opt => opt.MapFrom(w => w.Tconst))
+      .ForMember(dto => dto.Word, opt => opt.MapFrom(w => w.Word))
+      .ForMember(dto => dto.Field, opt => opt.MapFrom(w => w.Field.ToString()))
+      .ForMember(dto => dto.Lexeme, opt => opt.MapFrom(w => w.Lexeme));
 
     // ActorTitleView mappings
     CreateMap<ActorTitleView, ActorTitleViewDTO>()
