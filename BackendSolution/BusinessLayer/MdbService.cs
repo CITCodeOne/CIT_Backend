@@ -4,6 +4,7 @@ using AutoMapper;
 
 namespace BusinessLayer;
 
+//MdbService might be considered a facade for accessing various services
 public class MdbService // Potentially needs to implement some interface : IDataService
 {
     // DataService setup
@@ -26,4 +27,7 @@ public class MdbService // Potentially needs to implement some interface : IData
 
     private UserService? _userService;
     public UserService User => _userService ??= new UserService(_ctx, _mapper);
+    
+    private BookmarkService? _bookmarkService;
+    public BookmarkService Bookmark => _bookmarkService ??= new BookmarkService(_ctx);
 }

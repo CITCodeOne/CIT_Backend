@@ -93,3 +93,12 @@ Content-Type: application/json
   "username": "admin",
   "password": "admin123"
 }
+
+###
+POST http://localhost:5001/api/bookmarks
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTUxMiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW4iLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJBZG1pbiIsInVpZCI6IjUiLCJleHAiOjE3NjI2MjM2ODF9.Q5qMjtD8X-qGJ6ZdykEGhmlg_ninyv4V2ERyH6YT798lH4d9-c7tOmrkDNGXNnedtOzdS3MpBenNerhj5FgAgA
+ 
+{
+  "pconst": 2
+}

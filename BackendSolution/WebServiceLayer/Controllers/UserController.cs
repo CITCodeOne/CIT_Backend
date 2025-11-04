@@ -62,7 +62,8 @@ public class UserController : ControllerBase
         var claims = new List<Claim>
         {
             new Claim(ClaimTypes.Name, user.UserName),
-            new Claim(ClaimTypes.Role, user.Role)
+            new Claim(ClaimTypes.Role, user.Role),
+            new Claim("uid", user.Uconst.ToString())
         };
 
         var secret = _configuration.GetSection("Auth:Secret").Value 
