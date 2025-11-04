@@ -1,12 +1,13 @@
-using BusinessLayer.Services;
+// Helper is in global namespace to avoid namespace resolution issues
 
 var builder = WebApplication.CreateBuilder(args);
+// Load optional dbconfig.json so DI can construct the connection string if ConnectionStrings is not used
+builder.Configuration.AddJsonFile("dbconfig.json", optional: true, reloadOnChange: true);
 builder.Services.AddOpenApi();
 builder.Services.AddControllers();
 
-// FIX: We now need something like all the services in BusinessLayer instead
-// builder.Services.AddDbContext<CITContext>(); 
-// builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+// Single aggregator for infra + business registrations
+builder.Services.AddApplicationServices(builder.Configuration);
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

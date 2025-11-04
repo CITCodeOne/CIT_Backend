@@ -46,17 +46,9 @@ public partial class CITContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.LogTo(Console.WriteLine, Microsoft.Extensions.Logging.LogLevel.Information);
-        optionsBuilder.EnableSensitiveDataLogging();
-
-        var json = File.ReadAllText("dbconfig.json");
-        var jsonSerialised = JsonSerializer.Deserialize<DbConfig>(json)!;
-
-        var conn = $"Host={jsonSerialised.Host};Database={jsonSerialised.Database};Username={jsonSerialised.User};Password={jsonSerialised.Password}";
-        optionsBuilder.UseNpgsql(conn);
+        // Provider and logging are configured in the application's composition root (WebServiceLayer).
+        // Intentionally left blank to avoid file I/O and duplicated configuration here.
     }
-
-    private record DbConfig(string Host, string Port, string Database, string User, string Password);
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
