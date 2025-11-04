@@ -23,7 +23,7 @@ GET {{WebService_HostAddress}}/api/titles?page=-1&pageSize=-1
 Accept: application/json
 
 ### Get title as preview
-GET {{WebService_HostAddress}}/api/titles/preview/tt0052520
+GET {{WebService_HostAddress}}/api/titles/tt0052520/preview
 Accept: application/json
 
 ### Individuals ###
@@ -49,7 +49,42 @@ GET {{WebService_HostAddress}}/api/individuals?page=-1&pageSize=-1
 Accept: application/json
 
 ### Get individual as reference
-GET {{WebService_HostAddress}}/api/individuals/reference/nm0000158
+GET {{WebService_HostAddress}}/api/individuals/nm0000158/reference
+Accept: application/json
+
+### Ratings ### 
+# WARN: Most of these requests assume that there is at least one rating in the database with user ID = 1 and title ID = tt0052520
+
+### Get Rating by composite ID
+GET {{WebService_HostAddress}}/api/ratings/1/tt0052520
+Accept: application/json
+
+### Get Rating by composite ID (not found)
+GET {{WebService_HostAddress}}/api/ratings/1/tt0000000
+Accept: application/json
+
+### Get ratings by user ID
+GET {{WebService_HostAddress}}/api/ratings?userId=1
+Accept: application/json
+
+### Get ratings by user ID (Non-integer user ID) (illegal)
+GET {{WebService_HostAddress}}/api/ratings?userId=abc
+Accept: application/json
+
+### Get ratings by title ID
+GET {{WebService_HostAddress}}/api/ratings?titleId=tt0052520
+Accept: application/json
+
+### Get ratings by title ID (Non-existing title ID)
+GET {{WebService_HostAddress}}/api/ratings?titleId=tt0000000
+Accept: application/json
+
+### Get ratings by user ID and title ID (illegal composite filter)
+GET {{WebService_HostAddress}}/api/ratings?userId=1&titleId=tt0052520
+Accept: application/json
+
+### Get ratings without filters (illegal - at least one filter must be provided)
+GET {{WebService_HostAddress}}/api/ratings
 Accept: application/json
 
 ### Authentication Tests ###

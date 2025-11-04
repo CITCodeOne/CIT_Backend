@@ -18,7 +18,7 @@ public class MdbService // Potentially needs to implement some interface : IData
         _mapper = mapper;
     }
 
-    // EntityServices
+    // Services as properties with lazy initialization (i.e., only initialized when first accessed)
     private TitleService? _titleService;
     public TitleService Title => _titleService ??= new TitleService(_ctx, _mapper);
 
@@ -27,7 +27,10 @@ public class MdbService // Potentially needs to implement some interface : IData
 
     private UserService? _userService;
     public UserService User => _userService ??= new UserService(_ctx, _mapper);
-    
+
     private BookmarkService? _bookmarkService;
     public BookmarkService Bookmark => _bookmarkService ??= new BookmarkService(_ctx);
+
+    private RatingService? _ratingService;
+    public RatingService Rating => _ratingService ??= new RatingService(_ctx, _mapper);
 }

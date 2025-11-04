@@ -39,8 +39,8 @@ public class IndividualsController : ControllerBase
         return Ok(individuals);
     }
 
-    // GET: api/individuals/reference/{id}
-    [HttpGet("reference/{id}")]
+    // GET: api/individuals/{id}/reference
+    [HttpGet("{id}/reference")]
     [ProducesResponseType(typeof(IndividualReferenceDTO), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public ActionResult<IndividualReferenceDTO> GetIndividualReference(string id)

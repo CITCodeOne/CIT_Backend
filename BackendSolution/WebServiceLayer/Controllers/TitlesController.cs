@@ -39,8 +39,8 @@ public class TitlesController : ControllerBase
         return Ok(titles);
     }
 
-    // GET: api/titles/preview/{id}
-    [HttpGet("preview/{id}")]
+    // GET: api/titles/{id}/preview
+    [HttpGet("{id}/preview")]
     [ProducesResponseType(typeof(TitlePreviewDTO), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public ActionResult<TitlePreviewDTO> GetTitlePreview(string id)
