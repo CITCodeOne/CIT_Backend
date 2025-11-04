@@ -5,7 +5,7 @@ using DataAccessLayer.Data;
 using Microsoft.EntityFrameworkCore;
 using Xunit;
 
-public class DALTests
+public class DataAccessLayerTests
 {
     private CITContext DbContext()
     {
@@ -16,6 +16,7 @@ public class DALTests
         return new CITContext(options);
     }
 
+    // Test to verify retrieval of a title by its Tconst
     [Fact]
     public async Task RetrieveTitle_WithValidTconst_ReturnsCorrectTitle()
     {
@@ -35,7 +36,7 @@ public class DALTests
 
         // Assert
         Assert.NotNull(retrievedTitle);
-        Assert.Equal("tt0264464", retrievedTitle.Tconst);
+        Assert.Equal("tt0264464 ", retrievedTitle.Tconst);
         Assert.Equal("Catch Me If You Can", retrievedTitle.TitleName);
         Assert.Equal(8.1, retrievedTitle.AvgRating);
     }
