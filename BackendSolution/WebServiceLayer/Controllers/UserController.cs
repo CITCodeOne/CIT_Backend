@@ -25,21 +25,22 @@ public class UserController : ControllerBase
     }
 
     [HttpPost]
-    public IActionResult SignIn(CreateUserModel model)
+    public IActionResult SignUp(CreateUserModel model)
     {
-        if(_mdbService.User.GetUser(model.Username) != null)
+        if (_mdbService.User.GetUser(model.Username) != null)
         {
             return BadRequest("User already exists");
         }
 
-        if(string.IsNullOrEmpty(model.Password))
+        if (string.IsNullOrEmpty(model.Password))
         {
             return BadRequest("Password is required");
         }
 
         (var hashedPwd, var salt) = _hashing.Hash(model.Password);
 
-        _mdbService.User.CreateUser(model.Name, model.Username, hashedPwd, salt, model.Role);
+        _mdbService.User.CreateUser(model.Name, model.Username, hashedPwd, salt, "User");
+        // Default role is "User" whereas admin users should be created directly in the database or via a separate admin-only endpoint
 
         return Ok(new { message = "User created successfully" });
     }
@@ -49,12 +50,12 @@ public class UserController : ControllerBase
     {
         var user = _mdbService.User.GetUser(model.Username);
 
-        if(user == null)
+        if (user == null)
         {
             return BadRequest("Invalid username or password");
         }
 
-        if(!_hashing.Verify(model.Password, user.UPassword ?? "", user.Salt ?? ""))
+        if (!_hashing.Verify(model.Password, user.UPassword ?? "", user.Salt ?? ""))
         {
             return BadRequest("Invalid username or password");
         }
@@ -66,7 +67,7 @@ public class UserController : ControllerBase
             new Claim("uid", user.Uconst.ToString())
         };
 
-        var secret = _configuration.GetSection("Auth:Secret").Value 
+        var secret = _configuration.GetSection("Auth:Secret").Value
             ?? throw new InvalidOperationException("Auth:Secret is not configured");
 
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secret));

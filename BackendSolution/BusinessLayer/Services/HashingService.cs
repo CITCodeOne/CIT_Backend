@@ -1,7 +1,7 @@
 using System.Security.Cryptography;
 using System.Text;
 
-namespace BusinessLayer.Services;
+namespace BusinessLayer;
 
 /// <summary>
 /// Password hashing service using SHA256 with salt.

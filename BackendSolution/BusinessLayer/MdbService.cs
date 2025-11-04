@@ -29,7 +29,7 @@ public class MdbService // Potentially needs to implement some interface : IData
     public UserService User => _userService ??= new UserService(_ctx, _mapper);
 
     private BookmarkService? _bookmarkService;
-    public BookmarkService Bookmark => _bookmarkService ??= new BookmarkService(_ctx);
+    public BookmarkService Bookmark => _bookmarkService ??= new BookmarkService(_ctx, _mapper);
 
     private RatingService? _ratingService;
     public RatingService Rating => _ratingService ??= new RatingService(_ctx, _mapper);

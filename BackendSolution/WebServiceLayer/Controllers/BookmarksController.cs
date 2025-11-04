@@ -1,9 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using BusinessLayer;
-using BusinessLayer.Services;
 using WebServiceLayer.Models;
-using System.Security.Claims;
+// using System.Security.Claims; // Was needed at some point, but now unused apparently
 
 namespace WebServiceLayer.Controllers;
 
@@ -18,6 +17,36 @@ public class BookmarksController : ControllerBase
         _mdbService = mdbService;
     }
 
+    // GET: api/bookmarks
+    [HttpGet]
+    [Authorize]
+    public IActionResult GetBookmarks()
+    {
+        var uidClaim = User.FindFirst("uid")?.Value;
+        if (string.IsNullOrEmpty(uidClaim) || !int.TryParse(uidClaim, out var uconst))
+            return Unauthorized();
+
+        var bookmarks = _mdbService.Bookmark.GetBookmarksByUser(uconst);
+        if (bookmarks.Count == 0) return NotFound(new { message = "No bookmarks found for the user" });
+        return Ok(bookmarks);
+    }
+
+    // DELETE: api/bookmarks/{pconst}
+    [HttpDelete("{pconst}")]
+    [Authorize]
+    public IActionResult RemoveBookmark(int pconst)
+    {
+        var uidClaim = User.FindFirst("uid")?.Value;
+        if (string.IsNullOrEmpty(uidClaim) || !int.TryParse(uidClaim, out var uconst))
+            return Unauthorized();
+
+        var removed = _mdbService.Bookmark.RemoveBookmark(uconst, pconst);
+        if (!removed)
+            return NotFound(new { message = "Bookmark not found" });
+        return Ok(new { message = "Bookmark removed" });
+    }
+
+    // POST: api/bookmarks
     [HttpPost]
     [Authorize]
     public IActionResult AddBookmark(CreateBookmarkModel model)

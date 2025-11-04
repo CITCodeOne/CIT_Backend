@@ -1,5 +1,50 @@
 @WebService_HostAddress = http://localhost:5001
 
+# INFO: Replace with a valid JWT token after login
+@Authentication_Token = eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTUxMiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoidGVzdHVzZXIxIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiVXNlciIsInVpZCI6IjQiLCJleHAiOjE3NjI2MzA1OTJ9.7GBvY5cpiE0J09p-FlUdn5RVxugG4bdO4TnfPER06xU3pnh__vdOSQefsrKazflQYv-If5khWWxjL7gHZgBJEQ
+
+### Authentication Tests ###
+
+### Create a new user (Sign up)
+POST {{WebService_HostAddress}}/api/user
+Content-Type: application/json
+
+{
+  "name": "Test User",
+  "username": "testuser1",
+  "password": "password12311",
+  "role": "User"
+}
+
+### Login with the created user
+POST {{WebService_HostAddress}}/api/user/login
+Content-Type: application/json
+
+{
+  "username": "testuser1",
+  "password": "password12311"
+}
+
+### Create an admin user
+POST {{WebService_HostAddress}}/api/user
+Content-Type: application/json
+
+{
+  "name": "Admin User",
+  "username": "admin",
+  "password": "admin123",
+  "role": "Admin"
+}
+
+### Login as admin
+POST {{WebService_HostAddress}}/api/user/login
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "password": "admin123"
+}
+
 ### Titles ###
 
 ### Get Title by ID
@@ -63,6 +108,10 @@ Accept: application/json
 GET {{WebService_HostAddress}}/api/ratings/1/tt0000000
 Accept: application/json
 
+### Get ratings by composite ID (illegal - uconst is non-integer)
+GET {{WebService_HostAddress}}/api/ratings/abc/tt0052520
+Accept: application/json
+
 ### Get ratings by user ID
 GET {{WebService_HostAddress}}/api/ratings?userId=1
 Accept: application/json
@@ -87,53 +136,30 @@ Accept: application/json
 GET {{WebService_HostAddress}}/api/ratings
 Accept: application/json
 
-### Authentication Tests ###
+### Bookmark Tests ###
 
-### Create a new user (Sign up)
-POST {{WebService_HostAddress}}/api/user
+### Create a bookmark (authorized request)
+# WARN: Requires the variable Authentication_Token to be set with a valid JWT token
+POST {{WebService_HostAddress}}/api/bookmarks
 Content-Type: application/json
+Authorization: Bearer {{Authentication_Token}}
 
 {
-  "name": "Test User",
-  "username": "testuser1",
-  "password": "password12311",
-  "role": "User"
+  "pconst": 500
 }
 
-### Login with the created user
-POST {{WebService_HostAddress}}/api/user/login
-Content-Type: application/json
+### Get bookmarks for user (authorized request)
+# WARN: Requires the variable Authentication_Token to be set with a valid JWT token
+GET {{WebService_HostAddress}}/api/bookmarks
+Authorization: Bearer {{Authentication_Token}}
+Accept: application/json
 
-{
-  "username": "testuser1",
-  "password": "password12311"
-}
+### Get bookmarks for user (unauthorized request)
+GET {{WebService_HostAddress}}/api/bookmarks
+Accept: application/json
 
-### Create an admin user
-POST {{WebService_HostAddress}}/api/user
-Content-Type: application/json
-
-{
-  "name": "Admin User",
-  "username": "admin",
-  "password": "admin123",
-  "role": "Admin"
-}
-
-### Login as admin
-POST {{WebService_HostAddress}}/api/user/login
-Content-Type: application/json
-
-{
-  "username": "admin",
-  "password": "admin123"
-}
-
-###
-POST http://localhost:5001/api/bookmarks
-Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTUxMiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW4iLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJBZG1pbiIsInVpZCI6IjUiLCJleHAiOjE3NjI2MjM2ODF9.Q5qMjtD8X-qGJ6ZdykEGhmlg_ninyv4V2ERyH6YT798lH4d9-c7tOmrkDNGXNnedtOzdS3MpBenNerhj5FgAgA
- 
-{
-  "pconst": 2
-}
+### Delete a bookmark (authorized request)
+# WARN: Requires the variable Authentication_Token to be set with a valid JWT token
+DELETE {{WebService_HostAddress}}/api/bookmarks/500
+Authorization: Bearer {{Authentication_Token}}
+Accept: application/json

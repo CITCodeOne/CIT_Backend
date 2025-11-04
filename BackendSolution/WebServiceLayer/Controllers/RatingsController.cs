@@ -19,12 +19,9 @@ public class RatingsController : ControllerBase
     [HttpGet("{uconst}/{tconst}")]
     [ProducesResponseType(typeof(RatingDTO), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public ActionResult<RatingDTO> GetRatingByPath(string uconst, string tconst)
+    public ActionResult<RatingDTO> GetRatingByPath(int uconst, string tconst)
     {
-        // Validate input
-        if (!int.TryParse(uconst, out int uconstParsed)) return BadRequest(new { message = "'uconst' must be a valid integer" });
-
-        var rating = _mdb.Rating.GetRating(uconstParsed, tconst);
+        var rating = _mdb.Rating.GetRating(uconst, tconst);
         if (rating == null) return NotFound(new { message = $"Rating for user '{uconst}' with title '{tconst}' not found" });
         return Ok(rating);
     }
@@ -33,9 +30,9 @@ public class RatingsController : ControllerBase
     [HttpGet]
     [ProducesResponseType(typeof(List<RatingDTO>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public ActionResult<List<RatingDTO>> GetRating([FromQuery] string? userId, [FromQuery] string? titleId)
+    public ActionResult<List<RatingDTO>> GetRating([FromQuery] int? userId, [FromQuery] string? titleId)
     {
-        bool uconstProvided = !string.IsNullOrEmpty(userId);
+        bool uconstProvided = (userId != null);
         bool tconstProvided = !string.IsNullOrEmpty(titleId);
         // Validate input
         if (uconstProvided && tconstProvided) return BadRequest(new { message = "Provide either 'uconst' or 'tconst', not both" });
@@ -44,8 +41,7 @@ public class RatingsController : ControllerBase
         // Fetch by uconst
         if (uconstProvided)
         {
-            if (!int.TryParse(userId, out int uconstParsed)) return BadRequest(new { message = "'uconst' must be a valid integer" });
-            var ratingsByUser = _mdb.Rating.GetRatings(uconstParsed, null);
+            var ratingsByUser = _mdb.Rating.GetRatings(userId, null);
             if (ratingsByUser.Count == 0)
             {
                 return NotFound(new { message = $"No ratings found for user with id '{userId}'" });

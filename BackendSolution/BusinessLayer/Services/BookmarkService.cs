@@ -1,15 +1,25 @@
+using AutoMapper;
 using DataAccessLayer.Data;
 using DataAccessLayer.Entities;
+using BusinessLayer.DTOs;
 
 namespace BusinessLayer.Services;
 
 public class BookmarkService
 {
     private readonly CITContext _ctx;
+    private readonly IMapper _mapper;
 
-    public BookmarkService(CITContext ctx)
+    public BookmarkService(CITContext ctx, IMapper mapper)
     {
         _ctx = ctx;
+        _mapper = mapper;
+    }
+
+    public List<BookmarkDTO> GetBookmarksByUser(int uconst)
+    {
+        var bookmarks = _ctx.Bookmarks.Where(b => b.Uconst == uconst).ToList();
+        return _mapper.Map<List<BookmarkDTO>>(bookmarks);
     }
 
     public bool AddBookmark(int uconst, int pconst)
@@ -20,7 +30,7 @@ public class BookmarkService
 
         var existing = _ctx.Bookmarks.Find(uconst, pconst);
         if (existing != null)
-            return false; 
+            return false;
 
         var bm = new Bookmark
         {
@@ -35,8 +45,15 @@ public class BookmarkService
         return true;
     }
 
-    public IEnumerable<Bookmark> GetBookmarksForUser(int uconst)
+    public bool RemoveBookmark(int uconst, int pconst)
     {
-        return _ctx.Bookmarks.Where(b => b.Uconst == uconst).ToList();
+        var bookmark = _ctx.Bookmarks.Where(b => b.Uconst == uconst && b.Pconst == pconst).FirstOrDefault();
+        if (bookmark == null)
+            return false;
+
+        _ctx.Bookmarks.Remove(bookmark);
+        _ctx.SaveChanges();
+
+        return true;
     }
 }
