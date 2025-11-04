@@ -18,7 +18,8 @@ public class MappingProfile : Profile
           .ForMember(dto => dto.NumVotes, opt => opt.MapFrom(t => t.Numvotes ?? 0))
           .ForMember(dto => dto.ReleaseDate, opt => opt.MapFrom(t => t.ReleaseDate.HasValue ? t.ReleaseDate.Value.ToDateTime(TimeOnly.MinValue) : DateTime.MinValue))
           .ForMember(dto => dto.Adult, opt => opt.MapFrom(t => t.IsAdult ?? false))
-          .ForMember(dto => dto.StartYear, opt => opt.MapFrom(t => t.StartYear ?? 0))
+          // Explicit cast to help EF translate short? -> int
+          .ForMember(dto => dto.StartYear, opt => opt.MapFrom(t => t.StartYear.HasValue ? (int)t.StartYear.Value : 0))
           .ForMember(dto => dto.EndYear, opt => opt.MapFrom(t => t.EndYear.HasValue ? (int?)t.EndYear.Value : null))
           .ForMember(dto => dto.Runtime, opt => opt.MapFrom(t => t.Runtime.HasValue ? (int)t.Runtime.Value.TotalMinutes : 0))
           .ForMember(dto => dto.Poster, opt => opt.MapFrom(t => t.Poster))

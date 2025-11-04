@@ -1,6 +1,14 @@
 @WebServiceLayer_HostAddress = http://localhost:5193
+@tconst = tt0063929
+@genreId = 1
+@page = 1
+@pageSize = 10
 
-GET {{WebServiceLayer_HostAddress}}/weatherforecast/
+### Get a title by tconst
+GET {{WebServiceLayer_HostAddress}}/api/titles/{{tconst}}
 Accept: application/json
 
-###
+### Get titles by genre with paging
+GET {{WebServiceLayer_HostAddress}}/api/titles/genre/{{genreId}}?page={{page}}&pageSize={{pageSize}}
+Accept: application/json
+
