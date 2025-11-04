@@ -84,4 +84,6 @@ public class UserController : ControllerBase
 
         return Ok(new { username = user.UserName, token = jwt });
     }
+
+    // NOTE: Arguably, we should have had both bookmarks and ratings under the URI path "api/user/{userId}/..." since they could be seen as resources owned by specific users. This would align with how RESTful APIs are intended to be structured.
 }
