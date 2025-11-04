@@ -51,3 +51,45 @@ Accept: application/json
 ### Get individual as reference
 GET {{WebService_HostAddress}}/api/individuals/reference/nm0000158
 Accept: application/json
+
+### Authentication Tests ###
+
+### Create a new user (Sign up)
+POST {{WebService_HostAddress}}/api/user
+Content-Type: application/json
+
+{
+  "name": "Test User",
+  "username": "testuser1",
+  "password": "password12311",
+  "role": "User"
+}
+
+### Login with the created user
+POST {{WebService_HostAddress}}/api/user/login
+Content-Type: application/json
+
+{
+  "username": "testuser1",
+  "password": "password12311"
+}
+
+### Create an admin user
+POST {{WebService_HostAddress}}/api/user
+Content-Type: application/json
+
+{
+  "name": "Admin User",
+  "username": "admin",
+  "password": "admin123",
+  "role": "Admin"
+}
+
+### Login as admin
+POST {{WebService_HostAddress}}/api/user/login
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "password": "admin123"
+}

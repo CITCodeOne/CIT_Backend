@@ -1,13 +1,37 @@
 using Microsoft.EntityFrameworkCore;
-using DataAccessLayer.Data; // used for dependency injection
+using DataAccessLayer.Data; 
 using BusinessLayer;
 using BusinessLayer.Mappings;
+using BusinessLayer.Services;
 using System.Text.Json;
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddOpenApi();
 builder.Services.AddControllers();
+builder.Services.AddSingleton<Hashing>();
+
+// JWT Authentication configuration
+// Source: https://github.com/bulskov/CIT_2025_Authentication
+var secret = builder.Configuration.GetSection("Auth:Secret").Value 
+    ?? throw new InvalidOperationException("Auth:Secret configuration is missing");
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(opt =>
+    {
+        opt.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secret)),
+            ValidateIssuer = false,
+            ValidateAudience = false,
+            ClockSkew = TimeSpan.Zero
+        };
+    });
 
 // Load database configuration from dbconfig.json
 var dbConfigPath = Path.Combine(builder.Environment.ContentRootPath, "dbconfig.json");
@@ -32,6 +56,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 

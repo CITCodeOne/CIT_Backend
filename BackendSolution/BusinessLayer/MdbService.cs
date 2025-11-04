@@ -23,4 +23,7 @@ public class MdbService // Potentially needs to implement some interface : IData
 
     private IndividualService? _individualService;
     public IndividualService Individual => _individualService ??= new IndividualService(_ctx, _mapper);
+
+    private UserService? _userService;
+    public UserService User => _userService ??= new UserService(_ctx, _mapper);
 }
