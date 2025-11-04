@@ -1,0 +1,343 @@
+{
+  "vertices": {
+    "ActorTitleView": {
+      "x": 280,
+      "y": -210,
+      "width": 280,
+      "height": 134
+    },
+    "Bookmark": {
+      "x": 962.5,
+      "y": 0,
+      "width": 280,
+      "height": 134
+    },
+    "Contributor": {
+      "x": 240,
+      "y": 780,
+      "width": 280,
+      "height": 174
+    },
+    "Episode": {
+      "x": 120,
+      "y": 1428,
+      "width": 280,
+      "height": 134
+    },
+    "Genre": {
+      "x": 144,
+      "y": 1812,
+      "width": 280,
+      "height": 100
+    },
+    "Individual": {
+      "x": 590,
+      "y": 480,
+      "width": 280,
+      "height": 174
+    },
+    "Page": {
+      "x": -120,
+      "y": 216,
+      "width": 280,
+      "height": 174
+    },
+    "Rating": {
+      "x": 590,
+      "y": 1670,
+      "width": 280,
+      "height": 154
+    },
+    "SearchHistory": {
+      "x": 1450.0048873901367,
+      "y": 1130,
+      "width": 280,
+      "height": 114
+    },
+    "Title": {
+      "x": 900,
+      "y": 1014,
+      "width": 280,
+      "height": 394
+    },
+    "UserInfo": {
+      "x": 1759.9980327606202,
+      "y": 680,
+      "width": 280,
+      "height": 214
+    },
+    "VisitedPage": {
+      "x": 1181.4548873901367,
+      "y": 2031,
+      "width": 280,
+      "height": 134
+    },
+    "Wi": {
+      "x": 1356,
+      "y": 1476,
+      "width": 280,
+      "height": 134
+    }
+  },
+  "edges": [
+    {
+      "source": "Bookmark",
+      "target": "Page",
+      "points": []
+    },
+    {
+      "source": "Bookmark",
+      "target": "UserInfo",
+      "points": []
+    },
+    {
+      "source": "Contributor",
+      "target": "Individual",
+      "points": [
+        {
+          "x": 660,
+          "y": 867
+        }
+      ]
+    },
+    {
+      "source": "Contributor",
+      "target": "Title",
+      "points": [
+        {
+          "x": 1108,
+          "y": 924
+        }
+      ]
+    },
+    {
+      "source": "Episode",
+      "target": "Title",
+      "points": [
+        {
+          "x": 996,
+          "y": 1495
+        }
+      ]
+    },
+    {
+      "source": "Genre",
+      "target": "Title",
+      "points": [
+        {
+          "x": 1040,
+          "y": 1896
+        }
+      ]
+    },
+    {
+      "source": "Individual",
+      "target": "Contributor",
+      "points": []
+    },
+    {
+      "source": "Individual",
+      "target": "Page",
+      "points": [
+        {
+          "x": 72,
+          "y": 528
+        }
+      ]
+    },
+    {
+      "source": "Page",
+      "target": "Bookmark",
+      "points": [
+        {
+          "x": 1056,
+          "y": 303
+        }
+      ]
+    },
+    {
+      "source": "Page",
+      "target": "Individual",
+      "points": [
+        {
+          "x": 730,
+          "y": 336
+        }
+      ]
+    },
+    {
+      "source": "Page",
+      "target": "Title",
+      "points": [
+        {
+          "x": 1040,
+          "y": 372
+        }
+      ]
+    },
+    {
+      "source": "Page",
+      "target": "VisitedPage",
+      "points": [
+        {
+          "x": 1321,
+          "y": 252
+        }
+      ]
+    },
+    {
+      "source": "Rating",
+      "target": "Title",
+      "points": [
+        {
+          "x": 948,
+          "y": 1747
+        }
+      ]
+    },
+    {
+      "source": "Rating",
+      "target": "UserInfo",
+      "points": [
+        {
+          "x": 1900,
+          "y": 1800
+        }
+      ]
+    },
+    {
+      "source": "SearchHistory",
+      "target": "UserInfo",
+      "points": [
+        {
+          "x": 1812,
+          "y": 1187
+        }
+      ]
+    },
+    {
+      "source": "Title",
+      "target": "Contributor",
+      "points": []
+    },
+    {
+      "source": "Title",
+      "target": "Episode",
+      "points": []
+    },
+    {
+      "source": "Title",
+      "target": "Page",
+      "points": [
+        {
+          "x": 20,
+          "y": 1266
+        }
+      ]
+    },
+    {
+      "source": "Title",
+      "target": "Rating",
+      "points": [
+        {
+          "x": 684,
+          "y": 1056
+        }
+      ]
+    },
+    {
+      "source": "Title",
+      "target": "Wi",
+      "points": [
+        {
+          "x": 1496,
+          "y": 1308
+        }
+      ]
+    },
+    {
+      "source": "Title",
+      "target": "Genre",
+      "points": [
+        {
+          "x": 456,
+          "y": 1284
+        },
+        {
+          "x": 456,
+          "y": 1862
+        }
+      ]
+    },
+    {
+      "source": "UserInfo",
+      "target": "Bookmark",
+      "points": []
+    },
+    {
+      "source": "UserInfo",
+      "target": "Rating",
+      "points": [
+        {
+          "x": 744.03,
+          "y": 816
+        }
+      ]
+    },
+    {
+      "source": "UserInfo",
+      "target": "SearchHistory",
+      "points": [
+        {
+          "x": 1590,
+          "y": 744
+        }
+      ]
+    },
+    {
+      "source": "UserInfo",
+      "target": "VisitedPage",
+      "points": []
+    },
+    {
+      "source": "VisitedPage",
+      "target": "Page",
+      "points": []
+    },
+    {
+      "source": "VisitedPage",
+      "target": "UserInfo",
+      "points": [
+        {
+          "x": 2004,
+          "y": 2098
+        }
+      ]
+    },
+    {
+      "source": "Wi",
+      "target": "Title",
+      "points": [
+        {
+          "x": 1080,
+          "y": 1543
+        }
+      ]
+    }
+  ],
+  "settings": {
+    "edgeStyle": "orthogonal",
+    "entityNameFontSize": 20,
+    "propertyFontSize": 12,
+    "navigationPropertyFontSize": 12,
+    "layoutDirection": "NORTH",
+    "intraCellSpacing": 200,
+    "interRankCellSpacing": 300,
+    "parallelEdgeSpacing": 50,
+    "fineTuning": true,
+    "tightenToSource": false,
+    "multigraph": true,
+    "gridEnabled": true,
+    "gridSize": 12
+  }
+}
