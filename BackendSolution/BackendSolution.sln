@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusinessLayer", "BusinessLa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccessLayer", "DataAccessLayer\DataAccessLayer.csproj", "{D4C56727-9B5B-4C9A-875B-3817B8C2E71B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusinessLayerTests", "BusinessLayerTests\BusinessLayerTests.csproj", "{69BB950A-D7C0-4220-9FB8-90BFB2F2E698}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -55,6 +57,18 @@ Global
 		{D4C56727-9B5B-4C9A-875B-3817B8C2E71B}.Release|x64.Build.0 = Release|Any CPU
 		{D4C56727-9B5B-4C9A-875B-3817B8C2E71B}.Release|x86.ActiveCfg = Release|Any CPU
 		{D4C56727-9B5B-4C9A-875B-3817B8C2E71B}.Release|x86.Build.0 = Release|Any CPU
+		{69BB950A-D7C0-4220-9FB8-90BFB2F2E698}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{69BB950A-D7C0-4220-9FB8-90BFB2F2E698}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{69BB950A-D7C0-4220-9FB8-90BFB2F2E698}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{69BB950A-D7C0-4220-9FB8-90BFB2F2E698}.Debug|x64.Build.0 = Debug|Any CPU
+		{69BB950A-D7C0-4220-9FB8-90BFB2F2E698}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{69BB950A-D7C0-4220-9FB8-90BFB2F2E698}.Debug|x86.Build.0 = Debug|Any CPU
+		{69BB950A-D7C0-4220-9FB8-90BFB2F2E698}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{69BB950A-D7C0-4220-9FB8-90BFB2F2E698}.Release|Any CPU.Build.0 = Release|Any CPU
+		{69BB950A-D7C0-4220-9FB8-90BFB2F2E698}.Release|x64.ActiveCfg = Release|Any CPU
+		{69BB950A-D7C0-4220-9FB8-90BFB2F2E698}.Release|x64.Build.0 = Release|Any CPU
+		{69BB950A-D7C0-4220-9FB8-90BFB2F2E698}.Release|x86.ActiveCfg = Release|Any CPU
+		{69BB950A-D7C0-4220-9FB8-90BFB2F2E698}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
