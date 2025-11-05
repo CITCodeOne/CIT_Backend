@@ -26,7 +26,7 @@ public class BusinessLayerTests
         return config.CreateMapper();
     }
 
-    // Test to verify retrieval of title details through the business layer 'TitleService'
+    // Test to verify retrieval of title through the business layer 'TitleService'
     [Fact]
     public void GetTitleById_WithValidTconst_ReturnsExpectedTitle()
     {
