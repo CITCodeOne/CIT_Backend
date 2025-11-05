@@ -1,0 +1,165 @@
+@WebService_HostAddress = http://localhost:5001
+
+# INFO: Replace with a valid JWT token after login
+@Authentication_Token = eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTUxMiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoidGVzdHVzZXIxIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiVXNlciIsInVpZCI6IjQiLCJleHAiOjE3NjI2ODU3NzJ9.Ok8E9oWMeY_R753okuelqiDK41COfwlgWhQYDdPjLo2Esye6f-g9M4hZ08uW7NJ2csKD6vgS2HLl7Z18Y6iM4A
+
+### Authentication Tests ###
+
+### Create a new user (Sign up)
+POST {{WebService_HostAddress}}/api/user
+Content-Type: application/json
+
+{
+  "name": "Test User",
+  "username": "testuser1",
+  "password": "password12311",
+  "role": "User"
+}
+
+### Login with the created user
+POST {{WebService_HostAddress}}/api/user/login
+Content-Type: application/json
+
+{
+  "username": "testuser1",
+  "password": "password12311"
+}
+
+### Create an admin user # WARN: (Role always defaults to 'user' whereby this does not work)
+POST {{WebService_HostAddress}}/api/user
+Content-Type: application/json
+
+{
+  "name": "Admin User",
+  "username": "admin",
+  "password": "admin123",
+  "role": "Admin"
+}
+
+### Login as admin
+POST {{WebService_HostAddress}}/api/user/login
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "password": "admin123"
+}
+
+### Titles ###
+
+### Get Title by ID
+GET {{WebService_HostAddress}}/api/titles/tt0052520
+Accept: application/json
+
+### Get Title by ID (not found)
+GET {{WebService_HostAddress}}/api/titles/tt0000000
+Accept: application/json
+
+### Get titles (paged by default)
+GET {{WebService_HostAddress}}/api/titles
+Accept: application/json
+
+### Get titles using cutsom page (paged with custom page size and number)
+GET {{WebService_HostAddress}}/api/titles?pageNumber=2&pageSize=5
+Accept: application/json
+
+### Get titles with illegal page and pageSize (Defaults to page=1&pageSize=20)
+GET {{WebService_HostAddress}}/api/titles?page=-1&pageSize=-1
+Accept: application/json
+
+### Get title as preview
+GET {{WebService_HostAddress}}/api/titles/tt0052520/preview
+Accept: application/json
+
+### Individuals ###
+
+### Get Individual by ID
+GET {{WebService_HostAddress}}/api/individuals/nm0000158
+Accept: application/json
+
+### Get Individual by ID (not found)
+GET {{WebService_HostAddress}}/api/individuals/nm0000000
+Accept: application/json
+
+### Get individuals (paged by default)
+GET {{WebService_HostAddress}}/api/individuals
+Accept: application/json
+
+### Get individuals using cutsom page (paged with custom page size and number)
+GET {{WebService_HostAddress}}/api/individuals?pageNumber=2&pageSize=5
+Accept: application/json
+
+### Get individuals with illegal page and pageSize (Defaults to page=1&pageSize=20)
+GET {{WebService_HostAddress}}/api/individuals?page=-1&pageSize=-1
+Accept: application/json
+
+### Get individual as reference
+GET {{WebService_HostAddress}}/api/individuals/nm0000158/reference
+Accept: application/json
+
+### Ratings ### 
+# WARN: Most of these requests assume that there is at least one rating in the database with user ID = 1 and title ID = tt0052520
+
+### Get Rating by composite ID
+GET {{WebService_HostAddress}}/api/ratings/1/tt0052520
+Accept: application/json
+
+### Get Rating by composite ID (not found)
+GET {{WebService_HostAddress}}/api/ratings/1/tt0000000
+Accept: application/json
+
+### Get ratings by composite ID (illegal - uconst is non-integer)
+GET {{WebService_HostAddress}}/api/ratings/abc/tt0052520
+Accept: application/json
+
+### Get ratings by user ID
+GET {{WebService_HostAddress}}/api/ratings?userId=1
+Accept: application/json
+
+### Get ratings by user ID (Non-integer user ID) (illegal)
+GET {{WebService_HostAddress}}/api/ratings?userId=abc
+Accept: application/json
+
+### Get ratings by title ID
+GET {{WebService_HostAddress}}/api/ratings?titleId=tt0052520
+Accept: application/json
+
+### Get ratings by title ID (Non-existing title ID)
+GET {{WebService_HostAddress}}/api/ratings?titleId=tt0000000
+Accept: application/json
+
+### Get ratings by user ID and title ID (illegal composite filter)
+GET {{WebService_HostAddress}}/api/ratings?userId=1&titleId=tt0052520
+Accept: application/json
+
+### Get ratings without filters (illegal - at least one filter must be provided)
+GET {{WebService_HostAddress}}/api/ratings
+Accept: application/json
+
+### Bookmark Tests ###
+
+### Create a bookmark (authorized request)
+# WARN: Requires the variable Authentication_Token to be set with a valid JWT token
+POST {{WebService_HostAddress}}/api/bookmarks
+Content-Type: application/json
+Authorization: Bearer {{Authentication_Token}}
+
+{
+  "pconst": 500
+}
+
+### Get bookmarks for user (authorized request)
+# WARN: Requires the variable Authentication_Token to be set with a valid JWT token
+GET {{WebService_HostAddress}}/api/bookmarks
+Authorization: Bearer {{Authentication_Token}}
+Accept: application/json
+
+### Get bookmarks for user (unauthorized request)
+GET {{WebService_HostAddress}}/api/bookmarks
+Accept: application/json
+
+### Delete a bookmark (authorized request)
+# WARN: Requires the variable Authentication_Token to be set with a valid JWT token
+DELETE {{WebService_HostAddress}}/api/bookmarks/500
+Authorization: Bearer {{Authentication_Token}}
+Accept: application/json
