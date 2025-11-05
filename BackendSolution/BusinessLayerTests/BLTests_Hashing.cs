@@ -6,7 +6,7 @@ public class BLTests
 {
     // Hashing Test - ensure hashed password is different from the plain password
     [Fact]
-    public void HashPassword_ShouldReturnHashedPassword()
+    public void Hash_WithValidPassword_ReturnsHashedPassword()
     {
         var hashing = new Hashing();
         string password = "TestPassword123";
@@ -21,7 +21,7 @@ public class BLTests
     // Verify Test - ensure correct password verifies successfully
 
     [Fact]
-    public void Verify_ShouldReturnTrue_ForCorrectPassword()
+    public void Verify_WithCorrectPassword_ReturnsTrue()
     {
         var hashing = new Hashing();
         string password = "MyS3cret!";
@@ -34,7 +34,7 @@ public class BLTests
 
     // Verify Test - ensure wrong password fails verification
     [Fact]
-    public void Verify_ShouldReturnFalse_ForWrongPassword()
+    public void Verify_WithWrongPassword_ReturnsFalse()
     {
         var hashing = new Hashing();
         string password = "RightPass";
@@ -46,7 +46,7 @@ public class BLTests
     }
     // Hashing Test - ensure hashing the same password twice produces different salts and likely different hashes
     [Fact]
-    public void Hash_ShouldProduceDifferentSalt_AndLikelyDifferentHash()
+    public void Hash_SamePasswordTwice_ProducesDifferentSaltAndHash()
     {
         var hashing = new Hashing();
         string password = "RepeatablePass";
