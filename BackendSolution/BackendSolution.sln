@@ -9,6 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusinessLayer", "BusinessLa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccessLayer", "DataAccessLayer\DataAccessLayer.csproj", "{D4C56727-9B5B-4C9A-875B-3817B8C2E71B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccessLayerTests", "DataAccessLayerTests\DataAccessLayerTests.csproj", "{PROJECT-GUID}"
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebServiceLayerTests", "WebServiceLayerTests\WebServiceLayerTests.csproj", "{2E3EE344-007D-41FE-8ED2-0995E377A43B}"
 EndProject
 Global
