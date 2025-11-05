@@ -61,3 +61,10 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+// INFO: "public partial class" makes Program class accessible to tests.
+// Otherwise, the test project cannot access the Program class to start the application for integration tests
+// This has a longer explanation, but the underlying idea is that the program.cs file is compiled into an internal class by default
+// and thus not accessible from other assemblies (like the test project).
+// Therefore, we declare it as a public partial class here, such that the test project can access it.
+public partial class Program { }
