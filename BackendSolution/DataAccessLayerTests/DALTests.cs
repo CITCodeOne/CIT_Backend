@@ -6,10 +6,10 @@ public class DataAccessLayerTests
 {
     private CITContext DbContext()
     {
+        var conn = TestDb.GetConnectionString();
         var options = new DbContextOptionsBuilder<CITContext>()
-            .UseNpgsql("Host=your_host;Database=your_database;Username=your_user;Password=your_password") 
+            .UseNpgsql(conn)
             .Options;
-
         return new CITContext(options);
     }
 

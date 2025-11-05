@@ -9,10 +9,10 @@ public class BusinessLayerTests
 {
     private CITContext DbContext()
     {
-        var options = new DbContextOptionsBuilder<CITContext>() // Adding CITContext
-            .UseNpgsql("Host=your_host;Database=your_database;Username=your_user;Password=your_password")
+        var conn = TestDb.GetConnectionString();
+        var options = new DbContextOptionsBuilder<CITContext>()
+            .UseNpgsql(conn)
             .Options;
-
         return new CITContext(options);
     }
 
