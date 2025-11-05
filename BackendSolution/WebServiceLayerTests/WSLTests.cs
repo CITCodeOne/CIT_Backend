@@ -6,6 +6,7 @@ public class WSLTests : IClassFixture<WebApplicationFactoryFixture>
 {
     private readonly HttpClient _client;
 
+    // Constructor to initialize HttpClient from the fixture
     public WSLTests(WebApplicationFactoryFixture fixture)
     {
         _client = fixture.Client;
