@@ -4,6 +4,9 @@ using System.Threading.Tasks;
 using DataAccessLayer.Data;
 using Microsoft.EntityFrameworkCore;
 using Xunit;
+using AutoMapper;
+using BusinessLayer.Mappings;
+using BusinessLayer.Services;
 
 public class BusinessLayerTests
 {
@@ -27,16 +30,18 @@ public class BusinessLayerTests
     }
 
     [Fact]
-    public async Task ExampleBusinessLogicTest()
+    public void GetTitleDetails_WithValidTconst_ReturnsExpectedTitle()
     {
         // Arrange
-        // Opsætning af nødvendige data eller mocks
+        var dbContext = DbContext();
+        var mapper = CreateMapper();
+        var service = new TitleService(dbContext, mapper);
 
         // Act
-        // Kald den metode i Business Layer, du vil teste
+        var retrievedTitle = service.GetTitleById("tt0088634 ");
 
         // Assert
-        // Verificer, at resultatet er som forventet
-        Assert.True(true); // Eksempel på en assertion
+        Assert.NotNull(retrievedTitle);
+        Assert.Equal("The Twilight Zone", retrievedTitle.Name);
     }
 }
