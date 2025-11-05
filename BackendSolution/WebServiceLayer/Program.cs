@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using DataAccessLayer.Data; 
+using DataAccessLayer.Data;
 using BusinessLayer;
 using BusinessLayer.Mappings;
 using BusinessLayer.Services;
@@ -17,7 +17,7 @@ builder.Services.AddSingleton<Hashing>();
 
 // JWT Authentication configuration
 // Source: https://github.com/bulskov/CIT_2025_Authentication
-var secret = builder.Configuration.GetSection("Auth:Secret").Value 
+var secret = builder.Configuration.GetSection("Auth:Secret").Value
     ?? throw new InvalidOperationException("Auth:Secret configuration is missing");
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
