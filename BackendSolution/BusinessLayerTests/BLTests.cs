@@ -1,9 +1,6 @@
 using System;
-using System.Linq;
-using System.Threading.Tasks;
 using DataAccessLayer.Data;
 using Microsoft.EntityFrameworkCore;
-using Xunit;
 using AutoMapper;
 using BusinessLayer.Mappings;
 using BusinessLayer.Services;
@@ -12,8 +9,8 @@ public class BusinessLayerTests
 {
     private CITContext DbContext()
     {
-        var options = new DbContextOptionsBuilder<CITContext>()
-            .UseNpgsql("Host=your_host;Database=your_database;Username=your_user;Password=your_password") // PostgreSQL eksempel
+        var options = new DbContextOptionsBuilder<CITContext>() // Adding CITContext
+            .UseNpgsql("Host=your_host;Database=your_database;Username=your_user;Password=your_password")
             .Options;
 
         return new CITContext(options);
@@ -23,7 +20,7 @@ public class BusinessLayerTests
     {
         var config = new MapperConfiguration(cfg =>
         {
-            cfg.AddProfile<MappingProfile>();
+            cfg.AddProfile<MappingProfile>(); // Adding mapping profile
         });
 
         return config.CreateMapper();

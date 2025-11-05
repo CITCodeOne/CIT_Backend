@@ -1,9 +1,6 @@
 using System;
-using System.Linq;
-using System.Threading.Tasks;
 using DataAccessLayer.Data;
 using Microsoft.EntityFrameworkCore;
-using Xunit;
 
 public class DataAccessLayerTests
 {
