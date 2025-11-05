@@ -330,11 +330,18 @@ public partial class CITContext : DbContext
                 .HasDefaultValueSql("now()")
                 .HasColumnName("time");
             entity.Property(e => e.UPassword)
-                .HasMaxLength(80)
+                .HasMaxLength(256)
                 .HasColumnName("u_password");
             entity.Property(e => e.UserName)
                 .HasMaxLength(80)
                 .HasColumnName("user_name");
+            entity.Property(e => e.Salt)
+                .HasMaxLength(256)
+                .HasColumnName("salt");
+            entity.Property(e => e.Role)
+                .HasMaxLength(50)
+                .HasDefaultValue("User")
+                .HasColumnName("role");
         });
 
         modelBuilder.Entity<VisitedPage>(entity =>

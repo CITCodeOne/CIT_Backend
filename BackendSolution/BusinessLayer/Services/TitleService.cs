@@ -35,6 +35,7 @@ public class TitleService
     }
 
     // Get multiple titles (for lists)
+    // FIX: Change to "keyset paging"
     public List<TitlePreviewDTO> GetTitles(int page = 1, int pageSize = 20)
     {
         var titles = _ctx.Titles

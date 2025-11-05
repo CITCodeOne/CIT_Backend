@@ -15,6 +15,11 @@ public partial class UserInfo
 
     public DateTime? Time { get; set; }
 
+    // Authentication fields
+    public string? Salt { get; set; }
+    
+    public string Role { get; set; } = "User";
+
     public virtual ICollection<Bookmark> Bookmarks { get; set; } = new List<Bookmark>();
 
     public virtual ICollection<Rating> Ratings { get; set; } = new List<Rating>();
