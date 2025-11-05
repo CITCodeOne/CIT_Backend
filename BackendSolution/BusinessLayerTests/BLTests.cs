@@ -29,16 +29,17 @@ public class BusinessLayerTests
         return config.CreateMapper();
     }
 
+    // Test to verify retrieval of title details through the business layer 'TitleService'
     [Fact]
-    public void GetTitleDetails_WithValidTconst_ReturnsExpectedTitle()
+    public void GetTitleById_WithValidTconst_ReturnsExpectedTitle()
     {
         // Arrange
         var dbContext = DbContext();
         var mapper = CreateMapper();
-        var service = new TitleService(dbContext, mapper);
+        var titleService = new TitleService(dbContext, mapper);
 
         // Act
-        var retrievedTitle = service.GetTitleById("tt0088634 ");
+        var retrievedTitle = titleService.GetTitleById("tt0088634");
 
         // Assert
         Assert.NotNull(retrievedTitle);
