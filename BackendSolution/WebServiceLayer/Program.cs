@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using DataAccessLayer.Data; 
+using DataAccessLayer.Data;
 using BusinessLayer;
 using BusinessLayer.Mappings;
 using BusinessLayer.Services;
@@ -17,7 +17,7 @@ builder.Services.AddSingleton<Hashing>();
 
 // JWT Authentication configuration
 // Source: https://github.com/bulskov/CIT_2025_Authentication
-var secret = builder.Configuration.GetSection("Auth:Secret").Value 
+var secret = builder.Configuration.GetSection("Auth:Secret").Value
     ?? throw new InvalidOperationException("Auth:Secret configuration is missing");
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -61,3 +61,10 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+// INFO: "public partial class" makes Program class accessible to tests.
+// Otherwise, the test project cannot access the Program class to start the application for integration tests
+// This has a longer explanation, but the underlying idea is that the program.cs file is compiled into an internal class by default
+// and thus not accessible from other assemblies (like the test project).
+// Therefore, we declare it as a public partial class here, such that the test project can access it.
+public partial class Program { }
