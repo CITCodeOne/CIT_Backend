@@ -14,10 +14,4 @@ public class AuthService
         _ctx = ctx;
         _mapper = mapper;
     }
-
-    public bool ValidateUserCredentials(string username, string password)
-    {
-        var user = _ctx.UserInfos.FirstOrDefault(u => u.UserName == username && u.UPassword == password);
-        return user != null;
-    }
 }
