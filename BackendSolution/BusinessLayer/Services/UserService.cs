@@ -21,6 +21,11 @@ public class UserService
     }
 
 
+    public UserInfo? GetUserById(int uconst)
+    {
+        return _ctx.UserInfos.FirstOrDefault(u => u.Uconst == uconst);
+    }
+
     public UserInfo CreateUser(string name, string username, string email, string hashedPassword, string salt, string role)
     {
         var user = new UserInfo

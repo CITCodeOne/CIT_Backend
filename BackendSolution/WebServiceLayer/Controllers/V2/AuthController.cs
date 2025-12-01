@@ -7,24 +7,24 @@ using System.Security.Claims;
 using System.Text;
 using WebServiceLayer.Models;
 
-namespace WebServiceLayer.Controllers;
+namespace WebServiceLayer.Controllers.V2;
 
 [ApiController]
-[Route("api/[controller]")]
-public class UserController : ControllerBase
+[Route("api/v2/auth")]
+public class AuthController : ControllerBase
 {
     private readonly MdbService _mdbService;
     private readonly Hashing _hashing;
     private readonly IConfiguration _configuration;
 
-    public UserController(MdbService mdbService, Hashing hashing, IConfiguration configuration)
+    public AuthController(MdbService mdbService, Hashing hashing, IConfiguration configuration)
     {
         _mdbService = mdbService;
         _hashing = hashing;
         _configuration = configuration;
     }
 
-    [HttpPost]
+    [HttpPost("signup")]
     public IActionResult SignUp(CreateUserModel model)
     {
         if (_mdbService.User.GetUser(model.Username) != null)
@@ -45,7 +45,6 @@ public class UserController : ControllerBase
         (var hashedPwd, var salt) = _hashing.Hash(model.Password);
 
         _mdbService.User.CreateUser(model.Name, model.Username, model.Email, hashedPwd, salt, "User");
-        // Default role is "User" whereas admin users should be created directly in the database or via a separate admin-only endpoint
 
         return Ok(new { message = "User created successfully" });
     }
@@ -89,6 +88,4 @@ public class UserController : ControllerBase
 
         return Ok(new { username = user.UserName, token = jwt });
     }
-
-    // NOTE: Arguably, we should have had both bookmarks and ratings under the URI path "api/user/{userId}/..." since they could be seen as resources owned by specific users. This would align with how RESTful APIs are intended to be structured.
 }

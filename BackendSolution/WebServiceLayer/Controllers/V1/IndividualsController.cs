@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using BusinessLayer;
 using BusinessLayer.DTOs;
 
-namespace WebServiceLayer.Controllers;
+namespace WebServiceLayer.Controllers.V1;
 
 [ApiController]
 [Route("api/[controller]")]

@@ -39,5 +39,49 @@ public class RatingService
             .ToList();
         return _mapper.Map<List<RatingDTO>>(ratings);
     }
+
+    // Create a new rating
+    public bool CreateRating(int uconst, string tconst, int ratingValue)
+    {
+        // Check if rating already exists
+        var existing = _ctx.Ratings.FirstOrDefault(r => r.Uconst == uconst && r.Tconst == tconst);
+        if (existing != null)
+            return false;
+
+        var rating = new DataAccessLayer.Entities.Rating
+        {
+            Uconst = uconst,
+            Tconst = tconst,
+            Rating1 = ratingValue
+        };
+
+        _ctx.Ratings.Add(rating);
+        _ctx.SaveChanges();
+        return true;
+    }
+
+    // Update an existing rating
+    public bool UpdateRating(int uconst, string tconst, int ratingValue)
+    {
+        var rating = _ctx.Ratings.FirstOrDefault(r => r.Uconst == uconst && r.Tconst == tconst);
+        if (rating == null)
+            return false;
+
+        rating.Rating1 = ratingValue;
+        _ctx.SaveChanges();
+        return true;
+    }
+
+    // Delete a rating
+    public bool DeleteRating(int uconst, string tconst)
+    {
+        var rating = _ctx.Ratings.FirstOrDefault(r => r.Uconst == uconst && r.Tconst == tconst);
+        if (rating == null)
+            return false;
+
+        _ctx.Ratings.Remove(rating);
+        _ctx.SaveChanges();
+        return true;
+    }
 }
 
