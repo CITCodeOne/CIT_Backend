@@ -3,6 +3,11 @@
 # INFO: Replace with a valid JWT token after login
 @Authentication_Token = eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTUxMiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoidGVzdHVzZXIyIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiVXNlciIsInVpZCI6IjU1IiwiZXhwIjoxNzY0OTQ1NzkyfQ.nl0NbkgpqqwcYT7qqjUiTjkx0o8Q2J0EaQ_au0sXvdwpG0Fx3_EkuVQ_2SAr25QD4vmJwY4B3CjI_yss-hQBBA
 
+### Heaklth Check ###
+
+GET {{WebService_HostAddress}}/api/health
+Accept: application/json
+
 ### Authentication Tests ###
 
 ### Create a new user (Sign up)
