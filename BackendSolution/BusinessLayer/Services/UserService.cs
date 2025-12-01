@@ -1,5 +1,5 @@
 using DataAccessLayer.Data;
-using DataAccessLayer.Entities;
+using BusinessLayer.DTOs;
 using AutoMapper;
 
 namespace BusinessLayer.Services;
@@ -15,32 +15,9 @@ public class UserService
         _mapper = mapper;
     }
 
-    public UserInfo? GetUser(string username)
+    public UserInfoFullDTO? GetUserById(int uconst)
     {
-        return _ctx.UserInfos.FirstOrDefault(u => u.UserName == username);
-    }
-
-
-    public UserInfo? GetUserById(int uconst)
-    {
-        return _ctx.UserInfos.FirstOrDefault(u => u.Uconst == uconst);
-    }
-
-    public UserInfo CreateUser(string name, string username, string email, string hashedPassword, string salt, string role)
-    {
-        var user = new UserInfo
-        {
-            UserName = username,
-            UPassword = hashedPassword,
-            Email = email,
-            Salt = salt,
-            Role = role,
-            Time = DateTime.UtcNow
-        };
-
-        _ctx.UserInfos.Add(user);
-        _ctx.SaveChanges();
-
-        return user;
+        var user = _ctx.UserInfos.FirstOrDefault(u => u.Uconst == uconst);
+        return user == null ? null : _mapper.Map<UserInfoFullDTO>(user);
     }
 }

@@ -40,4 +40,18 @@ public class IndividualsController : ControllerBase
 
         return Ok(individual);
     }
+
+    // GET: api/v2/individuals/{id}/titles
+    [HttpGet("{id}/titles")]
+    [ProducesResponseType(typeof(List<TitlePreviewDTO>), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public ActionResult<List<TitlePreviewDTO>> GetIndividualTitles(string id)
+    {
+        // Verify individual exists
+        var individual = _mdb.Individual.FullById(id);
+        if (individual == null)
+            return NotFound(new { message = $"Individual with id '{id}' not found" });
+        var titles = _mdb.Individual.TitlesByIndividual(id);
+        return Ok(titles);
+    }
 }

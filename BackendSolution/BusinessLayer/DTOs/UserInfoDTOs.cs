@@ -4,7 +4,7 @@ public class UserInfoFullDTO
 {
     public int Id { get; set; }
     public string Name { get; set; } = null!;
-    public string? Password { get; set; }
+    // public string? Password { get; set; } // Excluded as this is otherwise too easy to expose
     public string? Email { get; set; }
     public DateTime? Time { get; set; }
     //public ICollection<RatingDTO> RatingRefs { get; set; } = [];

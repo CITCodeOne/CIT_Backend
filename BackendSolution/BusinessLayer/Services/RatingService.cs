@@ -1,7 +1,6 @@
 using AutoMapper;
 using DataAccessLayer.Data;
 using BusinessLayer.DTOs;
-using Microsoft.EntityFrameworkCore;
 
 namespace BusinessLayer.Services;
 

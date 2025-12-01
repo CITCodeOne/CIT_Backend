@@ -33,4 +33,7 @@ public class MdbService // Potentially needs to implement some interface : IData
 
     private RatingService? _ratingService;
     public RatingService Rating => _ratingService ??= new RatingService(_ctx, _mapper);
+
+    private AuthService? _authService;
+    public AuthService Auth => _authService ??= new AuthService(_ctx, _mapper);
 }

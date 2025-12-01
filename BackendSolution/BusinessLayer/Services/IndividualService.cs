@@ -43,4 +43,13 @@ public class IndividualService
 
         return _mapper.Map<List<IndividualReferenceDTO>>(individuals);
     }
+
+    // Get titles associated with an individual
+    public List<TitlePreviewDTO> TitlesByIndividual(string iconst)
+    {
+        var titles = _ctx.Titles
+            .Where(t => t.Contributors.Any(c => c.Iconst == iconst))
+            .ToList();
+        return _mapper.Map<List<TitlePreviewDTO>>(titles);
+    }
 }

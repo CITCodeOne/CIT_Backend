@@ -55,4 +55,18 @@ public class TitlesController : ControllerBase
         var ratings = _mdbService.Rating.GetRatings(null, id);
         return Ok(ratings);
     }
+
+    // GET: api/v2/titles/{id}/individuals
+    [HttpGet("{id}/individuals")]
+    [ProducesResponseType(typeof(List<IndividualReferenceDTO>), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public ActionResult<List<IndividualReferenceDTO>> GetTitleIndividuals(string id)
+    {
+        // Verify title exists
+        var title = _mdbService.Title.GetTitleById(id);
+        if (title == null)
+            return NotFound(new { message = $"Title with id '{id}' not found" });
+        var individuals = _mdbService.Title.GetIndividualsByTitle(id);
+        return Ok(individuals);
+    }
 }
