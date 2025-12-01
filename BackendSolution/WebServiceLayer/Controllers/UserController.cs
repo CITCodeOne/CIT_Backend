@@ -37,9 +37,14 @@ public class UserController : ControllerBase
             return BadRequest("Password is required");
         }
 
+        if (string.IsNullOrEmpty(model.Email))
+        {
+            return BadRequest("Email is required");
+        }
+
         (var hashedPwd, var salt) = _hashing.Hash(model.Password);
 
-        _mdbService.User.CreateUser(model.Name, model.Username, hashedPwd, salt, "User");
+        _mdbService.User.CreateUser(model.Name, model.Username, model.Email, hashedPwd, salt, "User");
         // Default role is "User" whereas admin users should be created directly in the database or via a separate admin-only endpoint
 
         return Ok(new { message = "User created successfully" });

@@ -21,15 +21,15 @@ public class UserService
     }
 
 
-    public UserInfo CreateUser(string name, string username, string hashedPassword, string salt, string role)
+    public UserInfo CreateUser(string name, string username, string email, string hashedPassword, string salt, string role)
     {
         var user = new UserInfo
         {
             UserName = username,
             UPassword = hashedPassword,
+            Email = email,
             Salt = salt,
             Role = role,
-            Email = name,
             Time = DateTime.UtcNow
         };
 
