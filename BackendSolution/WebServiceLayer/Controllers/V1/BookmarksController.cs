@@ -4,7 +4,7 @@ using BusinessLayer;
 using WebServiceLayer.Models;
 // using System.Security.Claims; // Was needed at some point, but now unused apparently
 
-namespace WebServiceLayer.Controllers;
+namespace WebServiceLayer.Controllers.V1;
 
 [ApiController]
 [Route("api/[controller]")]

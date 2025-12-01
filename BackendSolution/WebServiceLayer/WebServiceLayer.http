@@ -1,4 +1,4 @@
-@WebService_HostAddress = http://localhost:5001
+@WebService_HostAddress = http://localhost:5000
 
 # INFO: Replace with a valid JWT token after login
 @Authentication_Token = eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTUxMiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoidGVzdHVzZXIxIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiVXNlciIsInVpZCI6IjQiLCJleHAiOjE3NjI2ODU3NzJ9.Ok8E9oWMeY_R753okuelqiDK41COfwlgWhQYDdPjLo2Esye6f-g9M4hZ08uW7NJ2csKD6vgS2HLl7Z18Y6iM4A
@@ -13,6 +13,7 @@ Content-Type: application/json
   "name": "Test User",
   "username": "testuser1",
   "password": "password12311",
+  "email": "example@email.com",
   "role": "User"
 }
 

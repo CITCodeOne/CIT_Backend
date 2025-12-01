@@ -6,22 +6,22 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace WebServiceLayer.Controllers;
+namespace WebServiceLayer.Controllers.V2;
 
 [ApiController]
-[Route("api/[controller]")]
-public class UserController : ControllerBase
+[Route("api/v2/auth")]
+public class AuthController : ControllerBase
 {
     private readonly MdbService _mdbService;
     private readonly IConfiguration _configuration;
 
-    public UserController(MdbService mdbService, IConfiguration configuration)
+    public AuthController(MdbService mdbService, IConfiguration configuration)
     {
         _mdbService = mdbService;
         _configuration = configuration;
     }
 
-    [HttpPost]
+    [HttpPost("signup")]
     public IActionResult SignUp(UserRegistrationDTO model)
     {
         try
@@ -79,6 +79,4 @@ public class UserController : ControllerBase
             return BadRequest("Invalid username or password");
         }
     }
-
-    // NOTE: Arguably, we should have had both bookmarks and ratings under the URI path "api/user/{userId}/..." since they could be seen as resources owned by specific users. This would align with how RESTful APIs are intended to be structured.
 }

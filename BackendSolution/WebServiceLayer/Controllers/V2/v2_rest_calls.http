@@ -1,0 +1,94 @@
+@WebService_HostAddress = http://localhost:5000
+
+# INFO: Replace with a valid JWT token after login
+@Authentication_Token = eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTUxMiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoidGVzdHVzZXIyIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiVXNlciIsInVpZCI6IjU1IiwiZXhwIjoxNzY0OTQ1NzkyfQ.nl0NbkgpqqwcYT7qqjUiTjkx0o8Q2J0EaQ_au0sXvdwpG0Fx3_EkuVQ_2SAr25QD4vmJwY4B3CjI_yss-hQBBA
+
+### Heaklth Check ###
+
+GET {{WebService_HostAddress}}/api/health
+Accept: application/json
+
+### Authentication Tests ###
+
+### Create a new user (Sign up)
+
+POST {{WebService_HostAddress}}/api/v2/auth/signup
+Content-Type: application/json
+
+{
+  "name": "Test User",
+  "username": "testuser3",
+  "password": "password12311",
+  "email": "anothermail@mail.com"
+}
+
+### Login with the created user
+
+POST {{WebService_HostAddress}}/api/v2/auth/login
+Content-Type: application/json
+
+{
+  "username": "testuser2",
+  "password": "password12311"
+}
+
+### User Tests ###
+
+### Get user
+
+GET {{WebService_HostAddress}}/api/v2/users/55
+Accept: application/json
+
+### Get user bookmarks
+
+GET {{WebService_HostAddress}}/api/v2/users/55/bookmarks
+Accept: application/json
+
+### Get user ratings
+
+GET {{WebService_HostAddress}}/api/v2/users/58/ratings
+Accept: application/json
+
+### Titles Tests ###
+
+### Get Title by ID
+
+GET {{WebService_HostAddress}}/api/v2/titles/tt0052520
+Accept: application/json
+
+### Get Titles (paged by default)
+
+GET {{WebService_HostAddress}}/api/v2/titles
+Accept: application/json
+
+### Get Titles (page 2, page size 5)
+
+GET {{WebService_HostAddress}}/api/v2/titles?pageNumber=2&pageSize=5
+Accept: application/json
+
+### Get Title ratings
+
+GET {{WebService_HostAddress}}/api/v2/titles/tt0052520/ratings
+Accept: application/json
+
+### Get Title's Individuals
+GET {{WebService_HostAddress}}/api/v2/titles/tt0052520/individuals
+Accept: application/json
+
+### Individuals Tests ###
+
+### Get Individual by ID
+GET {{WebService_HostAddress}}/api/v2/individuals/nm0000199
+Accept: application/json
+
+### Get Individuals (paged by default)
+GET {{WebService_HostAddress}}/api/v2/individuals
+Accept: application/json
+
+### Get Individuals (page 2, page size 5)
+GET {{WebService_HostAddress}}/api/v2/individuals?pageNumber=2&pageSize=5
+Accept: application/json
+
+### Get Individual's Titles
+GET {{WebService_HostAddress}}/api/v2/individuals/nm0000199/titles
+Accept: application/json
