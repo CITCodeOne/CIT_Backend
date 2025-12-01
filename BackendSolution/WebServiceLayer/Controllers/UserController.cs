@@ -1,11 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
 using BusinessLayer;
-using BusinessLayer.Services;
+using BusinessLayer.DTOs;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using WebServiceLayer.Models;
 
 namespace WebServiceLayer.Controllers;
 
@@ -14,80 +13,71 @@ namespace WebServiceLayer.Controllers;
 public class UserController : ControllerBase
 {
     private readonly MdbService _mdbService;
-    private readonly Hashing _hashing;
     private readonly IConfiguration _configuration;
 
-    public UserController(MdbService mdbService, Hashing hashing, IConfiguration configuration)
+    public UserController(MdbService mdbService, IConfiguration configuration)
     {
         _mdbService = mdbService;
-        _hashing = hashing;
         _configuration = configuration;
     }
 
     [HttpPost]
-    public IActionResult SignUp(CreateUserModel model)
+    public IActionResult SignUp(UserRegistrationDTO model)
     {
-        if (_mdbService.User.GetUser(model.Username) != null)
+        try
         {
-            return BadRequest("User already exists");
+            var createdUser = _mdbService.Auth.Register(model);
+            return Ok(new { message = "User created successfully", username = createdUser.Username });
         }
-
-        if (string.IsNullOrEmpty(model.Password))
+        catch (ArgumentException ex)
         {
-            return BadRequest("Password is required");
+            return BadRequest(ex.Message);
         }
-
-        if (string.IsNullOrEmpty(model.Email))
+        catch (InvalidOperationException ex)
         {
-            return BadRequest("Email is required");
+            return BadRequest(ex.Message);
         }
-
-        (var hashedPwd, var salt) = _hashing.Hash(model.Password);
-
-        _mdbService.User.CreateUser(model.Name, model.Username, model.Email, hashedPwd, salt, "User");
-        // Default role is "User" whereas admin users should be created directly in the database or via a separate admin-only endpoint
-
-        return Ok(new { message = "User created successfully" });
     }
 
     [HttpPost("login")]
-    public IActionResult Login(UserLoginModel model)
+    public IActionResult Login(UserLoginDTO model)
     {
-        var user = _mdbService.User.GetUser(model.Username);
+        try
+        {
+            var authUser = _mdbService.Auth.Authenticate(model);
 
-        if (user == null)
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Name, authUser.Username),
+                new Claim(ClaimTypes.Role, authUser.Role),
+                new Claim("uid", authUser.UserId.ToString())
+            };
+
+            var secret = _configuration.GetSection("Auth:Secret").Value
+                ?? throw new InvalidOperationException("Auth:Secret is not configured");
+
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secret));
+
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
+
+            var token = new JwtSecurityToken(
+                claims: claims,
+                expires: DateTime.Now.AddDays(4),
+                signingCredentials: creds
+            );
+
+            var jwt = new JwtSecurityTokenHandler().WriteToken(token);
+
+            return Ok(new { username = authUser.Username, token = jwt });
+        }
+        catch (ArgumentException ex)
+        {
+            return BadRequest(ex.Message);
+        }
+        catch (InvalidOperationException)
         {
             return BadRequest("Invalid username or password");
         }
-
-        if (!_hashing.Verify(model.Password, user.UPassword ?? "", user.Salt ?? ""))
-        {
-            return BadRequest("Invalid username or password");
-        }
-
-        var claims = new List<Claim>
-        {
-            new Claim(ClaimTypes.Name, user.UserName),
-            new Claim(ClaimTypes.Role, user.Role),
-            new Claim("uid", user.Uconst.ToString())
-        };
-
-        var secret = _configuration.GetSection("Auth:Secret").Value
-            ?? throw new InvalidOperationException("Auth:Secret is not configured");
-
-        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secret));
-
-        var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
-
-        var token = new JwtSecurityToken(
-            claims: claims,
-            expires: DateTime.Now.AddDays(4),
-            signingCredentials: creds
-        );
-
-        var jwt = new JwtSecurityTokenHandler().WriteToken(token);
-
-        return Ok(new { username = user.UserName, token = jwt });
     }
 
     // NOTE: Arguably, we should have had both bookmarks and ratings under the URI path "api/user/{userId}/..." since they could be seen as resources owned by specific users. This would align with how RESTful APIs are intended to be structured.
