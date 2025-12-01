@@ -39,5 +39,31 @@ public class RatingService
             .ToList();
         return _mapper.Map<List<RatingDTO>>(ratings);
     }
+
+    public async Task RateAsync(int uconst, string tconst, int rating)
+    {
+        if (string.IsNullOrWhiteSpace(tconst))
+        {
+            throw new ArgumentException("Title id is required", nameof(tconst));
+        }
+
+        if (rating < 1 || rating > 10)
+        {
+            throw new ArgumentOutOfRangeException(nameof(rating), "Rating must be between 1 and 10");
+        }
+
+        // Calls the database function mdb.rate which handles inserts/updates + aggregates
+        await _ctx.Database.ExecuteSqlInterpolatedAsync($"SELECT mdb.rate({uconst}, {tconst}, {rating});");
+    }
+
+    public async Task DeleteRatingAsync(int uconst, string tconst)
+    {
+        if (string.IsNullOrWhiteSpace(tconst))
+        {
+            throw new ArgumentException("Title id is required", nameof(tconst));
+        }
+
+        await _ctx.Database.ExecuteSqlInterpolatedAsync($"SELECT mdb.delete_rating({uconst}, {tconst});");
+    }
 }
 
