@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using BusinessLayer;
 using BusinessLayer.DTOs;
 
@@ -60,8 +61,59 @@ public class RatingsController : ControllerBase
         }
     }
 
-    // TODO: DELETE: api/ratings/{uconst}/{tconst}  "deleting a rating"
-    // TODO: POST: api/ratings  "creating a new rating"
+    [HttpPost]
+    [Authorize]
+    public async Task<IActionResult> RateTitle(CreateRatingDTO model)
+    {
+        var uidClaim = User.FindFirst("uid")?.Value;
+        if (string.IsNullOrEmpty(uidClaim) || !int.TryParse(uidClaim, out var uconst))
+        {
+            return Unauthorized(new { message = "User id missing from token" });
+        }
 
-    // WARN: Arguably, we should look at more HTTP methods like PUT also.
+        try
+        {
+            await _mdb.Rating.RateAsync(uconst, model.TitleId, model.Rating);
+            return Ok(new { message = "Rating saved" });
+        }
+        catch (ArgumentOutOfRangeException ex)
+        {
+            return BadRequest(new { error = ex.Message });
+        }
+        catch (ArgumentException ex)
+        {
+            return BadRequest(new { error = ex.Message });
+        }
+        catch (Exception ex)
+        {
+            // The database function already enforces constraints; expose a generic error message here
+            return StatusCode(StatusCodes.Status500InternalServerError, new { error = "Failed to save rating", detail = ex.Message });
+        }
+    }
+
+    [HttpDelete("{titleId}")]
+    [Authorize]
+    public async Task<IActionResult> DeleteRating(string titleId)
+    {
+        var uidClaim = User.FindFirst("uid")?.Value;
+        if (string.IsNullOrEmpty(uidClaim) || !int.TryParse(uidClaim, out var uconst))
+        {
+            return Unauthorized(new { message = "User id missing from token" });
+        }
+
+        try
+        {
+            await _mdb.Rating.DeleteRatingAsync(uconst, titleId);
+            return Ok(new { message = "Rating removed" });
+        }
+        catch (ArgumentException ex)
+        {
+            return BadRequest(new { error = ex.Message });
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, new { error = "Failed to delete rating", detail = ex.Message });
+        }
+    }
+
 }

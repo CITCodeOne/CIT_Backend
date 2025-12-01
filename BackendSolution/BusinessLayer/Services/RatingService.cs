@@ -1,6 +1,7 @@
 using AutoMapper;
 using DataAccessLayer.Data;
 using BusinessLayer.DTOs;
+using Microsoft.EntityFrameworkCore;
 
 namespace BusinessLayer.Services;
 
@@ -39,48 +40,30 @@ public class RatingService
         return _mapper.Map<List<RatingDTO>>(ratings);
     }
 
-    // Create a new rating
-    public bool CreateRating(int uconst, string tconst, int ratingValue)
+    public async Task RateAsync(int uconst, string tconst, int rating)
     {
-        // Check if rating already exists
-        var existing = _ctx.Ratings.FirstOrDefault(r => r.Uconst == uconst && r.Tconst == tconst);
-        if (existing != null)
-            return false;
-
-        var rating = new DataAccessLayer.Entities.Rating
+        if (string.IsNullOrWhiteSpace(tconst))
         {
-            Uconst = uconst,
-            Tconst = tconst,
-            Rating1 = ratingValue
-        };
+            throw new ArgumentException("Title id is required", nameof(tconst));
+        }
 
-        _ctx.Ratings.Add(rating);
-        _ctx.SaveChanges();
-        return true;
+        if (rating < 1 || rating > 10)
+        {
+            throw new ArgumentOutOfRangeException(nameof(rating), "Rating must be between 1 and 10");
+        }
+
+        // Calls the database function mdb.rate which handles inserts/updates + aggregates
+        await _ctx.Database.ExecuteSqlInterpolatedAsync($"SELECT mdb.rate({uconst}, {tconst}, {rating});");
     }
 
-    // Update an existing rating
-    public bool UpdateRating(int uconst, string tconst, int ratingValue)
+    public async Task DeleteRatingAsync(int uconst, string tconst)
     {
-        var rating = _ctx.Ratings.FirstOrDefault(r => r.Uconst == uconst && r.Tconst == tconst);
-        if (rating == null)
-            return false;
+        if (string.IsNullOrWhiteSpace(tconst))
+        {
+            throw new ArgumentException("Title id is required", nameof(tconst));
+        }
 
-        rating.Rating1 = ratingValue;
-        _ctx.SaveChanges();
-        return true;
-    }
-
-    // Delete a rating
-    public bool DeleteRating(int uconst, string tconst)
-    {
-        var rating = _ctx.Ratings.FirstOrDefault(r => r.Uconst == uconst && r.Tconst == tconst);
-        if (rating == null)
-            return false;
-
-        _ctx.Ratings.Remove(rating);
-        _ctx.SaveChanges();
-        return true;
+        await _ctx.Database.ExecuteSqlInterpolatedAsync($"SELECT mdb.delete_rating({uconst}, {tconst});");
     }
 }
 
