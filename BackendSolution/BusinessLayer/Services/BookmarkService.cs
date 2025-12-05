@@ -16,13 +16,20 @@ public class BookmarkService
         _mapper = mapper;
     }
 
+    public BookmarkDTO? GetBookmark(int uconst, int pconst)
+    {
+        var bookmark = _ctx.Bookmarks.Where(b => b.Uconst == uconst && b.Pconst == pconst).FirstOrDefault();
+        if (bookmark == null) return null;
+        return _mapper.Map<BookmarkDTO>(bookmark);
+    }
+
     public List<BookmarkDTO> GetBookmarksByUser(int uconst)
     {
         var bookmarks = _ctx.Bookmarks.Where(b => b.Uconst == uconst).ToList();
         return _mapper.Map<List<BookmarkDTO>>(bookmarks);
     }
 
-    public bool AddBookmark(int uconst, int pconst)
+    public BookmarkDTO? AddBookmark(int uconst, int pconst)
     {
         var page = _ctx.Pages.Find(pconst);
         if (page == null)
@@ -30,7 +37,7 @@ public class BookmarkService
 
         var existing = _ctx.Bookmarks.Find(uconst, pconst);
         if (existing != null)
-            return false;
+            return null;
 
         var bm = new Bookmark
         {
@@ -41,8 +48,7 @@ public class BookmarkService
 
         _ctx.Bookmarks.Add(bm);
         _ctx.SaveChanges();
-
-        return true;
+        return _mapper.Map<BookmarkDTO>(bm);
     }
 
     public bool RemoveBookmark(int uconst, int pconst)

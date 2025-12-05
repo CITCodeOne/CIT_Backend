@@ -1,9 +1,9 @@
-@WebService_HostAddress = http://localhost:5000
+@WebService_HostAddress = https://localhost:5001
 
 # INFO: Replace with a valid JWT token after login
-@Authentication_Token = eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTUxMiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoidGVzdHVzZXIyIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiVXNlciIsInVpZCI6IjU1IiwiZXhwIjoxNzY0OTQ1NzkyfQ.nl0NbkgpqqwcYT7qqjUiTjkx0o8Q2J0EaQ_au0sXvdwpG0Fx3_EkuVQ_2SAr25QD4vmJwY4B3CjI_yss-hQBBA
+@Authentication_Token = eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTUxMiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoidGVzdHVzZXIyIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiVXNlciIsInVpZCI6IjU1IiwiZXhwIjoxNzY1MjgyNjY3fQ.c9wT782ouskDprjirAnTs5Y50PfQvW7la7hFYxGVz8iKqeFOzVV5r-Agx9sPXdojYyojN43hyifUiifzYsteKQ
 
-### Heaklth Check ###
+### Health Check ###
 
 GET {{WebService_HostAddress}}/api/health
 Accept: application/json
@@ -35,39 +35,53 @@ Content-Type: application/json
 ### User Tests ###
 
 ### Get user
-
 GET {{WebService_HostAddress}}/api/v2/users/55
 Accept: application/json
 
 ### Get user bookmarks
-
 GET {{WebService_HostAddress}}/api/v2/users/55/bookmarks
 Accept: application/json
 
-### Get user ratings
+### Get user bookmark by pageID
+GET {{WebService_HostAddress}}/api/v2/users/55/bookmarks/1
+Accept: application/json
 
+### HEAD user bookmark by pageID
+HEAD {{WebService_HostAddress}}/api/v2/users/55/bookmarks/2
+Accept: application/json
+
+### POST user bookmark
+POST {{WebService_HostAddress}}/api/v2/users/55/bookmarks
+Authorization: Bearer {{Authentication_Token}}
+Content-Type: application/json
+
+{
+  "PageId": 1
+}
+
+### DELETE user bookmark
+DELETE {{WebService_HostAddress}}/api/v2/users/55/bookmarks/1
+Authorization: Bearer {{Authentication_Token}}
+
+### Get user ratings
 GET {{WebService_HostAddress}}/api/v2/users/58/ratings
 Accept: application/json
 
 ### Titles Tests ###
 
 ### Get Title by ID
-
 GET {{WebService_HostAddress}}/api/v2/titles/tt0052520
 Accept: application/json
 
 ### Get Titles (paged by default)
-
 GET {{WebService_HostAddress}}/api/v2/titles
 Accept: application/json
 
 ### Get Titles (page 2, page size 5)
-
 GET {{WebService_HostAddress}}/api/v2/titles?pageNumber=2&pageSize=5
 Accept: application/json
 
 ### Get Title ratings
-
 GET {{WebService_HostAddress}}/api/v2/titles/tt0052520/ratings
 Accept: application/json
 

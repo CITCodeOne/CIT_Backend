@@ -58,8 +58,7 @@ public class BookmarksController : ControllerBase
         try
         {
             var added = _mdbService.Bookmark.AddBookmark(uconst, model.PageId);
-            if (!added)
-                return Conflict(new { message = "Bookmark already exists" });
+            if (added == null) return Conflict(new { message = "Bookmark already exists" });
 
             return Ok(new { message = "Bookmark added" });
         }
