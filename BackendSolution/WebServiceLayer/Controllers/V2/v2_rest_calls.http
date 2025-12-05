@@ -46,10 +46,6 @@ Accept: application/json
 GET {{WebService_HostAddress}}/api/v2/users/55/bookmarks/1
 Accept: application/json
 
-### HEAD user bookmark by pageID
-HEAD {{WebService_HostAddress}}/api/v2/users/55/bookmarks/2
-Accept: application/json
-
 ### POST user bookmark
 POST {{WebService_HostAddress}}/api/v2/users/55/bookmarks
 Authorization: Bearer {{Authentication_Token}}
@@ -64,8 +60,35 @@ DELETE {{WebService_HostAddress}}/api/v2/users/55/bookmarks/1
 Authorization: Bearer {{Authentication_Token}}
 
 ### Get user ratings
-GET {{WebService_HostAddress}}/api/v2/users/58/ratings
+GET {{WebService_HostAddress}}/api/v2/users/55/ratings
 Accept: application/json
+
+### Get user rating by TitleID
+GET {{WebService_HostAddress}}/api/v2/users/55/ratings/tt0052520
+Accept: application/json
+
+### POST user rating
+POST {{WebService_HostAddress}}/api/v2/users/55/ratings
+Authorization: Bearer {{Authentication_Token}}
+Content-Type: application/json
+
+{
+  "TitleId": "tt0052520",
+  "Rating": 9
+}
+
+### PUT user rating (update existing)
+PUT {{WebService_HostAddress}}/api/v2/users/55/ratings/tt0052520
+Authorization: Bearer {{Authentication_Token}}
+Content-Type: application/json
+
+{
+  "Rating": 8
+}
+
+### DELETE user rating
+DELETE {{WebService_HostAddress}}/api/v2/users/55/ratings/tt0052520
+Authorization: Bearer {{Authentication_Token}}
 
 ### Titles Tests ###
 

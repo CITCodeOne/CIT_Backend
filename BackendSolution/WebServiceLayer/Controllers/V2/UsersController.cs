@@ -25,6 +25,8 @@ public class UsersController : ControllerBase
         return Ok(user);
     }
 
+    // BOOKMARKS
+
     // GET: api/v2/users/{userId}/bookmarks
     [HttpGet("{userId}/bookmarks")]
     public IActionResult GetBookmarks(int userId)
@@ -88,6 +90,8 @@ public class UsersController : ControllerBase
         return Ok(new { message = "Bookmark removed" });
     }
 
+    // RATINGS
+
     // GET: api/v2/users/{userId}/ratings
     [HttpGet("{userId}/ratings")]
     public IActionResult GetRatings(int userId)
@@ -99,7 +103,91 @@ public class UsersController : ControllerBase
         return Ok(ratings);
     }
 
+    // GET: api/v2/users/{userId}/ratings/{titleId}
+    [HttpGet("{userId}/ratings/{titleId}")]
+    public IActionResult GetRating(int userId, string titleId)
+    {
+        var rating = _mdbService.Rating.GetRating(userId, titleId);
+        if (rating == null)
+            return NotFound(new { message = $"Rating for user '{userId}' with title '{titleId}' not found" });
+
+        return Ok(rating);
+    }
+
     // POST: api/v2/users/{userId}/ratings
+    [HttpPost("{userId}/ratings")]
+    [Authorize]
+    public IActionResult CreateRating(int userId, CreateRatingDTO ratingCreateDto)
+    {
+        var uidClaim = User.FindFirst("uid")?.Value;
+        if (string.IsNullOrEmpty(uidClaim) || !int.TryParse(uidClaim, out var authenticatedUserId))
+            return Unauthorized(new { message = "User id missing from token" });
+
+        if (authenticatedUserId != userId)
+            return Forbid();
+
+        try
+        {
+            _mdbService.Rating.RateAsync(userId, ratingCreateDto.TitleId, ratingCreateDto.Rating).Wait();
+            return Ok(new { message = "Rating submitted" });
+        }
+        catch (ArgumentException ex)
+        {
+            return BadRequest(new { error = ex.Message });
+        }
+    }
+
     // PUT: api/v2/users/{userId}/ratings/{titleId}
+    [HttpPut("{userId}/ratings/{titleId}")]
+    [Authorize]
+    public IActionResult UpdateRating(int userId, string titleId, UpdateRatingDTO ratingUpdateDto)
+    {
+        var uidClaim = User.FindFirst("uid")?.Value;
+        if (string.IsNullOrEmpty(uidClaim) || !int.TryParse(uidClaim, out var authenticatedUserId))
+            return Unauthorized(new { message = "User id missing from token" });
+
+        if (authenticatedUserId != userId) return Forbid();
+
+        // ensure rating exists before updating
+        var existingRating = _mdbService.Rating.GetRating(userId, titleId);
+        if (existingRating == null)
+            return NotFound(new { message = $"Rating for user '{userId}' with title '{titleId}' not found" });
+
+        try
+        {
+            _mdbService.Rating.RateAsync(userId, titleId, ratingUpdateDto.Rating).Wait();
+            return Ok(new { message = "Rating updated" });
+        }
+        catch (ArgumentException ex)
+        {
+            return BadRequest(new { error = ex.Message });
+        }
+    }
+
     // DELETE: api/v2/users/{userId}/ratings/{titleId}
+    [HttpDelete("{userId}/ratings/{titleId}")]
+    [Authorize]
+    public IActionResult DeleteRating(int userId, string titleId)
+    {
+        var uidClaim = User.FindFirst("uid")?.Value;
+        if (string.IsNullOrEmpty(uidClaim) || !int.TryParse(uidClaim, out var authenticatedUserId))
+            return Unauthorized(new { message = "User id missing from token" });
+
+        if (authenticatedUserId != userId) return Forbid();
+
+        // ensure rating exists before deleting
+        var existingRating = _mdbService.Rating.GetRating(userId, titleId);
+        if (existingRating == null)
+            return NotFound(new { message = $"Rating for user '{userId}' with title '{titleId}' not found" });
+
+        try
+        {
+            _mdbService.Rating.DeleteRatingAsync(userId, titleId).Wait();
+            return Ok(new { message = "Rating deleted" });
+        }
+        catch (ArgumentException ex)
+        {
+            return BadRequest(new { error = ex.Message });
+        }
+    }
 }

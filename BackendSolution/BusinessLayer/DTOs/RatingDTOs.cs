@@ -35,3 +35,9 @@ public class CreateRatingDTO
     public string TitleId { get; set; } = string.Empty;
     public int Rating { get; set; }
 }
+
+// to update an existing rating
+public class UpdateRatingDTO
+{
+    public int Rating { get; set; }
+}
