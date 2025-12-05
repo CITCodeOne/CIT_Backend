@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using BusinessLayer;
 using BusinessLayer.DTOs;
-using WebServiceLayer.Models;
 
 namespace WebServiceLayer.Controllers.V2;
 

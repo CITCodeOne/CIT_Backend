@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
+using BusinessLayer.DTOs;
 using BusinessLayer;
-using WebServiceLayer.Models;
 // using System.Security.Claims; // Was needed at some point, but now unused apparently
 
 namespace WebServiceLayer.Controllers.V1;
@@ -49,7 +49,7 @@ public class BookmarksController : ControllerBase
     // POST: api/bookmarks
     [HttpPost]
     [Authorize]
-    public IActionResult AddBookmark(CreateBookmarkModel model)
+    public IActionResult AddBookmark(CreateBookmarkDTO model)
     {
         var uidClaim = User.FindFirst("uid")?.Value;
         if (string.IsNullOrEmpty(uidClaim) || !int.TryParse(uidClaim, out var uconst))
@@ -57,7 +57,7 @@ public class BookmarksController : ControllerBase
 
         try
         {
-            var added = _mdbService.Bookmark.AddBookmark(uconst, model.Pconst);
+            var added = _mdbService.Bookmark.AddBookmark(uconst, model.PageId);
             if (!added)
                 return Conflict(new { message = "Bookmark already exists" });
 
