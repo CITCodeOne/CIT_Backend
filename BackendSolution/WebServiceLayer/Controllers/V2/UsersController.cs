@@ -218,6 +218,6 @@ public class UsersController : ControllerBase
 
         return Ok(new { message = "Profile image saved" });
     }
-
+    //skal lave post fordi put er til opdatering og ikke oprettelse ifølge REST
 
 }
