@@ -191,6 +191,8 @@ public class UsersController : ControllerBase
         }
     }
 
+    // PROFILE IMAGE
+    // GET: api/v2/users/{userId}/profile-image
     [HttpGet("{userId}/profile-image")]
     public IActionResult GetProfileImage(int userId)
     {
@@ -199,6 +201,7 @@ public class UsersController : ControllerBase
         return Ok(new UserProfileImageDTO { UserId = userId, ProfileImage = image });
     }
 
+    // PUT: api/v2/users/{userId}/profile-image
     [HttpPut("{userId}/profile-image")]
     [Authorize]
     public IActionResult UpsertProfileImage(int userId, UpdateProfileImageDTO dto)
