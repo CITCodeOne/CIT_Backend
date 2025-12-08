@@ -190,4 +190,31 @@ public class UsersController : ControllerBase
             return BadRequest(new { error = ex.Message });
         }
     }
+
+    [HttpGet("{userId}/profile-image")]
+    public IActionResult GetProfileImage(int userId)
+    {
+        var image = _mdbService.User.GetProfileImage(userId);
+        if (image == null) return NotFound(new { message = $"User '{userId}' has no profile image" });
+        return Ok(new UserProfileImageDTO { UserId = userId, ProfileImage = image });
+    }
+
+    [HttpPut("{userId}/profile-image")]
+    [Authorize]
+    public IActionResult UpsertProfileImage(int userId, UpdateProfileImageDTO dto)
+    {
+        var uidClaim = User.FindFirst("uid")?.Value;
+        if (string.IsNullOrEmpty(uidClaim) || !int.TryParse(uidClaim, out var authenticatedUserId))
+            return Unauthorized(new { message = "User id missing from token" });
+        if (authenticatedUserId != userId) return Forbid();
+        if (string.IsNullOrWhiteSpace(dto.ImageBase64))
+            return BadRequest(new { message = "ImageBase64 cannot be empty" });
+
+        var saved = _mdbService.User.SetProfileImage(userId, dto.ImageBase64);
+        if (!saved) return NotFound(new { message = $"User '{userId}' not found" });
+
+        return Ok(new { message = "Profile image saved" });
+    }
+
+
 }

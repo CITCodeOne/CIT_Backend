@@ -20,6 +20,8 @@ public partial class UserInfo
     
     public string Role { get; set; } = "User";
 
+    public string? ProfileImage { get; set; }
+
     public virtual ICollection<Bookmark> Bookmarks { get; set; } = new List<Bookmark>();
 
     public virtual ICollection<Rating> Ratings { get; set; } = new List<Rating>();
