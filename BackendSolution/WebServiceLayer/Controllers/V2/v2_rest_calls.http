@@ -3,8 +3,6 @@
 # INFO: Replace with a valid JWT token after login
 @Authentication_Token = eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTUxMiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoidGVzdHVzZXIyIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiVXNlciIsInVpZCI6IjU1IiwiZXhwIjoxNzY1MjgyNjY3fQ.c9wT782ouskDprjirAnTs5Y50PfQvW7la7hFYxGVz8iKqeFOzVV5r-Agx9sPXdojYyojN43hyifUiifzYsteKQ
 
-### Example REST API calls for WebService v2 ###
-
 ### Health Check ###
 
 GET {{WebService_HostAddress}}/api/v2/health
