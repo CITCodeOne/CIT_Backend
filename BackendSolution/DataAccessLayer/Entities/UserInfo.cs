@@ -15,6 +15,8 @@ public partial class UserInfo
 
     public DateTime? Time { get; set; }
 
+    public string? ProfileImage { get; set; }
+
     // Authentication fields
     public string? Salt { get; set; }
     

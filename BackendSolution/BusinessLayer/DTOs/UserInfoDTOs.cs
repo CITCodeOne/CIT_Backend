@@ -7,6 +7,8 @@ public class UserInfoFullDTO
     // public string? Password { get; set; } // Excluded as this is otherwise too easy to expose
     public string? Email { get; set; }
     public DateTime? Time { get; set; }
+    public string? ProfileImage { get; set; }
+
     //public ICollection<RatingDTO> RatingRefs { get; set; } = [];
     //public virtual ICollection<Bookmark> Bookmarks { get; set; } = new List<Bookmark>();
     //public virtual ICollection<SearchHistory> SearchHistories { get; set; } = new List<SearchHistory>();

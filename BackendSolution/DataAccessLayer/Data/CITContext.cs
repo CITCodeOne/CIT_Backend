@@ -342,6 +342,8 @@ public partial class CITContext : DbContext
                 .HasMaxLength(50)
                 .HasDefaultValue("User")
                 .HasColumnName("role");
+            entity.Property(e => e.ProfileImage)
+                .HasColumnName("profile_image");
         });
 
         modelBuilder.Entity<VisitedPage>(entity =>
