@@ -76,11 +76,11 @@ public class IndividualService
         return results;
     }
 
-    // Search individuals by name and get their contributions
+    // Search individuals by name and get their contributions (Not sure this should be here)
     public List<IndividualSearchResultDTO> SearchIndividuals(string name)
     {
         var results = _ctx.Database.SqlQuery<IndividualSearchResultDTO>(
-            $"SELECT iconst as Id, name as Name, contribution as Contribution, title_name as TitleName, detail as Detail, genre as Genre FROM mdb.find_name('{name}')")
+            $"SELECT iconst AS Id, name AS Name, contribution AS Contribution, title_name AS TitleName, COALESCE(detail, '') AS Detail, COALESCE(genre, '') AS Genre FROM mdb.find_name({name})")
             .ToList();
         return results;
     }
