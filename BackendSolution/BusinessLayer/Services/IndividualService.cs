@@ -75,7 +75,7 @@ public class IndividualService
     public List<IndividualSearchResultDTO> SearchIndividuals(string name)
     {
         var results = _ctx.Database.SqlQuery<IndividualSearchResultDTO>(
-            $"SELECT iconst as Id, name as Name, contribution as Contribution, title_name as TitleName, detail as Detail FROM mdb.find_name('{name}')")
+            $"SELECT iconst as Id, name as Name, contribution as Contribution, title_name as TitleName, detail as Detail, genre as Genre FROM mdb.find_name('{name}')")
             .ToList();
         return results;
     }
