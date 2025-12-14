@@ -59,8 +59,12 @@ public class TitleService
     // Get similar movies based on overlapping genres
     public List<SimilarTitleDTO> GetSimilarMovies(string tconst)
     {
+        if (string.IsNullOrWhiteSpace(tconst))
+            return new List<SimilarTitleDTO>();
+
+        // Parameterized call to avoid injection and ensure correct binding
         var similarTitles = _ctx.Database.SqlQuery<SimilarTitleDTO>(
-            $"SELECT similar_tconst as Id, title_name as Name, overlap_genres as OverlapGenres FROM mdb.similar_movies('{tconst}')")
+            $"SELECT similar_tconst AS Id, title_name AS Name, COALESCE(overlap_genres, 0) AS OverlapGenres FROM mdb.similar_movies({tconst})")
             .ToList();
         return similarTitles;
     }
