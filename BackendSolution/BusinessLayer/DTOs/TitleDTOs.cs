@@ -32,3 +32,10 @@ public class TitleReferenceDTO
     public string Id { get; set; } = string.Empty;
     public string Name { get; set; } = string.Empty;
 }
+
+public class SimilarTitleDTO
+{
+    public string Id { get; set; } = string.Empty;
+    public string Name { get; set; } = string.Empty;
+    public int OverlapGenres { get; set; }
+}

@@ -69,4 +69,20 @@ public class TitlesController : ControllerBase
         var individuals = _mdbService.Title.GetIndividualsByTitle(id);
         return Ok(individuals);
     }
+
+    // GET: api/v2/titles/{id}/similar
+    [HttpGet("{id}/similar")]
+    [ProducesResponseType(typeof(List<SimilarTitleDTO>), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public ActionResult<List<SimilarTitleDTO>> GetSimilarMovies(string id)
+    {
+        // Verify title exists
+        var title = _mdbService.Title.GetTitleById(id);
+        if (title == null)
+            return NotFound(new { message = $"Title with id '{id}' not found" });
+
+        var similarMovies = _mdbService.Title.GetSimilarMovies(id);
+        return Ok(similarMovies);
+    }
 }
+

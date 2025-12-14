@@ -54,4 +54,53 @@ public class IndividualsController : ControllerBase
         var titles = _mdb.Individual.TitlesByIndividual(id);
         return Ok(titles);
     }
+
+    // GET: api/v2/individuals/{id}/popular-actors
+    [HttpGet("{id}/popular-actors")]
+    [ProducesResponseType(typeof(List<IndividualFullDTO>), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public ActionResult<List<IndividualFullDTO>> GetPopularActors(string id)
+    {
+        if (string.IsNullOrEmpty(id) || (!id.StartsWith("tt") && !id.StartsWith("nm")))
+            return BadRequest(new { message = "ID must start with 'tt' or 'nm'" });
+
+        try
+        {
+            var actors = _mdb.Individual.GetPopularActors(id);
+            return Ok(actors);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new { message = ex.Message });
+        }
+    }
+
+    // GET: api/v2/individuals/co-actors?actorName={name}
+    [HttpGet("co-actors")]
+    [ProducesResponseType(typeof(List<CoActorsDTO>), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public ActionResult<List<CoActorsDTO>> GetCoActors([FromQuery] string actorName)
+    {
+        if (string.IsNullOrEmpty(actorName))
+            return BadRequest(new { message = "Actor name is required" });
+
+        try
+        {
+            var coActors = _mdb.Individual.GetCoActors(actorName);
+            return Ok(coActors);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new { message = ex.Message });
+        }
+    }
+
+    // GET: api/v2/individuals/search?name={name}
+    [HttpGet("search")]
+    [ProducesResponseType(typeof(List<IndividualSearchResultDTO>), StatusCodes.Status200OK)]
+    public ActionResult<List<IndividualSearchResultDTO>> SearchIndividuals([FromQuery] string name)
+    {
+        var results = _mdb.Individual.SearchIndividuals(name ?? "");
+        return Ok(results);
+    }
 }

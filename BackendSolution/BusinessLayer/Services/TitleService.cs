@@ -55,4 +55,13 @@ public class TitleService
             .ToList();
         return _mapper.Map<List<IndividualReferenceDTO>>(individuals);
     }
+
+    // Get similar movies based on overlapping genres
+    public List<SimilarTitleDTO> GetSimilarMovies(string tconst)
+    {
+        var similarTitles = _ctx.Database.SqlQuery<SimilarTitleDTO>(
+            $"SELECT similar_tconst as Id, title_name as Name, overlap_genres as OverlapGenres FROM mdb.similar_movies('{tconst}')")
+            .ToList();
+        return similarTitles;
+    }
 }

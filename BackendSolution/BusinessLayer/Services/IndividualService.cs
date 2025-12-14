@@ -52,4 +52,31 @@ public class IndividualService
             .ToList();
         return _mapper.Map<List<TitlePreviewDTO>>(titles);
     }
+
+    // Get popular actors related to a given const (iconst or tconst)
+    public List<IndividualFullDTO> GetPopularActors(string qConst)
+    {
+        var individuals = _ctx.Individuals
+            .FromSqlRaw("SELECT * FROM mdb.popular_actor({0})", qConst)
+            .ToList();
+        return _mapper.Map<List<IndividualFullDTO>>(individuals);
+    }
+
+    // Get co-actors for a given actor name
+    public List<CoActorsDTO> GetCoActors(string actorName)
+    {
+        var coActors = _ctx.Database.SqlQuery<CoActorsDTO>(
+            $"SELECT iconst as Iconst, primaryname as Primaryname, co_count as Co_Count FROM mdb.find_co_actors('{actorName}')")
+            .ToList();
+        return coActors;
+    }
+
+    // Search individuals by name and get their contributions
+    public List<IndividualSearchResultDTO> SearchIndividuals(string name)
+    {
+        var results = _ctx.Database.SqlQuery<IndividualSearchResultDTO>(
+            $"SELECT iconst as Id, name as Name, contribution as Contribution, title_name as TitleName, detail as Detail FROM mdb.find_name('{name}')")
+            .ToList();
+        return results;
+    }
 }
