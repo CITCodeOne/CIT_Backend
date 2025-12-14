@@ -75,25 +75,7 @@ public class IndividualsController : ControllerBase
         }
     }
 
-    // GET: api/v2/individuals/co-actors?actorName={name}
-    [HttpGet("co-actors")]
-    [ProducesResponseType(typeof(List<CoActorsDTO>), StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public ActionResult<List<CoActorsDTO>> GetCoActors([FromQuery] string actorName)
-    {
-        if (string.IsNullOrEmpty(actorName))
-            return BadRequest(new { message = "Actor name is required" });
 
-        try
-        {
-            var coActors = _mdb.Individual.GetCoActors(actorName);
-            return Ok(coActors);
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(new { message = ex.Message });
-        }
-    }
 
     // GET: api/v2/individuals/search?name={name}
     [HttpGet("search")]
@@ -102,5 +84,25 @@ public class IndividualsController : ControllerBase
     {
         var results = _mdb.Individual.SearchIndividuals(name ?? "");
         return Ok(results);
+    }
+
+    // GET: api/v2/individuals/co-actors?name=Tom%20Hanks
+    [HttpGet("co-actors")]
+    [ProducesResponseType(typeof(List<CoActorDTO>), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public ActionResult<List<CoActorDTO>> GetCoActors([FromQuery] string name)
+    {
+        if (string.IsNullOrWhiteSpace(name))
+            return BadRequest(new { message = "Query parameter 'name' is required" });
+
+        try
+        {
+            var results = _mdb.Individual.FindCoActors(name);
+            return Ok(results);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new { message = ex.Message });
+        }
     }
 }

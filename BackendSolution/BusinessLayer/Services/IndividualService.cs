@@ -62,13 +62,18 @@ public class IndividualService
         return _mapper.Map<List<IndividualFullDTO>>(individuals);
     }
 
-    // Get co-actors for a given actor name
-    public List<CoActorsDTO> GetCoActors(string actorName)
+    // Find co-actors for a given actor name (calls mdb.find_co_actors)
+    public List<CoActorDTO> FindCoActors(string actorName)
     {
-        var coActors = _ctx.Database.SqlQuery<CoActorsDTO>(
-            $"SELECT iconst as Iconst, primaryname as Primaryname, co_count as Co_Count FROM mdb.find_co_actors('{actorName}')")
+        if (string.IsNullOrWhiteSpace(actorName))
+            return new List<CoActorDTO>();
+
+        // Use parameterized raw SQL to avoid injection while letting PostgreSQL execute the function
+        var results = _ctx.Database.SqlQuery<CoActorDTO>(
+            $"SELECT iconst AS Id, primaryname AS Name, co_count AS CollaborationCount FROM mdb.find_co_actors({actorName})")
             .ToList();
-        return coActors;
+
+        return results;
     }
 
     // Search individuals by name and get their contributions
