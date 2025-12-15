@@ -25,6 +25,7 @@ public class TitlePreviewDTO
     public double AvgRating { get; set; }
     public DateTime ReleaseDate { get; set; }
     public string Poster { get; set; } = string.Empty;
+    public string Plot { get; set; } = string.Empty;
 }
 
 public class TitleReferenceDTO

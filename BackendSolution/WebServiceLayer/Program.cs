@@ -58,6 +58,8 @@ builder.Services.AddDbContext<CITContext>(options =>
 builder.Services.AddAutoMapper(typeof(MappingProfile).Assembly);
 
 builder.Services.AddScoped<MdbService>();
+//used for TMDB API calls
+builder.Services.AddHttpClient();
 
 var app = builder.Build();
 

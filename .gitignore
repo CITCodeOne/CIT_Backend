@@ -100,3 +100,4 @@ BackendSolution/DataService/Data/dbconfig.json
 BackendSolution/WebService/dbconfig.json
 BackendSolution/WebService/Properties/dbconfig.json
 BackendSolution/WebService/dbconfig.json
+BackendSolution/WebServiceLayer/tmdbConfig.json

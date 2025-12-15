@@ -30,7 +30,8 @@ public class MappingProfile : Profile
           .ForMember(dto => dto.MediaType, opt => opt.MapFrom(t => t.MediaType ?? ""))
           .ForMember(dto => dto.AvgRating, opt => opt.MapFrom(t => t.AvgRating ?? 0))
           .ForMember(dto => dto.ReleaseDate, opt => opt.MapFrom(t => t.ReleaseDate.HasValue ? t.ReleaseDate.Value.ToDateTime(TimeOnly.MinValue) : DateTime.MinValue))
-          .ForMember(dto => dto.Poster, opt => opt.MapFrom(t => t.Poster ?? ""));
+          .ForMember(dto => dto.Poster, opt => opt.MapFrom(t => t.Poster ?? ""))
+          .ForMember(dto => dto.Plot, opt => opt.MapFrom(t => t.Plot ?? ""));
 
         CreateMap<Title, TitleReferenceDTO>()
           .ForMember(dto => dto.Id, opt => opt.MapFrom(t => t.Tconst))
