@@ -17,9 +17,9 @@ public class PageService
     }
 
     // Get page by ID
-    public PageFullDTO? GetPageById(int pageId)
+    public PageReferenceDTO? GetPageById(int pageId)
     {
         var page = _ctx.Pages.FirstOrDefault(p => p.Pconst == pageId);
-        return page == null ? null : _mapper.Map<PageFullDTO>(page);
+        return page == null ? null : _mapper.Map<PageReferenceDTO>(page);
     }
 }

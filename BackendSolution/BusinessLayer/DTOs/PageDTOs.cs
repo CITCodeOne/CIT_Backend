@@ -16,4 +16,8 @@ public class PageFullDTO
 public class PageReferenceDTO
 {
     public int PageId { get; set; }
+
+    public string? Tconst { get; set; }
+
+    public string? Iconst { get; set; }
 }
