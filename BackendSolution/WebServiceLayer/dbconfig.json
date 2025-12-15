@@ -2,7 +2,6 @@
 	"Host": "cit.ruc.dk",
 	"Port": "5432",
 	"User": "cit01",
-	"Password": "ZZOJpAASGoDr",
-	"tmdbApiKey": "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJlZGIwMjI0NzA3OWM1MGJmZGVkYTkwNjQ2NTBlZWJhOSIsIm5iZiI6MTc2MzUzNzc4MS41MjQsInN1YiI6IjY5MWQ3Mzc1ZmVmOWIzNmJhZDU3Y2Y3ZiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.SkdDfK1uRQ7qskPV3Zw_uI-2CNMQPMpfM8v53937qXE"
+	"Password": "ZZOJpAASGoDr"
 }
 
