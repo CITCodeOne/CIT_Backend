@@ -16,10 +16,10 @@ public class TmdbController : ControllerBase
     {
         _httpClientFactory = httpClientFactory;
 
-        // Load API key from tmdbConfig.json located in the content root
+        // Load API key from dbconfig.json located in the content root
         try
         {
-            var cfgPath = System.IO.Path.Combine(env.ContentRootPath, "tmdbConfig.json");
+            var cfgPath = System.IO.Path.Combine(env.ContentRootPath, "dbconfig.json");
             if (System.IO.File.Exists(cfgPath))
             {
                 var json = System.IO.File.ReadAllText(cfgPath);
