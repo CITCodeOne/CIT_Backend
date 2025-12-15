@@ -41,4 +41,7 @@ public class MdbService // Potentially needs to implement some interface : IData
 
     private VisitService? _visitService;
     public VisitService Visit => _visitService ??= new VisitService(_ctx, _mapper);
+
+    private PageService? _pageService;
+    public PageService Page => _pageService ??= new PageService(_ctx, _mapper);
 }
