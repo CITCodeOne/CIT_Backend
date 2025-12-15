@@ -13,6 +13,7 @@ public class IndividualReferenceDTO
 {
     public string Id { get; set; } = string.Empty;
     public string Name { get; set; } = string.Empty;
+    public int? PageId { get; set; }
 }
 
 public class IndividualsByTitleDTO
