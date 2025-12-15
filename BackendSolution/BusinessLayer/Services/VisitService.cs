@@ -35,7 +35,7 @@ public class VisitService
             Uconst = userId,
             Pconst = pageId,
             Time = DateTime.UtcNow,
-            PconstNavigation = new Page { Pconst = pageId } // needed as PconstNavigation is non-nullable
+            PconstNavigation = null!
         };
 
         // validate that the page exists
