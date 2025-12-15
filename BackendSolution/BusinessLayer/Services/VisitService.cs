@@ -35,7 +35,7 @@ public class VisitService
             Uconst = userId,
             Pconst = pageId,
             Time = DateTime.UtcNow,
-            PconstNavigation = null!
+            PconstNavigation = null! // rely on existing page FK;
         };
 
         // validate that the page exists
