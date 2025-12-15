@@ -89,7 +89,7 @@ public class IndividualService
         return results;
     }
 
-    // Search individuals by name and get their contributions (Not sure this should be here)
+    // Search individuals
     public List<IndividualSearchResultDTO> SearchIndividuals(string name)
     {
         var results = _ctx.Database.SqlQuery<IndividualSearchResultDTO>(

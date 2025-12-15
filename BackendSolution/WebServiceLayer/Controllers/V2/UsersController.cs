@@ -190,4 +190,38 @@ public class UsersController : ControllerBase
             return BadRequest(new { error = ex.Message });
         }
     }
+
+    // GET: api/v2/users/{userId}/visits
+    [HttpGet("{userId}/visits")]
+    public IActionResult GetVisits(int userId)
+    {
+        var visits = _mdbService.Visit.GetVisitsByUserId(userId);
+        if (visits.Count == 0)
+            return Ok(new List<VisitedPageDTO>());
+
+        return Ok(visits);
+    }
+
+    // POST: api/v2/users/{userId}/visits
+    [HttpPost("{userId}/visits")]
+    [Authorize]
+    public IActionResult AddVisit(int userId, CreateVisitedPageDTO visitedPageCreateDto)
+    {
+        var uidClaim = User.FindFirst("uid")?.Value;
+        if (string.IsNullOrEmpty(uidClaim) || !int.TryParse(uidClaim, out var authenticatedUserId))
+            return Unauthorized(new { message = "User id missing from token" });
+
+        if (authenticatedUserId != userId)
+            return Forbid();
+
+        try
+        {
+            var added = _mdbService.Visit.AddVisitedPage(userId, visitedPageCreateDto.PageId);
+            return Ok(new { message = "Visited page added", visit = added });
+        }
+        catch (ArgumentException ex)
+        {
+            return BadRequest(new { error = ex.Message });
+        }
+    }
 }

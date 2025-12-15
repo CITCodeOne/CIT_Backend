@@ -38,4 +38,7 @@ public class MdbService // Potentially needs to implement some interface : IData
 
     private AuthService? _authService;
     public AuthService Auth => _authService ??= new AuthService(_ctx, _hashing);
+
+    private VisitService? _visitService;
+    public VisitService Visit => _visitService ??= new VisitService(_ctx, _mapper);
 }
