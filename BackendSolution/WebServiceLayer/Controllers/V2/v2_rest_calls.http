@@ -1,7 +1,7 @@
 @WebService_HostAddress = https://localhost:5001
 
 # INFO: Replace with a valid JWT token after login
-@Authentication_Token = eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTUxMiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoidGVzdHVzZXIyIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiVXNlciIsInVpZCI6IjU1IiwiZXhwIjoxNzY1MjgyNjY3fQ.c9wT782ouskDprjirAnTs5Y50PfQvW7la7hFYxGVz8iKqeFOzVV5r-Agx9sPXdojYyojN43hyifUiifzYsteKQ
+@Authentication_Token = eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTUxMiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoidGVzdHVzZXIyIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiVXNlciIsInVpZCI6IjU1IiwiZXhwIjoxNzY2MTU0NjMxfQ.2qVySNaTRuaLPpRh5qi-ZggmXqeE8wnxSVDZIMcyvBBP6RSd_Y_trD5M1Nd-bspEhfx28FwEdCSmqKL_VAxSig
 
 ### Health Check ###
 
@@ -90,6 +90,19 @@ Content-Type: application/json
 DELETE {{WebService_HostAddress}}/api/v2/users/55/ratings/tt0052520
 Authorization: Bearer {{Authentication_Token}}
 
+### GET user visits
+GET {{WebService_HostAddress}}/api/v2/users/55/visits
+Accept: application/json
+
+### POST user visit
+POST {{WebService_HostAddress}}/api/v2/users/55/visits
+Authorization: Bearer {{Authentication_Token}}
+Content-Type: application/json
+
+{
+  "PageId": 1
+}
+
 ### Titles Tests ###
 
 ### Get Title by ID
@@ -102,6 +115,14 @@ Accept: application/json
 
 ### Get Titles (page 2, page size 5)
 GET {{WebService_HostAddress}}/api/v2/titles?pageNumber=2&pageSize=5
+Accept: application/json
+
+### Get Titles by genre
+GET {{WebService_HostAddress}}/api/v2/titles?genre=Drama
+Accept: application/json
+
+### Get title by genre with paging
+GET {{WebService_HostAddress}}/api/v2/titles?genre=Drama&pageNumber=2&pageSize=5
 Accept: application/json
 
 ### Get Title ratings

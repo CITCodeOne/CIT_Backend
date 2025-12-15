@@ -87,8 +87,6 @@ public class IndividualsController : ControllerBase
         }
     }
 
-
-
     // GET: api/v2/individuals/search?name={name}
     [HttpGet("search")]
     [ProducesResponseType(typeof(List<IndividualSearchResultDTO>), StatusCodes.Status200OK)]
