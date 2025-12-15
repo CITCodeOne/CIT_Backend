@@ -31,7 +31,8 @@ public class MappingProfile : Profile
           .ForMember(dto => dto.AvgRating, opt => opt.MapFrom(t => t.AvgRating ?? 0))
           .ForMember(dto => dto.ReleaseDate, opt => opt.MapFrom(t => t.ReleaseDate.HasValue ? t.ReleaseDate.Value.ToDateTime(TimeOnly.MinValue) : DateTime.MinValue))
           .ForMember(dto => dto.Poster, opt => opt.MapFrom(t => t.Poster ?? ""))
-          .ForMember(dto => dto.Plot, opt => opt.MapFrom(t => t.Plot ?? ""));
+          .ForMember(dto => dto.Plot, opt => opt.MapFrom(t => t.Plot ?? ""))
+          .ForMember(dto => dto.PageId, opt => opt.MapFrom(t => t.TitlePage.Pconst));
 
         CreateMap<Title, TitleReferenceDTO>()
           .ForMember(dto => dto.Id, opt => opt.MapFrom(t => t.Tconst))
@@ -98,7 +99,8 @@ public class MappingProfile : Profile
 
         CreateMap<Individual, IndividualReferenceDTO>()
           .ForMember(dto => dto.Id, opt => opt.MapFrom(i => i.Iconst))
-          .ForMember(dto => dto.Name, opt => opt.MapFrom(i => i.Name ?? ""));
+          .ForMember(dto => dto.Name, opt => opt.MapFrom(i => i.Name ?? ""))
+          .ForMember(dto => dto.PageId, opt => opt.MapFrom(i => i.IndividualPage.Pconst));
 
         //Page mappings
         CreateMap<Page, PageFullDTO>()

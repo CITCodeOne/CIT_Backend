@@ -27,7 +27,9 @@ public class IndividualService
     // Get individual reference (lightweight)
     public IndividualReferenceDTO? ReferenceByID(string iconst)
     {
-        var individual = _ctx.Individuals.Find(iconst);
+        var individual = _ctx.Individuals
+            .Include(i => i.IndividualPage)
+            .FirstOrDefault(i => i.Iconst == iconst);
         return individual == null ? null : _mapper.Map<IndividualReferenceDTO>(individual);
     }
 
@@ -37,6 +39,7 @@ public class IndividualService
     {
         var individuals = _ctx.Individuals
             .OrderByDescending(t => t.NameRating) // WARN: Might cause an issue if nulls are treated as lowest (We have a lot of those in the db)
+            .Include(i => i.IndividualPage)
             .Skip((page - 1) * pageSize)
             .Take(pageSize)
             .ToList();
@@ -50,6 +53,7 @@ public class IndividualService
         var individuals = _ctx.Individuals
             .Where(i => i.NameRating != null)
             .OrderByDescending(i => i.NameRating)
+            .Include(i => i.IndividualPage)
             .Skip((page - 1) * pageSize)
             .Take(pageSize)
             .ToList();

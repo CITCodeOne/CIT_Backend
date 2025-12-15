@@ -26,6 +26,7 @@ public class TitlePreviewDTO
     public DateTime ReleaseDate { get; set; }
     public string Poster { get; set; } = string.Empty;
     public string Plot { get; set; } = string.Empty;
+    public int? PageId { get; set; }
 }
 
 public class TitleReferenceDTO

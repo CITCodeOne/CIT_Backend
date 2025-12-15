@@ -22,6 +22,7 @@ public class TitleService
     {
         var title = _ctx.Titles
             .Include(t => t.Gconsts)  // Load genres for mapping
+            .Include(t => t.TitlePage)
             .FirstOrDefault(t => t.Tconst == tconst);
 
         return title == null ? null : _mapper.Map<TitleFullDTO>(title);
@@ -30,7 +31,9 @@ public class TitleService
     // Get title preview (lightweight)
     public TitlePreviewDTO? GetTitlePreview(string tconst)
     {
-        var title = _ctx.Titles.Find(tconst);
+        var title = _ctx.Titles
+            .Include(t => t.TitlePage)
+            .FirstOrDefault(t => t.Tconst == tconst);
         return title == null ? null : _mapper.Map<TitlePreviewDTO>(title);
     }
 
@@ -41,6 +44,7 @@ public class TitleService
         var titles = _ctx.Titles
             .Where(t => t.AvgRating.HasValue)
             .OrderByDescending(t => t.AvgRating)
+            .Include(t => t.TitlePage)
             .Skip((page - 1) * pageSize)
             .Take(pageSize)
             .ToList();
@@ -54,6 +58,7 @@ public class TitleService
         var titles = _ctx.Titles
             .Where(t => t.MediaType != null && t.MediaType == type && t.AvgRating.HasValue)
             .OrderByDescending(t => t.AvgRating)
+            .Include(t => t.TitlePage)
             .Skip((page - 1) * pageSize)
             .Take(pageSize)
             .ToList();
