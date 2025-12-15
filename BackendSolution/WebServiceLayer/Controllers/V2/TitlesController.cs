@@ -27,6 +27,18 @@ public class TitlesController : ControllerBase
         return Ok(titles);
     }
 
+    // GET: api/v2/titles/top/{type}?page=1&pageSize=20
+    [HttpGet("top/{type}")]
+    [ProducesResponseType(typeof(List<TitlePreviewDTO>), StatusCodes.Status200OK)]
+    public ActionResult<List<TitlePreviewDTO>> GetTopTitles(string type, [FromQuery] int page = 1, [FromQuery] int pageSize = 20)
+    {
+        if (page < 1) page = 1;
+        if (pageSize < 1 || pageSize > 100) pageSize = 20;
+
+        var titles = _mdbService.Title.GetTopTitlesByType(type, page, pageSize);
+        return Ok(titles);
+    }
+
     // GET: api/v2/titles/{id}
     [HttpGet("{id}")]
     [ProducesResponseType(typeof(TitleFullDTO), StatusCodes.Status200OK)]
@@ -69,4 +81,20 @@ public class TitlesController : ControllerBase
         var individuals = _mdbService.Title.GetIndividualsByTitle(id);
         return Ok(individuals);
     }
+
+    // GET: api/v2/titles/{id}/similar
+    [HttpGet("{id}/similar")]
+    [ProducesResponseType(typeof(List<SimilarTitleDTO>), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public ActionResult<List<SimilarTitleDTO>> GetSimilarMovies(string id)
+    {
+        // Verify title exists
+        var title = _mdbService.Title.GetTitleById(id);
+        if (title == null)
+            return NotFound(new { message = $"Title with id '{id}' not found" });
+
+        var similarMovies = _mdbService.Title.GetSimilarMovies(id);
+        return Ok(similarMovies);
+    }
 }
+

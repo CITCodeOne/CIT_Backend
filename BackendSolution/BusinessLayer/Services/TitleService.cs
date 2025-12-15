@@ -39,6 +39,20 @@ public class TitleService
     public List<TitlePreviewDTO> GetTitles(int page = 1, int pageSize = 20)
     {
         var titles = _ctx.Titles
+            .Where(t => t.AvgRating.HasValue)
+            .OrderByDescending(t => t.AvgRating)
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .ToList();
+
+        return _mapper.Map<List<TitlePreviewDTO>>(titles);
+    }
+
+    // Get top titles by media type
+    public List<TitlePreviewDTO> GetTopTitlesByType(string type, int page = 1, int pageSize = 20)
+    {
+        var titles = _ctx.Titles
+            .Where(t => t.MediaType != null && t.MediaType == type && t.AvgRating.HasValue)
             .OrderByDescending(t => t.AvgRating)
             .Skip((page - 1) * pageSize)
             .Take(pageSize)
@@ -54,5 +68,18 @@ public class TitleService
             .Where(i => i.Contributors.Any(c => c.Tconst == tconst))
             .ToList();
         return _mapper.Map<List<IndividualReferenceDTO>>(individuals);
+    }
+
+    // Get similar movies based on overlapping genres
+    public List<SimilarTitleDTO> GetSimilarMovies(string tconst)
+    {
+        if (string.IsNullOrWhiteSpace(tconst))
+            return new List<SimilarTitleDTO>();
+
+        // TODO: Parameterized call to avoid injection and ensure correct binding
+        var similarTitles = _ctx.Database.SqlQuery<SimilarTitleDTO>(
+            $"SELECT similar_tconst AS Id, title_name AS Name, COALESCE(overlap_genres, 0) AS OverlapGenres FROM mdb.similar_movies({tconst})")
+            .ToList();
+        return similarTitles;
     }
 }

@@ -25,10 +25,18 @@ public class TitlePreviewDTO
     public double AvgRating { get; set; }
     public DateTime ReleaseDate { get; set; }
     public string Poster { get; set; } = string.Empty;
+    public string Plot { get; set; } = string.Empty;
 }
 
 public class TitleReferenceDTO
 {
     public string Id { get; set; } = string.Empty;
     public string Name { get; set; } = string.Empty;
+}
+
+public class SimilarTitleDTO
+{
+    public string Id { get; set; } = string.Empty;
+    public string Name { get; set; } = string.Empty;
+    public int OverlapGenres { get; set; }
 }
