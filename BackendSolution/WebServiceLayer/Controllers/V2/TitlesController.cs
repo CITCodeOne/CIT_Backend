@@ -27,6 +27,18 @@ public class TitlesController : ControllerBase
         return Ok(titles);
     }
 
+    // GET: api/v2/titles/top/{type}?page=1&pageSize=20
+    [HttpGet("top/{type}")]
+    [ProducesResponseType(typeof(List<TitlePreviewDTO>), StatusCodes.Status200OK)]
+    public ActionResult<List<TitlePreviewDTO>> GetTopTitles(string type, [FromQuery] int page = 1, [FromQuery] int pageSize = 20)
+    {
+        if (page < 1) page = 1;
+        if (pageSize < 1 || pageSize > 100) pageSize = 20;
+
+        var titles = _mdbService.Title.GetTopTitlesByType(type, page, pageSize);
+        return Ok(titles);
+    }
+
     // GET: api/v2/titles/{id}
     [HttpGet("{id}")]
     [ProducesResponseType(typeof(TitleFullDTO), StatusCodes.Status200OK)]
