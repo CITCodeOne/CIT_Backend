@@ -52,6 +52,21 @@ public class TitleService
         return _mapper.Map<List<TitlePreviewDTO>>(titles);
     }
 
+    // Get titles by genre
+    public List<TitlePreviewDTO> GetTitles(int page, int pageSize, string genre)
+    {
+        var titles = _ctx.Titles
+            .Include(t => t.Gconsts)
+            .Where(t => t.AvgRating.HasValue && t.Gconsts.Any(g => g.Gname == genre))
+            .OrderByDescending(t => t.AvgRating)
+            .Include(t => t.TitlePage)
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .ToList();
+
+        return _mapper.Map<List<TitlePreviewDTO>>(titles);
+    }
+
     // Get top titles by media type
     public List<TitlePreviewDTO> GetTopTitlesByType(string type, int page = 1, int pageSize = 20)
     {

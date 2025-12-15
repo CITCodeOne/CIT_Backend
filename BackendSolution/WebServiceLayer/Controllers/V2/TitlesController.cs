@@ -18,10 +18,16 @@ public class TitlesController : ControllerBase
     // GET: api/v2/titles?page=1&pageSize=20
     [HttpGet]
     [ProducesResponseType(typeof(List<TitlePreviewDTO>), StatusCodes.Status200OK)]
-    public ActionResult<List<TitlePreviewDTO>> GetTitles([FromQuery] int page = 1, [FromQuery] int pageSize = 20)
+    public ActionResult<List<TitlePreviewDTO>> GetTitles([FromQuery] int page = 1, [FromQuery] int pageSize = 20, [FromQuery] string? genre = null)
     {
         if (page < 1) page = 1;
         if (pageSize < 1 || pageSize > 100) pageSize = 20;
+
+        if (!string.IsNullOrWhiteSpace(genre))
+        {
+            var titlesByGenre = _mdbService.Title.GetTitles(page, pageSize, genre);
+            return Ok(titlesByGenre);
+        }
 
         var titles = _mdbService.Title.GetTitles(page, pageSize);
         return Ok(titles);
