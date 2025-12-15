@@ -27,6 +27,18 @@ public class IndividualsController : ControllerBase
         return Ok(individuals);
     }
 
+    // GET: api/v2/individuals/popular?page=1&pageSize=20
+    [HttpGet("popular")]
+    [ProducesResponseType(typeof(List<IndividualReferenceDTO>), StatusCodes.Status200OK)]
+    public ActionResult<List<IndividualReferenceDTO>> GetPopularIndividuals([FromQuery] int page = 1, [FromQuery] int pageSize = 20)
+    {
+        if (page < 1) page = 1;
+        if (pageSize < 1 || pageSize > 100) pageSize = 20;
+
+        var individuals = _mdb.Individual.GetMostPopularIndividuals(page, pageSize);
+        return Ok(individuals);
+    }
+
     // GET: api/v2/individuals/{id}
     [HttpGet("{id}")]
     [ProducesResponseType(typeof(IndividualFullDTO), StatusCodes.Status200OK)]

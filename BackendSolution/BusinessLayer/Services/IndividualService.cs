@@ -44,6 +44,19 @@ public class IndividualService
         return _mapper.Map<List<IndividualReferenceDTO>>(individuals);
     }
 
+    // Get most popular individuals, excluding null ratings, paginated
+    public List<IndividualReferenceDTO> GetMostPopularIndividuals(int page = 1, int pageSize = 20)
+    {
+        var individuals = _ctx.Individuals
+            .Where(i => i.NameRating != null)
+            .OrderByDescending(i => i.NameRating)
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .ToList();
+
+        return _mapper.Map<List<IndividualReferenceDTO>>(individuals);
+    }
+
     // Get titles associated with an individual
     public List<TitlePreviewDTO> TitlesByIndividual(string iconst)
     {
