@@ -82,12 +82,17 @@ public class IndividualService
     // Find co-actors for a given actor name (calls mdb.find_co_actors)
     public List<CoActorDTO> FindCoActors(string actorName)
     {
+        Console.WriteLine($"Finding co-actors for: {actorName}");
+        // decode URL-encoded name
+        actorName = System.Net.WebUtility.UrlDecode(actorName);
+        Console.WriteLine($"Encoded actor name: {actorName}");
+
         if (string.IsNullOrWhiteSpace(actorName))
             return new List<CoActorDTO>();
 
         // Use parameterized raw SQL to avoid injection while letting PostgreSQL execute the function
-        var results = _ctx.Database.SqlQuery<CoActorDTO>(
-            $"SELECT iconst AS Id, primaryname AS Name, co_count AS CollaborationCount FROM mdb.find_co_actors({actorName})")
+        var results = _ctx.Database
+            .SqlQueryRaw<CoActorDTO>("SELECT iconst AS Id, primaryname AS Name, co_count AS CollaborationCount FROM mdb.find_co_actors({0})", actorName)
             .ToList();
 
         return results;
@@ -96,8 +101,8 @@ public class IndividualService
     // Search individuals
     public List<IndividualSearchResultDTO> SearchIndividuals(string name)
     {
-        var results = _ctx.Database.SqlQuery<IndividualSearchResultDTO>(
-            $"SELECT iconst AS Id, name AS Name, contribution AS Contribution, title_name AS TitleName, COALESCE(detail, '') AS Detail, COALESCE(genre, '') AS Genre FROM mdb.find_name({name})")
+        var results = _ctx.Database
+            .SqlQueryRaw<IndividualSearchResultDTO>("SELECT iconst AS Id, name AS Name, contribution AS Contribution, title_name AS TitleName, COALESCE(detail, '') AS Detail, COALESCE(genre, '') AS Genre FROM mdb.find_name({0})", name)
             .ToList();
         return results;
     }

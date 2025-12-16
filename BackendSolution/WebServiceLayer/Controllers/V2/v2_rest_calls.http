@@ -100,7 +100,7 @@ Authorization: Bearer {{Authentication_Token}}
 Content-Type: application/json
 
 {
-  "PageId": 1
+  "PageId": 3
 }
 
 ### Titles Tests ###
@@ -149,4 +149,14 @@ Accept: application/json
 
 ### Get Individual's Titles
 GET {{WebService_HostAddress}}/api/v2/individuals/nm0000199/titles
+Accept: application/json
+
+### GET Individual's Coactors
+GET {{WebService_HostAddress}}/api/v2/individuals/co-actors?name=Tom%20Hanks
+Accept: application/json
+
+### Page Tests ###
+
+### Get Page by ID
+GET {{WebService_HostAddress}}/api/v2/pages/1
 Accept: application/json

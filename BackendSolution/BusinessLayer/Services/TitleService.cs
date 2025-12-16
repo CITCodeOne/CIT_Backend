@@ -38,7 +38,8 @@ public class TitleService
     }
 
     // Get multiple titles (for lists)
-    // FIX: Change to "keyset paging"
+    // We considered keyset paging but kept offset paging for simplicity
+    // Really taking advantage of keyset paging would require more significant changes to multiple things
     public List<TitlePreviewDTO> GetTitles(int page = 1, int pageSize = 20)
     {
         var titles = _ctx.Titles
@@ -96,9 +97,10 @@ public class TitleService
         if (string.IsNullOrWhiteSpace(tconst))
             return new List<SimilarTitleDTO>();
 
-        // TODO: Parameterized call to avoid injection and ensure correct binding
-        var similarTitles = _ctx.Database.SqlQuery<SimilarTitleDTO>(
-            $"SELECT similar_tconst AS Id, title_name AS Name, COALESCE(overlap_genres, 0) AS OverlapGenres FROM mdb.similar_movies({tconst})")
+        // Parameterized call to avoid injection and ensure correct binding
+        // SqlQueryRaw instead of SqlQuery allows for parameterization in EF Core
+        var similarTitles = _ctx.Database
+            .SqlQueryRaw<SimilarTitleDTO>("SELECT similar_tconst AS Id, title_name AS Name, COALESCE(overlap_genres, 0) AS OverlapGenres FROM mdb.similar_movies({0})", tconst)
             .ToList();
         return similarTitles;
     }
