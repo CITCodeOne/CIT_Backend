@@ -29,6 +29,14 @@ public class CoActorsDTO
     public long Co_Count { get; set; }
 }
 
+public class IndividualReferenceWithTotalVotesDTO
+{
+    public string Id { get; set; } = string.Empty;
+    public string Name { get; set; } = string.Empty;
+    public int TotalVotes { get; set; }
+    public int? PageId { get; set; }
+}
+
 public class IndividualSearchResultDTO
 {
     public string Id { get; set; } = string.Empty;

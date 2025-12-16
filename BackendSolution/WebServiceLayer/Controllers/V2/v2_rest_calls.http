@@ -172,6 +172,8 @@ GET {{WebService_HostAddress}}/api/v2/individuals/popular?page=2&pageSize=3
 Accept: application/json
 
 ### GET popular Individuals (page 1, page size 6)
+GET {{WebService_HostAddress}}/api/v2/individuals/popular?page=1&pageSize=6
+Accept: application/json
 
 ### Page Tests ###
 

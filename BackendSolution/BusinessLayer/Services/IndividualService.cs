@@ -51,7 +51,7 @@ public class IndividualService
     public List<IndividualReferenceDTO> GetMostPopularIndividuals(int page = 1, int pageSize = 20)
     {
         var individuals = _ctx.Individuals
-            .Where(i => i.NameRating != null)
+            .Where(i => i.NameRating != null && i.BirthYear != null)
             .OrderByDescending(i => i.NameRating)
             .ThenBy(i => i.Iconst) // Secondary sort for consistent ordering when ratings are equal
             .Include(i => i.IndividualPage)
@@ -60,6 +60,29 @@ public class IndividualService
             .ToList();
 
         return _mapper.Map<List<IndividualReferenceDTO>>(individuals);
+    }
+
+    // Get most popular individuals ordered by number of votes
+    public List<IndividualReferenceWithTotalVotesDTO> GetMostPopularIndividualsByVotes(int page = 1, int pageSize = 20)
+    {
+        // INFO: This query aggregates total votes for individuals based on their contributions to movies by way of "raw SQL" query.
+        // The underlying idea is that ordering by the amount of votes returns a set of individuals one might expect to be "popular" on a imdb-like platform
+        // The other one is ordering by name rating which is not necessarily the same.
+        // Prime example being the actors who have a rating of 10 which actually indicates a very low number of votes and thus not very popular at all.
+        //
+        // Some extra note is that mapping to a DTO for some reason required the use of escaped double quotes around the column names in order to match the DTO property names.
+        //
+        // One might have considered to do this as some sort of view or function in the database, 
+        // however owing to time constraints and the fact that this is a one-off query, it was simpler to just do it this way.
+        var individuals = _ctx.Database
+            .SqlQueryRaw<IndividualReferenceWithTotalVotesDTO>(
+                    "SELECT i.iconst AS \"Id\", i.name AS \"Name\", p.pconst AS \"PageId\", SUM(t.numvotes) AS \"TotalVotes\" FROM mdb.individual i JOIN mdb.contributor c ON i.iconst = c.iconst JOIN mdb.title t ON c.tconst = t.tconst JOIN mdb.page p ON i.iconst = p.iconst WHERE c.contribution IN ('actor', 'actress') AND t.media_type = 'movie' GROUP BY i.iconst, i.name, p.pconst ORDER BY \"TotalVotes\" DESC LIMIT 100"
+                    )
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .ToList();
+
+        return individuals;
     }
 
     // Get titles associated with an individual

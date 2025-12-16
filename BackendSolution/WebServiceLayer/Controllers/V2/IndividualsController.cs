@@ -35,7 +35,7 @@ public class IndividualsController : ControllerBase
         if (page < 1) page = 1;
         if (pageSize < 1 || pageSize > 100) pageSize = 20;
 
-        var individuals = _mdb.Individual.GetMostPopularIndividuals(page, pageSize);
+        var individuals = _mdb.Individual.GetMostPopularIndividualsByVotes(page, pageSize);
         return Ok(individuals);
     }
 
