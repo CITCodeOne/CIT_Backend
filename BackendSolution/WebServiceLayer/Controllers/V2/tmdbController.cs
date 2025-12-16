@@ -103,4 +103,54 @@ public class TmdbController : ControllerBase
 
         return Content(content, "application/json");
     }
+
+    // GET api/v2/tmdb/movie/posters?query=movie+name
+    [HttpGet("movie/posters")]
+    public async Task<IActionResult> GetMoviePosters([FromQuery] string? query)
+    {
+        if (string.IsNullOrWhiteSpace(query))
+            return BadRequest(new { message = "query parameter is required" });
+
+        if (string.IsNullOrWhiteSpace(_tmdbApiKey))
+            return StatusCode(500, new { message = "TMDB API key not configured" });
+
+        var url = "https://api.themoviedb.org/3/search/movie?query=" + Uri.EscapeDataString(query);
+        var client = _httpClientFactory.CreateClient();
+
+        using var req = new HttpRequestMessage(HttpMethod.Get, url);
+        req.Headers.Authorization = new AuthenticationHeaderValue("Bearer", _tmdbApiKey);
+        req.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+
+        HttpResponseMessage resp;
+        try
+        {
+            resp = await client.SendAsync(req);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(502, new { message = "Error contacting TMDB", detail = ex.Message });
+        }
+
+        var content = await resp.Content.ReadAsStringAsync();
+        if (!resp.IsSuccessStatusCode)
+            return StatusCode((int)resp.StatusCode, content);
+
+        // Parse JSON and extract posters
+        using var doc = JsonDocument.Parse(content);
+        var results = doc.RootElement.GetProperty("results");
+
+        var posters = new List<object>();
+        foreach (var movie in results.EnumerateArray())
+        {
+            var title = movie.GetProperty("title").GetString();
+            var posterPath = movie.GetProperty("poster_path").GetString();
+            if (!string.IsNullOrEmpty(posterPath))
+            {
+                var posterUrl = $"https://image.tmdb.org/t/p/w500{posterPath}";
+                posters.Add(new { title, posterUrl });
+            }
+        }
+
+        return Ok(posters);
+    }
 }
