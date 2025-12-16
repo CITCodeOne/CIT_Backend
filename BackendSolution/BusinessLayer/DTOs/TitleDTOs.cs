@@ -16,6 +16,7 @@ public class TitleFullDTO
     public string? PlotPre { get; set; }
     public string? Plot { get; set; }
     public List<GenreDTO>? Genres { get; set; }
+    public int? PageId { get; set; }
 }
 
 public class TitlePreviewDTO

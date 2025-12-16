@@ -23,7 +23,8 @@ public class MappingProfile : Profile
           .ForMember(dto => dto.Poster, opt => opt.MapFrom(t => t.Poster))
           .ForMember(dto => dto.PlotPre, opt => opt.MapFrom(t => t.Plot != null && t.Plot.Length > 25 ? t.Plot.Substring(0, 25) : t.Plot))
           .ForMember(dto => dto.Plot, opt => opt.MapFrom(t => t.Plot))
-          .ForMember(dto => dto.Genres, opt => opt.MapFrom(t => t.Gconsts));
+          .ForMember(dto => dto.Genres, opt => opt.MapFrom(t => t.Gconsts))
+          .ForMember(dto => dto.PageId, opt => opt.MapFrom(t => t.TitlePage.Pconst));
 
         CreateMap<Title, TitlePreviewDTO>()
           .ForMember(dto => dto.Id, opt => opt.MapFrom(t => t.Tconst))
