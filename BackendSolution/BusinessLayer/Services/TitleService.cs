@@ -87,6 +87,7 @@ public class TitleService
     {
         var individuals = _ctx.Individuals
             .Where(i => i.Contributors.Any(c => c.Tconst == tconst))
+            .Include(i => i.IndividualPage)
             .ToList();
         return _mapper.Map<List<IndividualReferenceDTO>>(individuals);
     }
