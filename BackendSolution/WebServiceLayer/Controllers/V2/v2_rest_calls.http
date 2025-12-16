@@ -141,6 +141,10 @@ Accept: application/json
 GET {{WebService_HostAddress}}/api/v2/titles/tt0052520/page
 Accept: application/json
 
+### Get Similar Titles
+GET {{WebService_HostAddress}}/api/v2/titles/tt0052520/similar
+Accept: application/json
+
 ### Individuals Tests ###
 
 ### Get Individual by ID
