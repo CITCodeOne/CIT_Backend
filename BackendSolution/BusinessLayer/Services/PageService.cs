@@ -22,4 +22,11 @@ public class PageService
         var page = _ctx.Pages.FirstOrDefault(p => p.Pconst == pageId);
         return page == null ? null : _mapper.Map<PageReferenceDTO>(page);
     }
+
+    // Get page by title ID
+    public PageReferenceDTO? GetPageByTitleId(string tconst)
+    {
+        var page = _ctx.Pages.FirstOrDefault(p => p.Tconst == tconst);
+        return page == null ? null : _mapper.Map<PageReferenceDTO>(page);
+    }
 }

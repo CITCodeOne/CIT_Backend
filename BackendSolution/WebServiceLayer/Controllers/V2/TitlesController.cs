@@ -68,6 +68,20 @@ public class TitlesController : ControllerBase
         return Ok(title);
     }
 
+    // GET: api/v2/titles/{id}/page
+    [HttpGet("{id}/page")]
+    [ProducesResponseType(typeof(PageReferenceDTO), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public ActionResult<PageReferenceDTO> GetTitlePages(string id)
+    {
+        // Verify title exists
+        var title = _mdbService.Title.GetTitleById(id);
+        if (title == null)
+            return NotFound(new { message = $"Title with id '{id}' not found" });
+        var pages = _mdbService.Page.GetPageByTitleId(id);
+        return Ok(pages);
+    }
+
     // GET: api/v2/titles/{id}/ratings
     [HttpGet("{id}/ratings")]
     [ProducesResponseType(typeof(List<RatingDTO>), StatusCodes.Status200OK)]

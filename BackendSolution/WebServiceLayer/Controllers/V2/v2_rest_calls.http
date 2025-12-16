@@ -137,6 +137,10 @@ Accept: application/json
 GET {{WebService_HostAddress}}/api/v2/titles/featured
 Accept: application/json
 
+### Get Page for a given TitleId
+GET {{WebService_HostAddress}}/api/v2/titles/tt0052520/page
+Accept: application/json
+
 ### Individuals Tests ###
 
 ### Get Individual by ID
