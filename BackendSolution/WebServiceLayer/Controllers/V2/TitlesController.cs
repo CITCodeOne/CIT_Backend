@@ -15,7 +15,11 @@ public class TitlesController : ControllerBase
         _mdbService = mdbService;
     }
 
-    // GET: api/v2/titles?page=1&pageSize=20
+    // GET: api/v2/titles?params
+    // Optional query parameters: 
+    // page: defautls to 1
+    // pageSize: defaults to 20, max 100
+    // genre: optional genre filter
     [HttpGet]
     [ProducesResponseType(typeof(List<TitlePreviewDTO>), StatusCodes.Status200OK)]
     public ActionResult<List<TitlePreviewDTO>> GetTitles([FromQuery] int page = 1, [FromQuery] int pageSize = 20, [FromQuery] string? genre = null)
