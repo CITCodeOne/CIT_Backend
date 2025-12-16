@@ -67,6 +67,7 @@ public class IndividualsController : ControllerBase
         return Ok(titles);
     }
 
+    // TODO: This is not really working in accordance with RESTful principles, needs rethinking
     // GET: api/v2/individuals/{id}/popular-actors
     [HttpGet("{id}/popular-actors")]
     [ProducesResponseType(typeof(List<IndividualFullDTO>), StatusCodes.Status200OK)]
