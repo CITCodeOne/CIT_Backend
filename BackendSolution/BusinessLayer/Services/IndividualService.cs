@@ -112,6 +112,7 @@ public class IndividualService
     {
         var titles = _ctx.Titles
             .Where(t => t.Contributors.Any(c => c.Iconst == iconst))
+            .Include(t => t.TitlePage)
             .ToList();
         return _mapper.Map<List<TitlePreviewDTO>>(titles);
     }
