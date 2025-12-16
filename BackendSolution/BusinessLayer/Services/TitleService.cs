@@ -125,6 +125,7 @@ public class TitleService
             .Include(t => t.Gconsts)
             .Skip(featureIndex)
             .Take(1)
+            .Include(t => t.TitlePage)
             .FirstOrDefault();
 
         return _mapper.Map<TitleFullDTO>(featuredTitle);
