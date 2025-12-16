@@ -52,7 +52,7 @@ Authorization: Bearer {{Authentication_Token}}
 Content-Type: application/json
 
 {
-  "PageId": 1
+  "PageId": "4"
 }
 
 ### DELETE user bookmark
@@ -131,6 +131,10 @@ Accept: application/json
 
 ### Get Title's Individuals
 GET {{WebService_HostAddress}}/api/v2/titles/tt0052520/individuals
+Accept: application/json
+
+### Get todays featured title
+GET {{WebService_HostAddress}}/api/v2/titles/featured
 Accept: application/json
 
 ### Individuals Tests ###

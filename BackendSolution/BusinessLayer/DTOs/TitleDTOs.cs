@@ -14,6 +14,7 @@ public class TitleFullDTO
     public int Runtime { get; set; }
     public string? Poster { get; set; }
     public string? PlotPre { get; set; }
+    public string? Plot { get; set; }
     public List<GenreDTO>? Genres { get; set; }
 }
 

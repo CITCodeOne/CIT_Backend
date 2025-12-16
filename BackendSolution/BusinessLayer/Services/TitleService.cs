@@ -104,4 +104,29 @@ public class TitleService
             .ToList();
         return similarTitles;
     }
+
+    // Get todays featured title
+
+    public TitleFullDTO GetFeaturedTitle()
+    {
+        // Gathers a list of "featurable" titles (i.e. rating above a threshold and non-adult with a plot)
+        // the length of this list is used as a modulus to pick a title based on the current day
+        // the current day is found as a nuber by taking the number of days since Unix epoch
+        var featurableCount = _ctx.Titles
+            .Where(t => t.AvgRating >= 7.0 && (t.IsAdult.HasValue ? !t.IsAdult.Value : true) && t.Plot != null)
+            .Count();
+
+        var daysSinceEpoch = (DateTime.UtcNow - new DateTime(1970, 1, 1)).Days;
+        var featureIndex = daysSinceEpoch % featurableCount;
+
+        var featuredTitle = _ctx.Titles
+            .Where(t => t.AvgRating >= 7.0 && (t.IsAdult.HasValue ? !t.IsAdult.Value : true) && t.Plot != null)
+            .OrderBy(t => t.Tconst) // Ensure consistent ordering
+            .Include(t => t.Gconsts)
+            .Skip(featureIndex)
+            .Take(1)
+            .FirstOrDefault();
+
+        return _mapper.Map<TitleFullDTO>(featuredTitle);
+    }
 }

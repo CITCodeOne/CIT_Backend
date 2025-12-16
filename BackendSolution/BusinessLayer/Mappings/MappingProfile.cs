@@ -22,6 +22,7 @@ public class MappingProfile : Profile
           .ForMember(dto => dto.Runtime, opt => opt.MapFrom(t => t.Runtime.HasValue ? (int)t.Runtime.Value.TotalMinutes : 0))
           .ForMember(dto => dto.Poster, opt => opt.MapFrom(t => t.Poster))
           .ForMember(dto => dto.PlotPre, opt => opt.MapFrom(t => t.Plot != null && t.Plot.Length > 25 ? t.Plot.Substring(0, 25) : t.Plot))
+          .ForMember(dto => dto.Plot, opt => opt.MapFrom(t => t.Plot))
           .ForMember(dto => dto.Genres, opt => opt.MapFrom(t => t.Gconsts));
 
         CreateMap<Title, TitlePreviewDTO>()

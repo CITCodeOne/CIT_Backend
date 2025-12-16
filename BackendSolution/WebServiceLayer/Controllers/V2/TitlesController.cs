@@ -45,6 +45,15 @@ public class TitlesController : ControllerBase
         return Ok(titles);
     }
 
+    // GET: api/v2/titles/featured
+    [HttpGet("featured")]
+    [ProducesResponseType(typeof(TitleFullDTO), StatusCodes.Status200OK)]
+    public ActionResult<List<TitleFullDTO>> GetFeaturedTitles()
+    {
+        var titles = _mdbService.Title.GetFeaturedTitle();
+        return Ok(titles);
+    }
+
     // GET: api/v2/titles/{id}
     [HttpGet("{id}")]
     [ProducesResponseType(typeof(TitleFullDTO), StatusCodes.Status200OK)]
