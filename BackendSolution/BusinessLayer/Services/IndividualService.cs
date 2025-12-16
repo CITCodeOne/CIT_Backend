@@ -53,6 +53,7 @@ public class IndividualService
         var individuals = _ctx.Individuals
             .Where(i => i.NameRating != null)
             .OrderByDescending(i => i.NameRating)
+            .ThenBy(i => i.Iconst) // Secondary sort for consistent ordering when ratings are equal
             .Include(i => i.IndividualPage)
             .Skip((page - 1) * pageSize)
             .Take(pageSize)

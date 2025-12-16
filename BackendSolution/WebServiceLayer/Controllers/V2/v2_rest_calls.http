@@ -148,7 +148,7 @@ GET {{WebService_HostAddress}}/api/v2/individuals
 Accept: application/json
 
 ### Get Individuals (page 2, page size 5)
-GET {{WebService_HostAddress}}/api/v2/individuals?pageNumber=2&pageSize=5
+GET {{WebService_HostAddress}}/api/v2/individuals?page=1&pageSize=5
 Accept: application/json
 
 ### Get Individual's Titles
@@ -158,6 +158,20 @@ Accept: application/json
 ### GET Individual's Coactors
 GET {{WebService_HostAddress}}/api/v2/individuals/co-actors?name=Tom%20Hanks
 Accept: application/json
+
+### GET popular Individuals (paged by default)
+GET {{WebService_HostAddress}}/api/v2/individuals/popular
+Accept: application/json
+
+### GET popular Individuals (page 1, page size 3)
+GET {{WebService_HostAddress}}/api/v2/individuals/popular?page=1&pageSize=3
+Accept: application/json
+
+### GET popular Individuals (page 2, page size 3)
+GET {{WebService_HostAddress}}/api/v2/individuals/popular?page=2&pageSize=3
+Accept: application/json
+
+### GET popular Individuals (page 1, page size 6)
 
 ### Page Tests ###
 
