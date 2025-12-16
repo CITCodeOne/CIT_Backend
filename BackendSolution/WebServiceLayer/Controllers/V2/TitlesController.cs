@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using BusinessLayer;
 using BusinessLayer.DTOs;
+using BusinessLayer.Parameters;
 
 namespace WebServiceLayer.Controllers.V2;
 
@@ -13,6 +14,21 @@ public class TitlesController : ControllerBase
     public TitlesController(MdbService mdbService)
     {
         _mdbService = mdbService;
+    }
+
+    // Search titles with various parameters
+    // INFO: See optional params in the TitleSearchParameters class
+    //
+    // GET: api/v2/titles/search?params
+    [HttpGet("search")]
+    [ProducesResponseType(typeof(List<TitlePreviewDTO>), StatusCodes.Status200OK)]
+    public ActionResult<List<TitlePreviewDTO>> SearchTitles([FromQuery] TitleSearchParameters parameters)
+    {
+        if (parameters.Page < 1) parameters.Page = 1;
+        if (parameters.PageSize < 1 || parameters.PageSize > 100) parameters.PageSize = 20;
+
+        var titles = _mdbService.Title.SearchTitles(parameters);
+        return Ok(titles);
     }
 
     // GET: api/v2/titles?params

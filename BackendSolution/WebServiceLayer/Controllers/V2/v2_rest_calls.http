@@ -145,6 +145,10 @@ Accept: application/json
 GET {{WebService_HostAddress}}/api/v2/titles/tt0052520/similar
 Accept: application/json
 
+### Get Titles by search term
+GET {{WebService_HostAddress}}/api/v2/titles/search?titlesearchterm=Godfather&pageNumber=1&pageSize=5
+Accept: application/json
+
 ### Individuals Tests ###
 
 ### Get Individual by ID

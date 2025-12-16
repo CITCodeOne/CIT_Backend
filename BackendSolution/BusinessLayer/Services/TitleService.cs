@@ -1,6 +1,7 @@
 using AutoMapper;
 using DataAccessLayer.Data;
 using BusinessLayer.DTOs;
+using BusinessLayer.Parameters;
 using Microsoft.EntityFrameworkCore;
 
 namespace BusinessLayer.Services;
@@ -126,6 +127,60 @@ public class TitleService
             .AsNoTracking()
             .ToList();
         return similarTitles;
+    }
+
+    // Search titles with flexible parameters
+    public List<TitlePreviewDTO> SearchTitles(TitleSearchParameters parameters)
+    {
+        var query = _ctx.Titles.AsQueryable();
+
+        // Apply filters conditionally
+        if (parameters.MinRating.HasValue)
+            query = query.Where(t => t.AvgRating >= parameters.MinRating.Value);
+        else
+            query = query.Where(t => t.AvgRating.HasValue); // Default filter
+
+        if (!string.IsNullOrWhiteSpace(parameters.Genre))
+        {
+            query = query.Include(t => t.Gconsts)
+                         .Where(t => t.Gconsts.Any(g => g.Gname == parameters.Genre));
+        }
+
+        if (!string.IsNullOrWhiteSpace(parameters.MediaType))
+            query = query.Where(t => t.MediaType == parameters.MediaType);
+
+        if (!string.IsNullOrWhiteSpace(parameters.TitleSearchTerm))
+            query = query.Where(t => t.TitleName != null && EF.Functions.ILike(t.TitleName, $"%{parameters.TitleSearchTerm}%"));
+
+        if (parameters.MinYear.HasValue)
+            query = query.Where(t => t.StartYear >= parameters.MinYear.Value);
+
+        if (parameters.MaxYear.HasValue)
+            query = query.Where(t => t.StartYear <= parameters.MaxYear.Value);
+
+        if (parameters.IsAdult.HasValue)
+            query = query.Where(t => t.IsAdult == parameters.IsAdult.Value);
+
+        // Apply sorting
+        query = parameters.SortBy?.ToLower() switch
+        {
+            "year" => parameters.SortDescending
+                ? query.OrderByDescending(t => t.StartYear)
+                : query.OrderBy(t => t.StartYear),
+            "title" => parameters.SortDescending
+                ? query.OrderByDescending(t => t.TitleName)
+                : query.OrderBy(t => t.TitleName),
+            _ => query.OrderByDescending(t => t.AvgRating) // Default: rating
+        };
+
+        // Pagination
+        var titles = query
+            .Include(t => t.TitlePage)
+            .Skip((parameters.Page - 1) * parameters.PageSize)
+            .Take(parameters.PageSize)
+            .ToList();
+
+        return _mapper.Map<List<TitlePreviewDTO>>(titles);
     }
 
     // Get todays featured title
