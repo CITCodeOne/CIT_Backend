@@ -105,6 +105,28 @@ public class TitleService
         return similarTitles;
     }
 
+    // NOTE: slight extension to the GetSimilarMovies function to get pageId
+    public List<SimilarTitleDTO> GetSimilarMoviesWithPageId(string tconst)
+    {
+        if (string.IsNullOrWhiteSpace(tconst))
+            return new List<SimilarTitleDTO>();
+
+        // Just makes use of two CTEs to join similar movies with page table to get pageId as well
+        // Parameterized call to avoid injection and ensure correct binding
+        // SqlQueryRaw instead of SqlQuery allows for parameterization in EF Core
+        // Also includes AsNoTracking since this is a read-only query which improves performance slightly (its read only after all)
+        var similarTitles = _ctx.Database
+            .SqlQueryRaw<SimilarTitleDTO>(
+                    @"WITH similar_movies AS (
+                        SELECT similar_tconst AS Id, title_name AS Name, COALESCE(overlap_genres, 0) AS OverlapGenres FROM mdb.similar_movies({0})
+                    ), page_ids AS (
+	                    SELECT tconst AS Id, pconst AS PageId FROM mdb.page
+                    ) SELECT * FROM similar_movies NATURAL INNER JOIN page_ids", tconst)
+            .AsNoTracking()
+            .ToList();
+        return similarTitles;
+    }
+
     // Get todays featured title
 
     public TitleFullDTO GetFeaturedTitle()

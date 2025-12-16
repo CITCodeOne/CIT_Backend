@@ -122,7 +122,7 @@ public class TitlesController : ControllerBase
         if (title == null)
             return NotFound(new { message = $"Title with id '{id}' not found" });
 
-        var similarMovies = _mdbService.Title.GetSimilarMovies(id);
+        var similarMovies = _mdbService.Title.GetSimilarMoviesWithPageId(id);
         return Ok(similarMovies);
     }
 }
