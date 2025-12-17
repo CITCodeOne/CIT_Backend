@@ -1,7 +1,7 @@
 @WebService_HostAddress = https://localhost:5001
 
 # INFO: Replace with a valid JWT token after login
-@Authentication_Token = eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTUxMiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoicGJsZW0iLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJVc2VyIiwidWlkIjoiMiIsImV4cCI6MTc2NjMyODQzOX0.YbBkw1r7o6qvlnrgNz00AyuTK9jTP7g_QX1HGuSkNDn8GPRrMxdo3T3s-MNrQfKwpvA2lpv2g3oodFSa5tuo6A
+@Authentication_Token = eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTUxMiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoicGJsZW0iLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJVc2VyIiwidWlkIjoiMSIsImV4cCI6MTc2NjMzMzAwN30._MjZgp7YaYFs5Syfpd6kt5xxF5B7upwSkSqqWOfimtv8EwPQTK-bAZU0w2TapUyEQLmpOUX2KVuKfLd-qLcCfQ
 
 ### Health Check ###
 
@@ -35,19 +35,19 @@ Content-Type: application/json
 ### User Tests ###
 
 ### Get user
-GET {{WebService_HostAddress}}/api/v2/users/2
+GET {{WebService_HostAddress}}/api/v2/users/1
 Accept: application/json
 
 ### Get user bookmarks
-GET {{WebService_HostAddress}}/api/v2/users/2/bookmarks
+GET {{WebService_HostAddress}}/api/v2/users/1/bookmarks
 Accept: application/json
 
 ### Get user bookmark by pageID
-GET {{WebService_HostAddress}}/api/v2/users/2/bookmarks/30855
+GET {{WebService_HostAddress}}/api/v2/users/1/bookmarks/30855
 Accept: application/json
 
 ### POST user bookmark
-POST {{WebService_HostAddress}}/api/v2/users/2/bookmarks
+POST {{WebService_HostAddress}}/api/v2/users/1/bookmarks
 Authorization: Bearer {{Authentication_Token}}
 Content-Type: application/json
 
@@ -56,19 +56,19 @@ Content-Type: application/json
 }
 
 ### DELETE user bookmark
-DELETE {{WebService_HostAddress}}/api/v2/users/2/bookmarks/30855
+DELETE {{WebService_HostAddress}}/api/v2/users/1/bookmarks/30855
 Authorization: Bearer {{Authentication_Token}}
 
 ### Get user ratings
-GET {{WebService_HostAddress}}/api/v2/users/2/ratings
+GET {{WebService_HostAddress}}/api/v2/users/1/ratings
 Accept: application/json
 
 ### Get user rating by TitleID
-GET {{WebService_HostAddress}}/api/v2/users/2/ratings/tt13652970
+GET {{WebService_HostAddress}}/api/v2/users/1/ratings/tt13652970
 Accept: application/json
 
 ### POST user rating
-POST {{WebService_HostAddress}}/api/v2/users/2/ratings
+POST {{WebService_HostAddress}}/api/v2/users/1/ratings
 Authorization: Bearer {{Authentication_Token}}
 Content-Type: application/json
 
@@ -78,24 +78,25 @@ Content-Type: application/json
 }
 
 ### PUT user rating (update existing)
-PUT {{WebService_HostAddress}}/api/v2/users/2/ratings/tt13652970
+PUT {{WebService_HostAddress}}/api/v2/users/1/ratings/tt13652970
 Authorization: Bearer {{Authentication_Token}}
 Content-Type: application/json
 
 {
   "Rating": 9
+  "Review": "Great movie!"
 }
 
 ### DELETE user rating
-DELETE {{WebService_HostAddress}}/api/v2/users/2/ratings/tt13652970
+DELETE {{WebService_HostAddress}}/api/v2/users/1/ratings/tt13652970
 Authorization: Bearer {{Authentication_Token}}
 
 ### GET user visits
-GET {{WebService_HostAddress}}/api/v2/users/2/visits
+GET {{WebService_HostAddress}}/api/v2/users/1/visits
 Accept: application/json
 
 ### POST user visit
-POST {{WebService_HostAddress}}/api/v2/users/2/visits
+POST {{WebService_HostAddress}}/api/v2/users/1/visits
 Authorization: Bearer {{Authentication_Token}}
 Content-Type: application/json
 
@@ -164,7 +165,7 @@ GET {{WebService_HostAddress}}/api/v2/individuals?page=1&pageSize=5
 Accept: application/json
 
 ### Get Individuals by parameters
-GET {{WebService_HostAddress}}/api/v2/individuals?name=Tom+Hanks&page=1&pageSize=5
+GET {{WebService_HostAddress}}/api/v2/individuals?name=Tom&page=1&pageSize=20
 Accept: application/json
 
 ### Get Individual's Titles
