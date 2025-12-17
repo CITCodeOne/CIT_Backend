@@ -19,6 +19,8 @@ public class IndividualService
     }
 
     // Get individuals by parameters
+    // Makes use of the materialized view IndividualVotesView for performance
+    // Arguably, this would requre some cron job to keep the view updated, but for now, we dont worry about that
     public List<IndividualReferenceWithTotalVotesDTO> SearchIndividuals(IndividualSearchParameters parameters)
     {
         var query = _ctx.IndividualVotesViews.AsQueryable();
@@ -42,9 +44,9 @@ public class IndividualService
             "birthyear" => parameters.SortDescending
                 ? query.OrderByDescending(i => i.BirthYear)
                 : query.OrderBy(i => i.BirthYear),
-            "numvotes" => parameters.SortDescending
-                ? query.OrderByDescending(i => i.TotalVotes)
-                : query.OrderBy(i => i.TotalVotes),
+            "rating" => parameters.SortDescending
+                ? query.OrderByDescending(i => i.NameRating)
+                : query.OrderBy(i => i.NameRating),
             _ => query.OrderByDescending(i => i.TotalVotes), // Default: most popular individuals first
         };
 
@@ -55,7 +57,7 @@ public class IndividualService
             .Take(parameters.PageSize)
             .ToList();
 
-        // Map directly - materialized view now includes PageId
+        // Map directly 
         return _mapper.Map<List<IndividualReferenceWithTotalVotesDTO>>(individuals);
     }
 

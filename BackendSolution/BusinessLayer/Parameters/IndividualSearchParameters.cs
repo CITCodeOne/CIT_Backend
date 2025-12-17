@@ -7,6 +7,6 @@ public class IndividualSearchParameters
     public string? Name { get; set; }
     public int? MinBirthYear { get; set; }
     public int? MaxBirthYear { get; set; }
-    public string SortBy { get; set; } = "numvotes"; // name, birthyear, numvotes
+    public string SortBy { get; set; } = "numvotes"; // name, birthyear, numvotes, namerating
     public bool SortDescending { get; set; } = true;
 }

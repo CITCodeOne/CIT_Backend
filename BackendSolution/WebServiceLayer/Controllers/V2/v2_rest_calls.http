@@ -56,57 +56,57 @@ Content-Type: application/json
 }
 
 ### DELETE user bookmark
-DELETE {{WebService_HostAddress}}/api/v2/users/30855/bookmarks/1
+DELETE {{WebService_HostAddress}}/api/v2/users/2/bookmarks/30855
 Authorization: Bearer {{Authentication_Token}}
 
 ### Get user ratings
-GET {{WebService_HostAddress}}/api/v2/users/55/ratings
+GET {{WebService_HostAddress}}/api/v2/users/2/ratings
 Accept: application/json
 
 ### Get user rating by TitleID
-GET {{WebService_HostAddress}}/api/v2/users/55/ratings/tt0052520
+GET {{WebService_HostAddress}}/api/v2/users/2/ratings/tt13652970
 Accept: application/json
 
 ### POST user rating
-POST {{WebService_HostAddress}}/api/v2/users/55/ratings
+POST {{WebService_HostAddress}}/api/v2/users/2/ratings
 Authorization: Bearer {{Authentication_Token}}
 Content-Type: application/json
 
 {
-  "TitleId": "tt0052520",
-  "Rating": 9
+  "TitleId": "tt13652970",
+  "Rating": 10
 }
 
 ### PUT user rating (update existing)
-PUT {{WebService_HostAddress}}/api/v2/users/55/ratings/tt0052520
+PUT {{WebService_HostAddress}}/api/v2/users/2/ratings/tt13652970
 Authorization: Bearer {{Authentication_Token}}
 Content-Type: application/json
 
 {
-  "Rating": 8
+  "Rating": 9
 }
 
 ### DELETE user rating
-DELETE {{WebService_HostAddress}}/api/v2/users/55/ratings/tt0052520
+DELETE {{WebService_HostAddress}}/api/v2/users/2/ratings/tt13652970
 Authorization: Bearer {{Authentication_Token}}
 
 ### GET user visits
-GET {{WebService_HostAddress}}/api/v2/users/55/visits
+GET {{WebService_HostAddress}}/api/v2/users/2/visits
 Accept: application/json
 
 ### POST user visit
-POST {{WebService_HostAddress}}/api/v2/users/55/visits
+POST {{WebService_HostAddress}}/api/v2/users/2/visits
 Authorization: Bearer {{Authentication_Token}}
 Content-Type: application/json
 
 {
-  "PageId": 3
+  "PageId": 8
 }
 
 ### Titles Tests ###
 
 ### Get Title by ID
-GET {{WebService_HostAddress}}/api/v2/titles/tt0052520
+GET {{WebService_HostAddress}}/api/v2/titles/tt13652970
 Accept: application/json
 
 ### Get Titles (paged by default)
@@ -130,11 +130,11 @@ GET {{WebService_HostAddress}}/api/v2/titles?name=godfather&pageNumber=1&pageSiz
 Accept: application/json
 
 ### Get Title ratings
-GET {{WebService_HostAddress}}/api/v2/titles/tt0052520/ratings
+GET {{WebService_HostAddress}}/api/v2/titles/tt13652970/ratings
 Accept: application/json
 
 ### Get Title's Individuals
-GET {{WebService_HostAddress}}/api/v2/titles/tt0052520/individuals
+GET {{WebService_HostAddress}}/api/v2/titles/tt13652970/individuals
 Accept: application/json
 
 ### Get todays featured title
@@ -142,11 +142,11 @@ GET {{WebService_HostAddress}}/api/v2/titles/featured
 Accept: application/json
 
 ### Get Page for a given TitleId
-GET {{WebService_HostAddress}}/api/v2/titles/tt0052520/page
+GET {{WebService_HostAddress}}/api/v2/titles/tt13652970/page
 Accept: application/json
 
 ### Get Similar Titles
-GET {{WebService_HostAddress}}/api/v2/titles/tt0052520/similar
+GET {{WebService_HostAddress}}/api/v2/titles/tt13652970/similar
 Accept: application/json
 
 ### Individuals Tests ###
@@ -161,6 +161,10 @@ Accept: application/json
 
 ### Get Individuals (page 2, page size 5)
 GET {{WebService_HostAddress}}/api/v2/individuals?page=1&pageSize=5
+Accept: application/json
+
+### Get Individuals by parameters
+GET {{WebService_HostAddress}}/api/v2/individuals?name=Tom+Hanks&page=1&pageSize=5
 Accept: application/json
 
 ### Get Individual's Titles
