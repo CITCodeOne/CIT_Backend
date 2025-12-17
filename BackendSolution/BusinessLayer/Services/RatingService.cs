@@ -40,7 +40,7 @@ public class RatingService
         return _mapper.Map<List<RatingDTO>>(ratings);
     }
 
-    public async Task RateAsync(int uconst, string tconst, int rating)
+    public async Task RateAsync(int uconst, string tconst, int rating, string? reviewText = null)
     {
         if (string.IsNullOrWhiteSpace(tconst))
         {
@@ -53,7 +53,7 @@ public class RatingService
         }
 
         // Calls the database function mdb.rate which handles inserts/updates + aggregates
-        await _ctx.Database.ExecuteSqlInterpolatedAsync($"SELECT mdb.rate({uconst}, {tconst}, {rating});");
+        await _ctx.Database.ExecuteSqlInterpolatedAsync($"SELECT mdb.rate({uconst}, {tconst}, {rating}, {reviewText});");
     }
 
     public async Task DeleteRatingAsync(int uconst, string tconst)

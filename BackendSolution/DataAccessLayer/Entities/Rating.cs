@@ -11,6 +11,8 @@ public partial class Rating
 
     public int? Rating1 { get; set; }
 
+    public string? ReviewText { get; set; }
+
     public DateTime? Time { get; set; }
 
     public virtual Title TconstNavigation { get; set; } = null!;

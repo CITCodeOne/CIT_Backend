@@ -128,7 +128,7 @@ public class UsersController : ControllerBase
 
         try
         {
-            _mdbService.Rating.RateAsync(userId, ratingCreateDto.TitleId, ratingCreateDto.Rating).Wait();
+            _mdbService.Rating.RateAsync(userId, ratingCreateDto.TitleId, ratingCreateDto.Rating, ratingCreateDto.ReviewText).Wait();
             return Ok(new { message = "Rating submitted" });
         }
         catch (ArgumentException ex)
@@ -155,7 +155,7 @@ public class UsersController : ControllerBase
 
         try
         {
-            _mdbService.Rating.RateAsync(userId, titleId, ratingUpdateDto.Rating).Wait();
+            _mdbService.Rating.RateAsync(userId, titleId, ratingUpdateDto.Rating, ratingUpdateDto.ReviewText).Wait();
             return Ok(new { message = "Rating updated" });
         }
         catch (ArgumentException ex)
