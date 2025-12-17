@@ -75,12 +75,14 @@ public class MappingProfile : Profile
           .ForMember(dto => dto.UserId, opt => opt.MapFrom(r => r.Uconst))
           .ForMember(dto => dto.TitleId, opt => opt.MapFrom(r => r.Tconst))
           .ForMember(dto => dto.Rating, opt => opt.MapFrom(r => r.Rating1 ?? 0))
+          .ForMember(dto => dto.ReviewText, opt => opt.MapFrom(r => r.ReviewText))
           .ForMember(dto => dto.Time, opt => opt.MapFrom(r => r.Time));
 
         CreateMap<Rating, RatingWithTitleDTO>()
           .ForMember(dto => dto.UserId, opt => opt.MapFrom(r => r.Uconst))
           .ForMember(dto => dto.TitleId, opt => opt.MapFrom(r => r.Tconst))
           .ForMember(dto => dto.Rating, opt => opt.MapFrom(r => r.Rating1 ?? 0))
+          .ForMember(dto => dto.ReviewText, opt => opt.MapFrom(r => r.ReviewText))
           .ForMember(dto => dto.Time, opt => opt.MapFrom(r => r.Time))
           .ForMember(dto => dto.Title, opt => opt.MapFrom(r => r.TconstNavigation));
 
@@ -89,6 +91,7 @@ public class MappingProfile : Profile
           .ForMember(dto => dto.UserName, opt => opt.MapFrom(r => r.UconstNavigation.UserName ?? ""))
           .ForMember(dto => dto.TitleId, opt => opt.MapFrom(r => r.Tconst))
           .ForMember(dto => dto.Rating, opt => opt.MapFrom(r => r.Rating1 ?? 0))
+          .ForMember(dto => dto.ReviewText, opt => opt.MapFrom(r => r.ReviewText))
           .ForMember(dto => dto.Time, opt => opt.MapFrom(r => r.Time));
 
         // Individual mappings

@@ -6,6 +6,7 @@ public class RatingDTO
     public int UserId { get; set; }
     public string TitleId { get; set; } = string.Empty;
     public int Rating { get; set; }
+    public string? ReviewText { get; set; }
     public DateTime? Time { get; set; }
 }
 
@@ -15,6 +16,7 @@ public class RatingWithTitleDTO
     public int UserId { get; set; }
     public string TitleId { get; set; } = string.Empty;
     public int Rating { get; set; }
+    public string? ReviewText { get; set; }
     public DateTime? Time { get; set; }
     public TitleReferenceDTO? Title { get; set; }
 }
@@ -26,6 +28,7 @@ public class RatingWithUserDTO
     public string UserName { get; set; } = string.Empty;
     public string TitleId { get; set; } = string.Empty;
     public int Rating { get; set; }
+    public string? ReviewText { get; set; }
     public DateTime? Time { get; set; }
 }
 
@@ -34,10 +37,12 @@ public class CreateRatingDTO
 {
     public string TitleId { get; set; } = string.Empty;
     public int Rating { get; set; }
+    public string? ReviewText { get; set; }
 }
 
 // to update an existing rating
 public class UpdateRatingDTO
 {
     public int Rating { get; set; }
+    public string? ReviewText { get; set; }
 }
