@@ -1,7 +1,7 @@
 @WebService_HostAddress = https://localhost:5001
 
 # INFO: Replace with a valid JWT token after login
-@Authentication_Token = eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTUxMiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoidGVzdHVzZXIyIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiVXNlciIsInVpZCI6IjU1IiwiZXhwIjoxNzY2MTU0NjMxfQ.2qVySNaTRuaLPpRh5qi-ZggmXqeE8wnxSVDZIMcyvBBP6RSd_Y_trD5M1Nd-bspEhfx28FwEdCSmqKL_VAxSig
+@Authentication_Token = eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTUxMiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoicGJsZW0iLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJVc2VyIiwidWlkIjoiMiIsImV4cCI6MTc2NjMyODQzOX0.YbBkw1r7o6qvlnrgNz00AyuTK9jTP7g_QX1HGuSkNDn8GPRrMxdo3T3s-MNrQfKwpvA2lpv2g3oodFSa5tuo6A
 
 ### Health Check ###
 
@@ -16,10 +16,10 @@ POST {{WebService_HostAddress}}/api/v2/auth/signup
 Content-Type: application/json
 
 {
-  "name": "Test User",
-  "username": "testuser3",
-  "password": "password12311",
-  "email": "anothermail@mail.com"
+  "name": "pblem",
+  "username": "pblem",
+  "password": "figlet",
+  "email": "mail@example.com"
 }
 
 ### Login with the created user
@@ -28,35 +28,35 @@ POST {{WebService_HostAddress}}/api/v2/auth/login
 Content-Type: application/json
 
 {
-  "username": "testuser2",
-  "password": "password12311"
+  "username": "pblem",
+  "password": "figlet"
 }
 
 ### User Tests ###
 
 ### Get user
-GET {{WebService_HostAddress}}/api/v2/users/55
+GET {{WebService_HostAddress}}/api/v2/users/2
 Accept: application/json
 
 ### Get user bookmarks
-GET {{WebService_HostAddress}}/api/v2/users/55/bookmarks
+GET {{WebService_HostAddress}}/api/v2/users/2/bookmarks
 Accept: application/json
 
 ### Get user bookmark by pageID
-GET {{WebService_HostAddress}}/api/v2/users/55/bookmarks/1
+GET {{WebService_HostAddress}}/api/v2/users/2/bookmarks/30855
 Accept: application/json
 
 ### POST user bookmark
-POST {{WebService_HostAddress}}/api/v2/users/55/bookmarks
+POST {{WebService_HostAddress}}/api/v2/users/2/bookmarks
 Authorization: Bearer {{Authentication_Token}}
 Content-Type: application/json
 
 {
-  "PageId": "4"
+  "PageId": "30855"
 }
 
 ### DELETE user bookmark
-DELETE {{WebService_HostAddress}}/api/v2/users/55/bookmarks/1
+DELETE {{WebService_HostAddress}}/api/v2/users/30855/bookmarks/1
 Authorization: Bearer {{Authentication_Token}}
 
 ### Get user ratings
@@ -126,7 +126,7 @@ GET {{WebService_HostAddress}}/api/v2/titles?genre=Drama&pageNumber=2&pageSize=5
 Accept: application/json
 
 ### Get Titles by multiple params
-GET {{WebService_HostAddress}}/api/v2/titles?name=Godfather&pageNumber=1&pageSize=5&genre=Crime
+GET {{WebService_HostAddress}}/api/v2/titles?name=godfather&pageNumber=1&pageSize=5&genre=Crime
 Accept: application/json
 
 ### Get Title ratings

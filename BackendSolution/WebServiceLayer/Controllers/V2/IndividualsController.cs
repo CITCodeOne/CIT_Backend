@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using BusinessLayer;
 using BusinessLayer.DTOs;
+using BusinessLayer.Parameters;
 
 namespace WebServiceLayer.Controllers.V2;
 
@@ -15,17 +16,33 @@ public class IndividualsController : ControllerBase
         _mdb = mdbService;
     }
 
-    // GET: api/v2/individuals?page=1&pageSize=20
+    // GET api/v2/individuals?params
     [HttpGet]
     [ProducesResponseType(typeof(List<IndividualReferenceDTO>), StatusCodes.Status200OK)]
-    public ActionResult<List<IndividualReferenceDTO>> GetIndividuals([FromQuery] int page = 1, [FromQuery] int pageSize = 20)
+    public ActionResult<List<IndividualReferenceDTO>> GetIndividuals([FromQuery] IndividualSearchParameters parameters)
     {
-        if (page < 1) page = 1;
-        if (pageSize < 1 || pageSize > 100) pageSize = 20;
+        // Validate and set defaults for pagination
+        if (parameters.Page < 1) parameters.Page = 1;
+        if (parameters.PageSize < 1 || parameters.PageSize > 100) parameters.PageSize = 20;
 
-        var individuals = _mdb.Individual.ReferenceByPage(page, pageSize);
+        var individuals = _mdb.Individual.SearchIndividuals(parameters);
         return Ok(individuals);
     }
+
+    // INFO: Depricated
+    // REMOVE BEFORE FLIGHT
+    //
+    // // GET: api/v2/individuals?page=1&pageSize=20
+    // [HttpGet]
+    // [ProducesResponseType(typeof(List<IndividualReferenceDTO>), StatusCodes.Status200OK)]
+    // public ActionResult<List<IndividualReferenceDTO>> GetIndividuals([FromQuery] int page = 1, [FromQuery] int pageSize = 20)
+    // {
+    //     if (page < 1) page = 1;
+    //     if (pageSize < 1 || pageSize > 100) pageSize = 20;
+    //
+    //     var individuals = _mdb.Individual.ReferenceByPage(page, pageSize);
+    //     return Ok(individuals);
+    // }
 
     // GET: api/v2/individuals/popular?page=1&pageSize=20
     [HttpGet("popular")]
@@ -93,7 +110,7 @@ public class IndividualsController : ControllerBase
     [ProducesResponseType(typeof(List<IndividualSearchResultDTO>), StatusCodes.Status200OK)]
     public ActionResult<List<IndividualSearchResultDTO>> SearchIndividuals([FromQuery] string name)
     {
-        var results = _mdb.Individual.SearchIndividuals(name ?? "");
+        var results = _mdb.Individual.SearchIndividualsByFunction(name ?? "");
         return Ok(results);
     }
 

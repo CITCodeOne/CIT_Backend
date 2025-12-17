@@ -1,6 +1,7 @@
 using AutoMapper;
 using DataAccessLayer.Data;
 using BusinessLayer.DTOs;
+using BusinessLayer.Parameters;
 using Microsoft.EntityFrameworkCore;
 
 namespace BusinessLayer.Services;
@@ -16,6 +17,48 @@ public class IndividualService
         _ctx = ctx; // Database context
         _mapper = mapper; // Mapping profile for DTOs
     }
+
+    // Get individuals by parameters
+    public List<IndividualReferenceWithTotalVotesDTO> SearchIndividuals(IndividualSearchParameters parameters)
+    {
+        var query = _ctx.Individuals.AsQueryable();
+
+        // Apply filters
+        if (!string.IsNullOrWhiteSpace(parameters.Name))
+            query = query.Where(i => i.Name != null && EF.Functions.ILike(i.Name, $"%{parameters.Name}%"));
+
+        if (parameters.MinBirthYear.HasValue)
+            query = query.Where(i => i.BirthYear >= parameters.MinBirthYear.Value);
+
+        if (parameters.MaxBirthYear.HasValue)
+            query = query.Where(i => i.BirthYear <= parameters.MaxBirthYear.Value);
+
+        // Apply sorting
+        query = parameters.SortBy?.ToLower() switch
+        {
+            "name" => parameters.SortDescending
+                ? query.OrderByDescending(i => i.Name)
+                : query.OrderBy(i => i.Name),
+            "birthyear" => parameters.SortDescending
+                ? query.OrderByDescending(i => i.BirthYear)
+                : query.OrderBy(i => i.BirthYear),
+            "numvotes" => parameters.SortDescending
+                ? query.OrderByDescending(i => i.NameRating)
+                : query.OrderBy(i => i.NameRating),
+            _ => query.OrderBy(i => i.Iconst),
+        };
+
+        // Pagination
+        var skip = (parameters.Page - 1) * parameters.PageSize;
+        var individuals = query
+            .Include(i => i.IndividualPage)
+            .Skip(skip)
+            .Take(parameters.PageSize)
+            .ToList();
+
+        return _mapper.Map<List<IndividualReferenceWithTotalVotesDTO>>(individuals);
+    }
+
 
     // Get single individual with full details
     public IndividualFullDTO? FullById(string iconst)
@@ -113,6 +156,7 @@ public class IndividualService
         var titles = _ctx.Titles
             .Where(t => t.Contributors.Any(c => c.Iconst == iconst))
             .Include(t => t.TitlePage)
+            .OrderByDescending(t => t.Numvotes)
             .ToList();
         return _mapper.Map<List<TitlePreviewDTO>>(titles);
     }
@@ -146,7 +190,7 @@ public class IndividualService
     }
 
     // Search individuals
-    public List<IndividualSearchResultDTO> SearchIndividuals(string name)
+    public List<IndividualSearchResultDTO> SearchIndividualsByFunction(string name)
     {
         var results = _ctx.Database
             .SqlQueryRaw<IndividualSearchResultDTO>("SELECT iconst AS Id, name AS Name, contribution AS Contribution, title_name AS TitleName, COALESCE(detail, '') AS Detail, COALESCE(genre, '') AS Genre FROM mdb.find_name({0})", name)
