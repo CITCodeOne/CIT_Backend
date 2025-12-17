@@ -162,6 +162,8 @@ public class UsersController : ControllerBase
         {
             return BadRequest(new { error = ex.Message });
         }
+
+        // NOTE: This currently is not entirely RESTful since this requires a rating even if we just want to update the review text.  
     }
 
     // DELETE: api/v2/users/{userId}/ratings/{titleId}
