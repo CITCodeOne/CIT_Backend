@@ -117,7 +117,10 @@ public class MappingProfile : Profile
           .ForMember(dto => dto.Id, opt => opt.MapFrom(i => i.Iconst))
           .ForMember(dto => dto.Name, opt => opt.MapFrom(i => i.Name ?? ""))
           .ForMember(dto => dto.TotalVotes, opt => opt.MapFrom(i => i.TotalVotes))
-          .ForMember(dto => dto.PageId, opt => opt.MapFrom(i => i.Pconst));
+          .ForMember(dto => dto.PageId, opt => opt.MapFrom(i => i.Pconst))
+          .ForMember(dto => dto.NameRating, opt => opt.MapFrom(i => i.NameRating))
+          .ForMember(dto => dto.BirthYear, opt => opt.MapFrom(i => i.BirthYear))
+          .ForMember(dto => dto.DeathYear, opt => opt.MapFrom(i => i.DeathYear));
 
         //Page mappings
         CreateMap<Page, PageFullDTO>()

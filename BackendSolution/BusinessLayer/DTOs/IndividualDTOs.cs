@@ -34,6 +34,9 @@ public class IndividualReferenceWithTotalVotesDTO
     public string Id { get; set; } = string.Empty;
     public string Name { get; set; } = string.Empty;
     public int TotalVotes { get; set; }
+    public double? NameRating { get; set; }
+    public short? BirthYear { get; set; }
+    public short? DeathYear { get; set; }
     public int? PageId { get; set; }
 }
 

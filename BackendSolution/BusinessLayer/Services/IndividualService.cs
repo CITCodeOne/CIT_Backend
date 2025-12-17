@@ -139,7 +139,10 @@ public class IndividualService
                     pa.iconst AS ""Id"",
                     i.name AS ""Name"",
                     p.pconst AS ""PageId"",
-                    pa.total_votes AS ""TotalVotes""
+                    pa.total_votes AS ""TotalVotes"",
+                    i.name_rating AS ""NameRating"",
+                    i.birth_year AS ""BirthYear"",
+                    i.death_year AS ""DeathYear""
                 FROM popular_actors pa
                 INNER JOIN mdb.individual i USING (iconst)
                 LEFT JOIN mdb.page p USING (iconst)
