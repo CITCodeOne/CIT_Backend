@@ -30,6 +30,8 @@ public partial class CITContext : DbContext
 
     public virtual DbSet<Individual> Individuals { get; set; }
 
+    public virtual DbSet<IndividualVotesView> IndividualVotesViews { get; set; }
+
     public virtual DbSet<Page> Pages { get; set; }
 
     public virtual DbSet<Rating> Ratings { get; set; }
@@ -83,6 +85,31 @@ public partial class CITContext : DbContext
             entity.Property(e => e.TitleName)
                 .HasMaxLength(256)
                 .HasColumnName("title_name");
+        });
+
+        modelBuilder.Entity<IndividualVotesView>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("individual_votes_view", "mdb");
+
+            entity.Property(e => e.Iconst)
+                .HasMaxLength(10)
+                .IsFixedLength()
+                .HasColumnName("iconst");
+            entity.Property(e => e.Name)
+                .HasMaxLength(256)
+                .HasColumnName("name");
+            entity.Property(e => e.BirthYear)
+                .HasColumnName("birth_year");
+            entity.Property(e => e.DeathYear)
+                .HasColumnName("death_year");
+            entity.Property(e => e.NameRating)
+                .HasColumnName("name_rating");
+            entity.Property(e => e.Pconst)
+                .HasColumnName("pconst");
+            entity.Property(e => e.TotalVotes)
+                .HasColumnName("total_votes");
         });
 
         modelBuilder.Entity<Bookmark>(entity =>

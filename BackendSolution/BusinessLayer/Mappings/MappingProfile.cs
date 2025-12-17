@@ -113,6 +113,12 @@ public class MappingProfile : Profile
           .ForMember(dto => dto.PageId, opt => opt.MapFrom(i => i.IndividualPage.Pconst))
           .ForMember(dto => dto.TotalVotes, opt => opt.MapFrom(i => 0)); // Default to 0 when mapping from entity
 
+        CreateMap<IndividualVotesView, IndividualReferenceWithTotalVotesDTO>()
+          .ForMember(dto => dto.Id, opt => opt.MapFrom(i => i.Iconst))
+          .ForMember(dto => dto.Name, opt => opt.MapFrom(i => i.Name ?? ""))
+          .ForMember(dto => dto.TotalVotes, opt => opt.MapFrom(i => i.TotalVotes))
+          .ForMember(dto => dto.PageId, opt => opt.MapFrom(i => i.Pconst));
+
         //Page mappings
         CreateMap<Page, PageFullDTO>()
           .ForMember(dto => dto.PageId, opt => opt.MapFrom(p => p.Pconst))

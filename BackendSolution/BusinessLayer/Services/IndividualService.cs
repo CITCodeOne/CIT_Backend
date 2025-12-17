@@ -21,7 +21,7 @@ public class IndividualService
     // Get individuals by parameters
     public List<IndividualReferenceWithTotalVotesDTO> SearchIndividuals(IndividualSearchParameters parameters)
     {
-        var query = _ctx.Individuals.AsQueryable();
+        var query = _ctx.IndividualVotesViews.AsQueryable();
 
         // Apply filters
         if (!string.IsNullOrWhiteSpace(parameters.Name))
@@ -43,19 +43,19 @@ public class IndividualService
                 ? query.OrderByDescending(i => i.BirthYear)
                 : query.OrderBy(i => i.BirthYear),
             "numvotes" => parameters.SortDescending
-                ? query.OrderByDescending(i => i.NameRating)
-                : query.OrderBy(i => i.NameRating),
-            _ => query.OrderBy(i => i.Iconst),
+                ? query.OrderByDescending(i => i.TotalVotes)
+                : query.OrderBy(i => i.TotalVotes),
+            _ => query.OrderByDescending(i => i.TotalVotes), // Default: most popular individuals first
         };
 
         // Pagination
         var skip = (parameters.Page - 1) * parameters.PageSize;
         var individuals = query
-            .Include(i => i.IndividualPage)
             .Skip(skip)
             .Take(parameters.PageSize)
             .ToList();
 
+        // Map directly - materialized view now includes PageId
         return _mapper.Map<List<IndividualReferenceWithTotalVotesDTO>>(individuals);
     }
 
