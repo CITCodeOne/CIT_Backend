@@ -28,3 +28,13 @@ public class CreateOrUpdateUserDTO
     public required string Password { get; set; }
     public required string Email { get; set; }
 }
+
+
+public class UserProfileImageDTO {
+    public int UserId { get; set; }
+    public string? ProfileImage { get; set; }
+}
+
+public class UpdateProfileImageDTO {
+    public required string ImageBase64 { get; set; }
+}

@@ -20,4 +20,22 @@ public class UserService
         var user = _ctx.UserInfos.FirstOrDefault(u => u.Uconst == uconst);
         return user == null ? null : _mapper.Map<UserInfoFullDTO>(user);
     }
+
+    public string? GetProfileImage(int userId)
+    {
+        return _ctx.UserInfos
+            .Where(u => u.Uconst == userId)
+            .Select(u => u.ProfileImage)
+            .SingleOrDefault();
+    }
+
+    public bool SetProfileImage(int userId, string base64Image)
+    {
+        var user = _ctx.UserInfos.SingleOrDefault(u => u.Uconst == userId);
+        if (user == null) return false;
+
+        user.ProfileImage = base64Image;
+        _ctx.SaveChanges();
+        return true;
+    }
 }
