@@ -35,7 +35,13 @@ public class TitlesController : ControllerBase
         if (page < 1) page = 1;
         if (pageSize < 1 || pageSize > 100) pageSize = 20;
 
-        var titles = _mdbService.Title.GetTitles(page, pageSize);
+
+
+        var titles = _mdbService.Title.SearchTitles(new BusinessLayer.Parameters.TitleSearchParameters
+        {
+            Page = page,
+            PageSize = pageSize
+        });
         return Ok(titles);
     }
 
