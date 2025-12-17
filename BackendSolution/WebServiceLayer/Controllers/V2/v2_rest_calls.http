@@ -125,6 +125,10 @@ Accept: application/json
 GET {{WebService_HostAddress}}/api/v2/titles?genre=Drama&pageNumber=2&pageSize=5
 Accept: application/json
 
+### Get Titles by multiple params
+GET {{WebService_HostAddress}}/api/v2/titles?name=Godfather&pageNumber=1&pageSize=5&genre=Crime
+Accept: application/json
+
 ### Get Title ratings
 GET {{WebService_HostAddress}}/api/v2/titles/tt0052520/ratings
 Accept: application/json
@@ -143,10 +147,6 @@ Accept: application/json
 
 ### Get Similar Titles
 GET {{WebService_HostAddress}}/api/v2/titles/tt0052520/similar
-Accept: application/json
-
-### Get Titles by search term
-GET {{WebService_HostAddress}}/api/v2/titles/search?titlesearchterm=Godfather&pageNumber=1&pageSize=5
 Accept: application/json
 
 ### Individuals Tests ###

@@ -19,8 +19,8 @@ public class TitlesController : ControllerBase
     // Search titles with various parameters
     // INFO: See optional params in the TitleSearchParameters class
     //
-    // GET: api/v2/titles/search?params
-    [HttpGet("search")]
+    // GET: api/v2/titles?params
+    [HttpGet]
     [ProducesResponseType(typeof(List<TitlePreviewDTO>), StatusCodes.Status200OK)]
     public ActionResult<List<TitlePreviewDTO>> SearchTitles([FromQuery] TitleSearchParameters parameters)
     {
@@ -31,32 +31,10 @@ public class TitlesController : ControllerBase
         return Ok(titles);
     }
 
-    // GET: api/v2/titles?params
-    // Optional query parameters: 
-    // page: defautls to 1
-    // pageSize: defaults to 20, max 100
-    // genre: optional genre filter
-    [HttpGet]
-    [ProducesResponseType(typeof(List<TitlePreviewDTO>), StatusCodes.Status200OK)]
-    public ActionResult<List<TitlePreviewDTO>> GetTitles([FromQuery] int page = 1, [FromQuery] int pageSize = 20, [FromQuery] string? genre = null)
-    {
-        if (page < 1) page = 1;
-        if (pageSize < 1 || pageSize > 100) pageSize = 20;
-
-        if (!string.IsNullOrWhiteSpace(genre))
-        {
-            var titlesByGenre = _mdbService.Title.GetTitles(page, pageSize, genre);
-            return Ok(titlesByGenre);
-        }
-
-        var titles = _mdbService.Title.GetTitles(page, pageSize);
-        return Ok(titles);
-    }
-
     // GET: api/v2/titles/top/{type}?page=1&pageSize=20
     [HttpGet("top/{type}")]
     [ProducesResponseType(typeof(List<TitlePreviewDTO>), StatusCodes.Status200OK)]
-    public ActionResult<List<TitlePreviewDTO>> GetTopTitles(string type, [FromQuery] int page = 1, [FromQuery] int pageSize = 20)
+    public ActionResult<List<TitlePreviewDTO>> setTopTitles(string type, [FromQuery] int page = 1, [FromQuery] int pageSize = 20)
     {
         if (page < 1) page = 1;
         if (pageSize < 1 || pageSize > 100) pageSize = 20;
