@@ -8,6 +8,7 @@ public class UserInfoFullDTO
     public string? Email { get; set; }
     public DateTime? Time { get; set; }
     public string? ProfileImage { get; set; }
+    public string? Role { get; set; }
 
     //public ICollection<RatingDTO> RatingRefs { get; set; } = [];
     //public virtual ICollection<Bookmark> Bookmarks { get; set; } = new List<Bookmark>();

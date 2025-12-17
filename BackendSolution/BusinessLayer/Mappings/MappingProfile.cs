@@ -135,7 +135,8 @@ public class MappingProfile : Profile
           //.ForMember(dto => dto.Password, opt => opt.MapFrom(u => u.UPassword)) // Excluded as of V2
           .ForMember(dto => dto.Email, opt => opt.MapFrom(u => u.Email))
           .ForMember(dto => dto.Time, opt => opt.MapFrom(u => u.Time))
-          .ForMember(dto => dto.ProfileImage, opt => opt.MapFrom(u => u.ProfileImage));
+          .ForMember(dto => dto.ProfileImage, opt => opt.MapFrom(u => u.ProfileImage))
+          .ForMember(dto => dto.Role, opt => opt.MapFrom(u => u.Role)); // Excluded as of V2;
 
         CreateMap<UserInfo, UserInfoReferenceDTO>()
           .ForMember(dto => dto.Id, opt => opt.MapFrom(u => u.Uconst))
