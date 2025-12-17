@@ -195,6 +195,7 @@ public class UsersController : ControllerBase
 
     // GET: api/v2/users/{userId}/visits
     [HttpGet("{userId}/visits")]
+    [Authorize]
     public IActionResult GetVisits(int userId)
     {
         var visits = _mdbService.Visit.GetVisitsByUserId(userId);
