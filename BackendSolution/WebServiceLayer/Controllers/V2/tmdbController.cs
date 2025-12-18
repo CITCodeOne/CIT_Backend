@@ -154,6 +154,41 @@ public class TmdbController : ControllerBase
         return Ok(posters);
     }
 
+    // GET api/v2/tmdb/movie/{id}?append=credits,images
+    [HttpGet("movie/{id}")]
+    public async Task<IActionResult> GetMovieDetails(string id, [FromQuery] string? append)
+    {
+        if (string.IsNullOrWhiteSpace(id))
+            return BadRequest(new { message = "id is required" });
+
+        if (string.IsNullOrWhiteSpace(_tmdbApiKey))
+            return StatusCode(500, new { message = "TMDB API key not configured" });
+
+        var appendPart = string.IsNullOrWhiteSpace(append) ? "credits,images" : append;
+        var url = $"https://api.themoviedb.org/3/movie/{Uri.EscapeDataString(id)}?append_to_response={Uri.EscapeDataString(appendPart)}";
+
+        var client = _httpClientFactory.CreateClient();
+        using var req = new HttpRequestMessage(HttpMethod.Get, url);
+        req.Headers.Authorization = new AuthenticationHeaderValue("Bearer", _tmdbApiKey);
+        req.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+
+        HttpResponseMessage resp;
+        try
+        {
+            resp = await client.SendAsync(req);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(502, new { message = "Error contacting TMDB", detail = ex.Message });
+        }
+
+        var content = await resp.Content.ReadAsStringAsync();
+        if (!resp.IsSuccessStatusCode)
+            return StatusCode((int)resp.StatusCode, content);
+
+        return Content(content, "application/json");
+    }
+
     // GET api/v2/tmdb/movie/search?query=...
     [HttpGet("movie/search")]
     public async Task<IActionResult> SearchMovie([FromQuery] string? query)
