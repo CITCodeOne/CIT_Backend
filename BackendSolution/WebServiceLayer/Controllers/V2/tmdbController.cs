@@ -153,4 +153,164 @@ public class TmdbController : ControllerBase
 
         return Ok(posters);
     }
+
+    // GET api/v2/tmdb/movie/search?query=...
+    [HttpGet("movie/search")]
+    public async Task<IActionResult> SearchMovie([FromQuery] string? query)
+    {
+        if (string.IsNullOrWhiteSpace(query))
+            return BadRequest(new { message = "query parameter is required" });
+
+        if (string.IsNullOrWhiteSpace(_tmdbApiKey))
+            return StatusCode(500, new { message = "TMDB API key not configured" });
+
+        var url = "https://api.themoviedb.org/3/search/movie" + Request.QueryString;
+        var client = _httpClientFactory.CreateClient();
+        using var req = new HttpRequestMessage(HttpMethod.Get, url);
+        req.Headers.Authorization = new AuthenticationHeaderValue("Bearer", _tmdbApiKey);
+        req.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+
+        HttpResponseMessage resp;
+        try
+        {
+            resp = await client.SendAsync(req);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(502, new { message = "Error contacting TMDB", detail = ex.Message });
+        }
+
+        var content = await resp.Content.ReadAsStringAsync();
+        if (!resp.IsSuccessStatusCode)
+            return StatusCode((int)resp.StatusCode, content);
+
+        return Content(content, "application/json");
+    }
+
+    // GET api/v2/tmdb/tv/search?query=...
+    [HttpGet("tv/search")]
+    public async Task<IActionResult> SearchTv([FromQuery] string? query)
+    {
+        if (string.IsNullOrWhiteSpace(query))
+            return BadRequest(new { message = "query parameter is required" });
+
+        if (string.IsNullOrWhiteSpace(_tmdbApiKey))
+            return StatusCode(500, new { message = "TMDB API key not configured" });
+
+        var url = "https://api.themoviedb.org/3/search/tv" + Request.QueryString;
+        var client = _httpClientFactory.CreateClient();
+        using var req = new HttpRequestMessage(HttpMethod.Get, url);
+        req.Headers.Authorization = new AuthenticationHeaderValue("Bearer", _tmdbApiKey);
+        req.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+
+        HttpResponseMessage resp;
+        try
+        {
+            resp = await client.SendAsync(req);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(502, new { message = "Error contacting TMDB", detail = ex.Message });
+        }
+
+        var content = await resp.Content.ReadAsStringAsync();
+        if (!resp.IsSuccessStatusCode)
+            return StatusCode((int)resp.StatusCode, content);
+
+        return Content(content, "application/json");
+    }
+
+    // GET api/v2/tmdb/person/search?query=...
+    [HttpGet("person/search")]
+    public async Task<IActionResult> SearchPersonAlt([FromQuery] string? query)
+    {
+        // Reuse existing SearchPerson logic via URL composition
+        if (string.IsNullOrWhiteSpace(query))
+            return BadRequest(new { message = "query parameter is required" });
+
+        if (string.IsNullOrWhiteSpace(_tmdbApiKey))
+            return StatusCode(500, new { message = "TMDB API key not configured" });
+
+        var url = "https://api.themoviedb.org/3/search/person" + Request.QueryString;
+        var client = _httpClientFactory.CreateClient();
+        using var req = new HttpRequestMessage(HttpMethod.Get, url);
+        req.Headers.Authorization = new AuthenticationHeaderValue("Bearer", _tmdbApiKey);
+        req.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+
+        HttpResponseMessage resp;
+        try
+        {
+            resp = await client.SendAsync(req);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(502, new { message = "Error contacting TMDB", detail = ex.Message });
+        }
+
+        var content = await resp.Content.ReadAsStringAsync();
+        if (!resp.IsSuccessStatusCode)
+            return StatusCode((int)resp.StatusCode, content);
+
+        return Content(content, "application/json");
+    }
+
+    // GET api/v2/tmdb/movie/{id}/similar
+    [HttpGet("movie/{id}/similar")]
+    public async Task<IActionResult> GetMovieSimilar(string id)
+    {
+        if (string.IsNullOrWhiteSpace(id)) return BadRequest(new { message = "id is required" });
+        if (string.IsNullOrWhiteSpace(_tmdbApiKey)) return StatusCode(500, new { message = "TMDB API key not configured" });
+
+        var url = $"https://api.themoviedb.org/3/movie/{Uri.EscapeDataString(id)}/similar" + Request.QueryString;
+        var client = _httpClientFactory.CreateClient();
+        using var req = new HttpRequestMessage(HttpMethod.Get, url);
+        req.Headers.Authorization = new AuthenticationHeaderValue("Bearer", _tmdbApiKey);
+        req.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+
+        HttpResponseMessage resp;
+        try { resp = await client.SendAsync(req); } catch (Exception ex) { return StatusCode(502, new { message = "Error contacting TMDB", detail = ex.Message }); }
+        var content = await resp.Content.ReadAsStringAsync();
+        if (!resp.IsSuccessStatusCode) return StatusCode((int)resp.StatusCode, content);
+        return Content(content, "application/json");
+    }
+
+    // GET api/v2/tmdb/tv/{id}/similar
+    [HttpGet("tv/{id}/similar")]
+    public async Task<IActionResult> GetTvSimilar(string id)
+    {
+        if (string.IsNullOrWhiteSpace(id)) return BadRequest(new { message = "id is required" });
+        if (string.IsNullOrWhiteSpace(_tmdbApiKey)) return StatusCode(500, new { message = "TMDB API key not configured" });
+
+        var url = $"https://api.themoviedb.org/3/tv/{Uri.EscapeDataString(id)}/similar" + Request.QueryString;
+        var client = _httpClientFactory.CreateClient();
+        using var req = new HttpRequestMessage(HttpMethod.Get, url);
+        req.Headers.Authorization = new AuthenticationHeaderValue("Bearer", _tmdbApiKey);
+        req.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+
+        HttpResponseMessage resp;
+        try { resp = await client.SendAsync(req); } catch (Exception ex) { return StatusCode(502, new { message = "Error contacting TMDB", detail = ex.Message }); }
+        var content = await resp.Content.ReadAsStringAsync();
+        if (!resp.IsSuccessStatusCode) return StatusCode((int)resp.StatusCode, content);
+        return Content(content, "application/json");
+    }
+
+    // GET api/v2/tmdb/find?imdbId=ttXXXXX
+    [HttpGet("find")]
+    public async Task<IActionResult> FindByImdb([FromQuery] string? imdbId)
+    {
+        if (string.IsNullOrWhiteSpace(imdbId)) return BadRequest(new { message = "imdbId parameter is required" });
+        if (string.IsNullOrWhiteSpace(_tmdbApiKey)) return StatusCode(500, new { message = "TMDB API key not configured" });
+
+        var url = $"https://api.themoviedb.org/3/find/{Uri.EscapeDataString(imdbId)}?external_source=imdb_id";
+        var client = _httpClientFactory.CreateClient();
+        using var req = new HttpRequestMessage(HttpMethod.Get, url);
+        req.Headers.Authorization = new AuthenticationHeaderValue("Bearer", _tmdbApiKey);
+        req.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+
+        HttpResponseMessage resp;
+        try { resp = await client.SendAsync(req); } catch (Exception ex) { return StatusCode(502, new { message = "Error contacting TMDB", detail = ex.Message }); }
+        var content = await resp.Content.ReadAsStringAsync();
+        if (!resp.IsSuccessStatusCode) return StatusCode((int)resp.StatusCode, content);
+        return Content(content, "application/json");
+    }
 }
