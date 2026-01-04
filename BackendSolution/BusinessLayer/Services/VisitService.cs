@@ -5,18 +5,22 @@ using BusinessLayer.DTOs;
 
 namespace BusinessLayer.Services;
 
+// Service til at registrere og hente hvilke sider brugere har besøgt.
+// Forklaring for ikke-teknikere: hver gang en bruger åbner en side gemmes et "visit",
+// så vi bagefter kan vise en historik eller anbefalinger baseret på besøg.
 public class VisitService
 {
     private readonly CITContext _ctx;
     private readonly IMapper _mapper;
 
-    // Constructor with dependency injection
+    // Konstruktør: modtager database-kontekst og mapper
     public VisitService(CITContext ctx, IMapper mapper)
     {
         _ctx = ctx; // Database context
-        _mapper = mapper; // Mapping profile for DTOs
+        _mapper = mapper; // Mapper til DTO'er
     }
 
+    // Hent besøg (visits) for en bruger sorteret med nyeste først
     public List<VisitedPageDTO> GetVisitsByUserId(int userId)
     {
         var visits = _ctx.VisitedPages
@@ -27,9 +31,11 @@ public class VisitService
         return _mapper.Map<List<VisitedPageDTO>>(visits);
     }
 
+    // Tilføj et nyt besøg for en bruger på en given side
+    // Returnerer DTO for det oprettede visit
     public VisitedPageDTO AddVisitedPage(int userId, int pageId)
     {
-        // Create new visited page object
+        // Opret objekter men tjek først at siden findes
         var visitedPage = new VisitedPage
         {
             Uconst = userId,
@@ -38,7 +44,6 @@ public class VisitService
             PconstNavigation = null! // rely on existing page FK;
         };
 
-        // validate that the page exists
         var pageExists = _ctx.Pages.Any(p => p.Pconst == pageId);
         if (!pageExists) throw new ArgumentException($"Page with id '{pageId}' does not exist.");
 

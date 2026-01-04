@@ -9,6 +9,11 @@ namespace WebServiceLayer.Controllers.V2;
 [Route("api/v2/tmdb")]
 public class TmdbController : ControllerBase
 {
+    // Controlleren videreformidler forespørgsler til TheMovieDB (TMDB) API.
+    // Den fungerer som et mellemled mellem vores app og den eksterne
+    // TMDB-tjeneste: modtager søgninger fra klienten, henter data fra
+    // TMDB og returnerer det til klienten. Kommentarerne her forklarer
+    // hvad hvert endpoint gør i almindeligt sprog.
     private readonly IHttpClientFactory _httpClientFactory;
     private readonly string _tmdbApiKey = string.Empty;
 
@@ -25,6 +30,10 @@ public class TmdbController : ControllerBase
                 var json = System.IO.File.ReadAllText(cfgPath);
                 using var doc = JsonDocument.Parse(json);
                 if (doc.RootElement.TryGetProperty("tmdbApiKey", out var keyEl))
+                    // Læs den hemmelige API-nøgle som bruges til at spørge TMDB.
+                    // Hvis filen mangler eller nøglen ikke findes, vil `_tmdbApiKey`
+                    // forblive tom, og de endpoints der har brug for nøglen
+                    // vil returnere en fejlkode.
                     _tmdbApiKey = keyEl.GetString() ?? string.Empty;
             }
         }
@@ -38,9 +47,15 @@ public class TmdbController : ControllerBase
     [HttpGet("person")]
     public async Task<IActionResult> SearchPerson([FromQuery] string? query)
     {
+        // Søger efter personer (skuespillere, instruktører osv.) i TMDB.
+        // `query` er søgeteksten fra klienten. Hvis den ikke er angivet,
+        // svarer vi med BadRequest som betyder at klienten sendte en
+        // ugyldig anmodning.
         if (string.IsNullOrWhiteSpace(query))
             return BadRequest(new { message = "query parameter is required" });
 
+        // Hvis API-nøglen ikke er sat op, kan vi ikke kontakte TMDB,
+        // og returnerer derfor en intern serverfejl (500).
         if (string.IsNullOrWhiteSpace(_tmdbApiKey))
             return StatusCode(500, new { message = "TMDB API key not configured" });
 
@@ -65,7 +80,8 @@ public class TmdbController : ControllerBase
         if (!resp.IsSuccessStatusCode)
             return StatusCode((int)resp.StatusCode, content);
 
-        // Return raw JSON from TMDB
+        // Returnér det rå JSON-svar fra TMDB til klienten. Det betyder at
+        // vi sender den data, TMDB gav os, uden stor forandring.
         return Content(content, "application/json");
     }
 
@@ -73,6 +89,8 @@ public class TmdbController : ControllerBase
     [HttpGet("person/{id}")]
     public async Task<IActionResult> GetPersonDetails(string id, [FromQuery] string? append)
     {
+        // Hent detaljer om en person ud fra deres TMDB-id. `append` kan
+        // angive ekstra information som billeder eller eksterne id'er.
         if (string.IsNullOrWhiteSpace(id))
             return BadRequest(new { message = "id is required" });
 
@@ -101,6 +119,7 @@ public class TmdbController : ControllerBase
         if (!resp.IsSuccessStatusCode)
             return StatusCode((int)resp.StatusCode, content);
 
+        // Returnér TMDB's svar direkte som JSON.
         return Content(content, "application/json");
     }
 
@@ -108,6 +127,8 @@ public class TmdbController : ControllerBase
     [HttpGet("movie/posters")]
     public async Task<IActionResult> GetMoviePosters([FromQuery] string? query)
     {
+        // Søg efter film og udtræk link til plakatbilleder. Returnerer en
+        // liste med titel og URL til plakaten.
         if (string.IsNullOrWhiteSpace(query))
             return BadRequest(new { message = "query parameter is required" });
 
@@ -135,7 +156,8 @@ public class TmdbController : ControllerBase
         if (!resp.IsSuccessStatusCode)
             return StatusCode((int)resp.StatusCode, content);
 
-        // Parse JSON and extract posters
+        // Parse JSON og udtræk plakater: vi læser TMDB's svar og bygger
+        // en forenklet liste med titler og direkte URL'er til billederne.
         using var doc = JsonDocument.Parse(content);
         var results = doc.RootElement.GetProperty("results");
 
@@ -151,6 +173,8 @@ public class TmdbController : ControllerBase
             }
         }
 
+        // Returnér en simpel liste med plakater som klienten nemt kan
+        // vise i UI'et.
         return Ok(posters);
     }
 
@@ -158,6 +182,8 @@ public class TmdbController : ControllerBase
     [HttpGet("movie/{id}")]
     public async Task<IActionResult> GetMovieDetails(string id, [FromQuery] string? append)
     {
+        // Hent detaljer for en film inkl. mulighed for at angive ekstra
+        // data via `append` (fx credits og billeder).
         if (string.IsNullOrWhiteSpace(id))
             return BadRequest(new { message = "id is required" });
 
@@ -193,6 +219,7 @@ public class TmdbController : ControllerBase
     [HttpGet("movie/search")]
     public async Task<IActionResult> SearchMovie([FromQuery] string? query)
     {
+        // Generisk film-søgning, sender TMDB's svar direkte tilbage.
         if (string.IsNullOrWhiteSpace(query))
             return BadRequest(new { message = "query parameter is required" });
 
@@ -226,6 +253,7 @@ public class TmdbController : ControllerBase
     [HttpGet("tv/search")]
     public async Task<IActionResult> SearchTv([FromQuery] string? query)
     {
+        // Søg efter tv-serier. Returnerer TMDB's svar direkte.
         if (string.IsNullOrWhiteSpace(query))
             return BadRequest(new { message = "query parameter is required" });
 
@@ -259,7 +287,7 @@ public class TmdbController : ControllerBase
     [HttpGet("person/search")]
     public async Task<IActionResult> SearchPersonAlt([FromQuery] string? query)
     {
-        // Reuse existing SearchPerson logic via URL composition
+        // Alternativ person-søgning som genbruger TMDBs standard-søgeendpoint.
         if (string.IsNullOrWhiteSpace(query))
             return BadRequest(new { message = "query parameter is required" });
 
@@ -293,6 +321,7 @@ public class TmdbController : ControllerBase
     [HttpGet("movie/{id}/similar")]
     public async Task<IActionResult> GetMovieSimilar(string id)
     {
+        // Find lignende film til den angivne film-id og returnér TMDBs svar.
         if (string.IsNullOrWhiteSpace(id)) return BadRequest(new { message = "id is required" });
         if (string.IsNullOrWhiteSpace(_tmdbApiKey)) return StatusCode(500, new { message = "TMDB API key not configured" });
 
@@ -313,6 +342,7 @@ public class TmdbController : ControllerBase
     [HttpGet("tv/{id}/similar")]
     public async Task<IActionResult> GetTvSimilar(string id)
     {
+        // Find lignende tv-serier for en given tv-id.
         if (string.IsNullOrWhiteSpace(id)) return BadRequest(new { message = "id is required" });
         if (string.IsNullOrWhiteSpace(_tmdbApiKey)) return StatusCode(500, new { message = "TMDB API key not configured" });
 
@@ -333,6 +363,8 @@ public class TmdbController : ControllerBase
     [HttpGet("find")]
     public async Task<IActionResult> FindByImdb([FromQuery] string? imdbId)
     {
+        // Slå TMDB-oplysninger op ved hjælp af et IMDb-id. Bruges når
+        // vi allerede kender filmens eller seriens IMDb-nummer.
         if (string.IsNullOrWhiteSpace(imdbId)) return BadRequest(new { message = "imdbId parameter is required" });
         if (string.IsNullOrWhiteSpace(_tmdbApiKey)) return StatusCode(500, new { message = "TMDB API key not configured" });
 

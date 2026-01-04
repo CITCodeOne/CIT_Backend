@@ -9,10 +9,17 @@ namespace WebServiceLayer.Controllers.V2;
 [Route("api/v2/titles")]
 public class TitlesController : ControllerBase
 {
+    // Controller for titler (film, serier osv.). Den giver klienten
+    // mulighed for at søge, hente top-lister, få detaljer og relaterede
+    // informationer om en titel. Kommentarerne forklarer hvad hvert
+    // endpoint returnerer i almindelige vendinger.
     private readonly MdbService _mdbService;
 
     public TitlesController(MdbService mdbService)
     {
+        // `MdbService` bruges til at hente titel-relaterede data fra
+        // forretningslaget/databasen. Controlleren holder kun på
+        // hvordan svar formateres og hvilke parametre der accepteres.
         _mdbService = mdbService;
     }
 
@@ -24,6 +31,10 @@ public class TitlesController : ControllerBase
     [ProducesResponseType(typeof(List<TitlePreviewDTO>), StatusCodes.Status200OK)]
     public ActionResult<List<TitlePreviewDTO>> SearchTitles([FromQuery] TitleSearchParameters parameters)
     {
+        // Søger titler efter de parametre som klienten sender. Parametrene
+        // kan indeholde tekstsøgning, filtre og paginering. Vi sikrer at
+        // side-nummer og størrelse er i fornuftige intervaller, henter
+        // resultaterne fra forretningslaget og returnerer dem.
         if (parameters.Page < 1) parameters.Page = 1;
         if (parameters.PageSize < 1 || parameters.PageSize > 100) parameters.PageSize = 20;
 
@@ -36,6 +47,8 @@ public class TitlesController : ControllerBase
     [ProducesResponseType(typeof(List<TitlePreviewDTO>), StatusCodes.Status200OK)]
     public ActionResult<List<TitlePreviewDTO>> setTopTitles(string type, [FromQuery] int page = 1, [FromQuery] int pageSize = 20)
     {
+        // Hent top-titler af en bestemt type (fx "movie" eller "tv").
+        // Resultatet er pagineret så klienten kan bede om flere sider.
         if (page < 1) page = 1;
         if (pageSize < 1 || pageSize > 100) pageSize = 20;
 
@@ -48,6 +61,8 @@ public class TitlesController : ControllerBase
     [ProducesResponseType(typeof(TitleFullDTO), StatusCodes.Status200OK)]
     public ActionResult<List<TitleFullDTO>> GetFeaturedTitles()
     {
+        // Returnerer de fremhævede titler som app'en ønsker at vise på
+        // forsiden eller lignende. Dette er ofte et håndplukket sæt.
         var titles = _mdbService.Title.GetFeaturedTitle();
         return Ok(titles);
     }
@@ -58,6 +73,8 @@ public class TitlesController : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public ActionResult<TitleFullDTO> GetTitle(string id)
     {
+        // Hent fulde detaljer for en titel (beskrivelse, år, osv.). Hvis
+        // titlen ikke findes, svarer vi med NotFound.
         var title = _mdbService.Title.GetTitleById(id);
 
         if (title == null)
@@ -72,7 +89,9 @@ public class TitlesController : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public ActionResult<PageReferenceDTO> GetTitlePages(string id)
     {
-        // Verify title exists
+        // Returnér sider (artikler/undersider) som hører til en titel. Først
+        // tjekker vi at titlen eksisterer, så vi ikke søger efter sider for
+        // noget der ikke findes.
         var title = _mdbService.Title.GetTitleById(id);
         if (title == null)
             return NotFound(new { message = $"Title with id '{id}' not found" });
@@ -86,7 +105,8 @@ public class TitlesController : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public ActionResult<List<RatingDTO>> GetTitleRatings(string id)
     {
-        // Verify title exists
+        // Hent alle brugervurderinger (ratings) for en titel. Vi tjekker
+        // at titlen findes før vi henter vurderinger.
         var title = _mdbService.Title.GetTitleById(id);
         if (title == null)
             return NotFound(new { message = $"Title with id '{id}' not found" });
@@ -101,7 +121,8 @@ public class TitlesController : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public ActionResult<List<IndividualReferenceDTO>> GetTitleIndividuals(string id)
     {
-        // Verify title exists
+        // Hent personer (skuespillere, instruktører mv.) som er knyttet
+        // til titlen. Vi tjekker først at titlen findes.
         var title = _mdbService.Title.GetTitleById(id);
         if (title == null)
             return NotFound(new { message = $"Title with id '{id}' not found" });
@@ -115,7 +136,9 @@ public class TitlesController : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public ActionResult<List<SimilarTitleDTO>> GetSimilarMovies(string id)
     {
-        // Verify title exists
+        // Hent lignende titler (anbefalinger). Vi tjekker at titlen findes
+        // og returnerer derefter en liste over titler som minder om den
+        // valgte.
         var title = _mdbService.Title.GetTitleById(id);
         if (title == null)
             return NotFound(new { message = $"Title with id '{id}' not found" });

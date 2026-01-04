@@ -1,4 +1,24 @@
-﻿using System;
+﻿/*
+    CITContext.cs - kort forklaring (dansk)
+
+    VIGTIGT: denne fil er oprettet vha. Entity Framework Core scaffolding
+    (fx `dotnet ef dbcontext scaffold`) imod en eksisterende database. Derfor
+    indeholder den detaljeret `OnModelCreating`-konfiguration, mange `DbSet<>`
+    properties og en `partial class`-struktur.
+
+    Hvad er `CITContext`?
+    - En EF Core `DbContext` som repræsenterer forbindelsen til PostgreSQL og
+        indeholder DbSet<> for tabeller og views samt model-konfiguration.
+
+    Hvad gør filen?
+    - `OnConfiguring` læser `dbconfig.json` for at bygge forbindelsesstrengen
+        og konfigurerer Npgsql via `UseNpgsql`.
+    - `OnModelCreating` mapper tabeller/views, nøgler, constraints og kolonne-egenskaber
+        (typisk genereret automatisk fra databasen ved scaffolding).
+
+*/
+
+using System;
 using System.Collections.Generic;
 using DataAccessLayer.Entities;
 using Microsoft.EntityFrameworkCore;

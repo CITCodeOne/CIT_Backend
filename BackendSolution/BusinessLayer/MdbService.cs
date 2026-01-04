@@ -1,3 +1,37 @@
+/*
+    MdbService.cs - overblik (dansk)
+
+    Kort forklaring:
+    - Denne klasse fungerer som en enkel 'facade' over flere forretningsservices
+        (Title, Individual, User, Bookmark, Rating, Auth, Visit, Page). Den samler
+        afhængigheder (database, mapper, hashing) og laver lazy-initialisering af
+        de konkrete services.
+
+    CITContext:
+    - `CITContext` er Entity Framework Core DbContext'en defineret i
+        DataAccessLayer/Data/CITContext.cs. Den holder konfigurationen for
+        databaseforbindelsen (læser `dbconfig.json`), DbSet<>-definitioner for
+        tabeller/views og model-konfiguration i `OnModelCreating`.
+
+    Mapping / AutoMapper:
+    - `MappingProfile` (BusinessLayer/Mappings/MappingProfile.cs) er en AutoMapper
+        `Profile` der beskriver hvordan database-entities oversættes til DTO'er.
+        Et `IMapper`-objekt injiceres i denne service og bruges af de underliggende
+        services til at konvertere mellem entity- og DTO-typer.
+
+    Hashing:
+    - `Hashing` (BusinessLayer/Services/HashingService.cs) er en simpel hashing-service
+        som genererer et tilfældigt salt og en SHA-256 hash af et password. Metoden
+        `Hash(string)` returnerer en tuple `(hash, salt)` som gemmes ved brugeroprettelse,
+        og `Verify(password, storedHash, storedSalt)` sammenligner et login-password med
+        den gemte hash via samme salt.
+
+    Registrering i opstart:
+    - I WebServiceLayer/Program.cs registreres `CITContext` via `AddDbContext<CITContext>`,
+        AutoMapper via `AddAutoMapper(typeof(MappingProfile).Assembly)` og `Hashing` som
+        singleton (`AddSingleton<Hashing>()`).
+
+*/
 using DataAccessLayer.Data;
 using BusinessLayer.Services;
 using AutoMapper;

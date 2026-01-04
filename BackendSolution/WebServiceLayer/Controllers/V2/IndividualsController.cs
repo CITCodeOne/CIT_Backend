@@ -9,6 +9,11 @@ namespace WebServiceLayer.Controllers.V2;
 [Route("api/v2/individuals")]
 public class IndividualsController : ControllerBase
 {
+    // Controller for personer (individuelle personer som skuespillere,
+    // instruktører osv.). Her kan klienten søge efter personer, hente
+    // populære personer, se hvilke titler en person er med i og finde
+    // medspillere (co-actors). Kommentarerne forklarer hvad hvert
+    // endpoint gør i almindelige vendinger.
     private readonly MdbService _mdb;
 
     public IndividualsController(MdbService mdbService)
@@ -21,7 +26,9 @@ public class IndividualsController : ControllerBase
     [ProducesResponseType(typeof(List<IndividualReferenceDTO>), StatusCodes.Status200OK)]
     public ActionResult<List<IndividualReferenceDTO>> GetIndividuals([FromQuery] IndividualSearchParameters parameters)
     {
-        // Validate and set defaults for pagination
+        // Søg efter personer med forskellige filtre og paginering. Vi
+        // sikrer at sideinddelingen har fornuftige standardværdier og
+        // returnerer derefter resultatlisten.
         if (parameters.Page < 1) parameters.Page = 1;
         if (parameters.PageSize < 1 || parameters.PageSize > 100) parameters.PageSize = 20;
 
@@ -49,6 +56,8 @@ public class IndividualsController : ControllerBase
     [ProducesResponseType(typeof(List<IndividualReferenceDTO>), StatusCodes.Status200OK)]
     public ActionResult<List<IndividualReferenceDTO>> GetPopularIndividuals([FromQuery] int page = 1, [FromQuery] int pageSize = 20)
     {
+        // Returnér de mest populære personer (baseret på stemmer). Resultatet
+        // er pagineret så klienten kan hente flere sider.
         if (page < 1) page = 1;
         if (pageSize < 1 || pageSize > 100) pageSize = 20;
 
@@ -62,6 +71,8 @@ public class IndividualsController : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public ActionResult<IndividualFullDTO> GetIndividual(string id)
     {
+        // Hent fuld information om en person, fx biografi, billeder og
+        // kendte titler. Hvis personen ikke findes, svarer vi med NotFound.
         var individual = _mdb.Individual.FullById(id);
 
         if (individual == null)
@@ -76,7 +87,8 @@ public class IndividualsController : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public ActionResult<List<TitlePreviewDTO>> GetIndividualTitles(string id)
     {
-        // Verify individual exists
+        // Returnér en liste over titler som personen medvirker i. Først
+        // tjekker vi at personen findes, ellers returnerer vi NotFound.
         var individual = _mdb.Individual.FullById(id);
         if (individual == null)
             return NotFound(new { message = $"Individual with id '{id}' not found" });
@@ -91,6 +103,10 @@ public class IndividualsController : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public ActionResult<List<IndividualFullDTO>> GetPopularActors(string id)
     {
+        // Forsøg at finde populære medspillere til en given titel eller
+        // person; dette endpoint forventer id'er med bestemte præfikser
+        // (fx 'tt' for titler eller 'nm' for navne). Hvis id'et er forkert
+        // formateret, svarer vi med BadRequest.
         if (string.IsNullOrEmpty(id) || (!id.StartsWith("tt") && !id.StartsWith("nm")))
             return BadRequest(new { message = "ID must start with 'tt' or 'nm'" });
 
@@ -101,6 +117,8 @@ public class IndividualsController : ControllerBase
         }
         catch (Exception ex)
         {
+            // Hvis noget går galt i forretningslaget, returnerer vi en
+            // BadRequest med fejlbeskrivelsen.
             return BadRequest(new { message = ex.Message });
         }
     }
@@ -110,6 +128,8 @@ public class IndividualsController : ControllerBase
     [ProducesResponseType(typeof(List<IndividualSearchResultDTO>), StatusCodes.Status200OK)]
     public ActionResult<List<IndividualSearchResultDTO>> SearchIndividuals([FromQuery] string name)
     {
+        // Simpel søgning efter personer baseret på navn eller funktion.
+        // Returnerer en liste af søgeresultater.
         var results = _mdb.Individual.SearchIndividualsByFunction(name ?? "");
         return Ok(results);
     }
@@ -120,6 +140,8 @@ public class IndividualsController : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public ActionResult<List<CoActorDTO>> GetCoActors([FromQuery] string name)
     {
+        // Find medspillere (co-actors) ved at give et navn. Hvis navnet ikke
+        // er angivet, svarer vi med BadRequest.
         if (string.IsNullOrWhiteSpace(name))
             return BadRequest(new { message = "Query parameter 'name' is required" });
 

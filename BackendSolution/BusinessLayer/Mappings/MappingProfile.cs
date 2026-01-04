@@ -1,3 +1,13 @@
+// Kort forklaring af AutoMapper:
+// AutoMapper er et bibliotek der bruges til at kopiere data mellem objekter
+// (fx fra database-entities til DTO'er som vi sender til klienten).
+// Denne klasse (`MappingProfile`) arver fra AutoMapper's `Profile` og indeholder
+// regler for hvordan felter skal kopieres mellem typer.
+// - Som udgangspunkt matcher AutoMapper properties med samme navn automatisk.
+// - For komplekse eller anderledes navngivne felter bruger vi `ForMember`
+//   til at angive hvordan en destination-egenskab udfyldes fra source-objektet.
+// - Profilen registreres i applikationens opstart.
+//   og bruges senere via et `IMapper`-objekt: `mapper.Map<TDestination>(source)`.
 using AutoMapper;
 using DataAccessLayer.Entities;
 using BusinessLayer.DTOs;
