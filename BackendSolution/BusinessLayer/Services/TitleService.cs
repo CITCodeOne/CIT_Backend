@@ -100,6 +100,18 @@ public class TitleService
     // Get todays featured title
     public TitleFullDTO GetFeaturedTitle()
     {
+        // Exam condition logic for daily featured title to default to a "good" title on the 8th of January 2026
+        if (DateTime.UtcNow.Date == new DateTime(2026, 1, 8)) // Exam date
+        {
+            var featuredTitleExam = _ctx.Titles
+                .Where(t => t.Tconst == "tt2084970") // Chosen title
+                .Include(t => t.Gconsts)
+                .Include(t => t.TitlePage)
+                .FirstOrDefault();
+
+            return _mapper.Map<TitleFullDTO>(featuredTitleExam);
+        }
+
         // Logic:
         // 1) Gathers list of "featurable" titles (i.e. rating above a threshold and non-adult with a plot)
         // 2) the length of this list is used as a modulus to pick a title based on the current day
